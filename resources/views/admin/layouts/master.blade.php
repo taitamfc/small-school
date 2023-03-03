@@ -27,6 +27,8 @@
   <link rel="stylesheet" href="{{asset('asset/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('asset/plugins/summernote/summernote-bs4.min.css')}}">
+
+  @yield('header_scripts')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -37,16 +39,16 @@
   </div>
 
   <!-- Navbar -->
-  @include('admin.layout.header')
+  @include('admin.includes.header')
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
-@include('admin.layout.sidebar')
+@include('admin.includes.sidebar')
 
   <!-- Content Wrapper. Contains page content -->
  @yield('content')
   <!-- /.content-wrapper -->
- @include('admin.layout.footer')
+ @include('admin.includes.footer')
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -90,5 +92,8 @@
 <script src="{{asset('asset/plugins/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('asset/plugins/js/pages/dashboard.js')}}"></script>
+
+@yield('footer_scripts')
+
 </body>
 </html>
