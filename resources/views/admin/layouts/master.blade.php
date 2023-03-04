@@ -7,7 +7,6 @@
 
   <!-- Google Font: Source Sans Pro -->
 
-  {{asset('asset/ ')}}
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('asset/plugins/fontawesome-free/css/all.min.css')}}">
@@ -94,6 +93,22 @@
 <script src="{{asset('asset/plugins/js/pages/dashboard.js')}}"></script>
 
 @yield('footer_scripts')
+<script>
+  jQuery(document).ready(function() {
+    if( $('#blah').hide()){
+      $('#blah').hide();
+    }
+      jQuery('#imgInp').change(function() {
+          $('#blah').show();
+          const file = jQuery(this)[0].files;
+          if (file[0]) {
+              jQuery('#blah').attr('src', URL.createObjectURL(file[0]));
+              jQuery('#blah1').attr('src', URL.createObjectURL(file[0]));
+          }
+      });
+  });
+  
+</script>
 
 </body>
 </html>
