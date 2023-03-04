@@ -100,11 +100,16 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Vai trò</label>
-                                <select id="" name="group_id" class="form-control">
-                                    <option value="">Admin</option>
-                                    <option value="">Teacher</option>
-                                    <option value="">Student</option>
-                                </select>
+                                <select class="form-control" name="group_id" id="exampleFormControlSelect1">
+                                  <option selected value="">--Chọn chức vụ--</option>
+                                  @foreach ($groups as $group)
+                                      <option value="{{ $group->id }}" @selected(old('group_id') == $group->id)>
+                                          {{ $group->name }}</option>
+                                  @endforeach
+                              </select>
+                                @error('group_id')
+                                <div ><code>{{ $message }}</code></div>
+                              @enderror
                             </div>
     
     

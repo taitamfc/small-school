@@ -109,6 +109,13 @@
   });
   
 </script>
-
+<script>
+  $('.checkbox_parent').on('click', function(){
+      $(this).parents('.cards').find('.checkbox_childrent').prop('checked', $(this).prop('checked'))
+  });
+  $('.checkbox_all').on('click', function(){
+      $(this).parents('.form').find('.checkbox_all_childrent').prop('checked', $(this).prop('checked'))
+  });
+</script>
 </body>
 </html>

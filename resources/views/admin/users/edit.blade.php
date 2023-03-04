@@ -97,11 +97,14 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Vai trò</label>
-                                <select id="" name="group_id" class="form-control">
-                                    <option value="">Admin</option>
-                                    <option value="">Teacher</option>
-                                    <option value="">Student</option>
-                                </select>
+                                <select id="inputState" class="form-control" name="group_id">
+                                  @foreach($groups as $group)
+                                  <option <?= $user->group_id==$group->id ? 'selected' : '' ?> value="{{$group->id}}">{{$group->name}}</option>
+                                  @endforeach
+                              </select>
+                              @error('group_id')
+                              <div class="text text-danger">{{ $message }}</div>
+                              @enderror
                             </div>
     
     

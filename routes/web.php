@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,4 @@ Route::get('/', function () {
     return view('admin.dasboard');
 });
 Route::resource('users', UserController::class);
+Route::resource('groups', GroupController::class);

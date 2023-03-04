@@ -8,13 +8,13 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Quản lý tài khoản</h1><br>
-                <a class="btn btn-warning" href="{{ route('users.create') }}">Thêm tài khoản</a>
+                <h1>Quản lý chức vụ và quyền</h1><br>
+                <a class="btn btn-warning" href="{{ route('groups.create') }}">Thêm thêm chức vụ</a>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Trang chủ</a></li>
-                  <li class="breadcrumb-item active">Quản lý tài khoản</li>
+                  <li class="breadcrumb-item"><a href="{{ route('groups.index') }}">Trang chủ</a></li>
+                  <li class="breadcrumb-item active">Quản lý chức vụ và quyền</li>
                 </ol>
               </div>
             </div>
@@ -39,11 +39,11 @@
                 <div class="card card card-primary">
                   <div class="card-header">
                
-                    <h3 class="card-title">Danh sách tài khoản</h3>
+                    <h3 class="card-title">Danh sách chức vụ</h3>
     
                     <div class="card-tools">
                       <ul class="pagination pagination-sm float-right">
-                        {{ $users->appends(request()->all())->links() }}
+                        {{ $groups->appends(request()->all())->links() }}
                       </ul>
                     </div>
                   </div>
@@ -51,28 +51,22 @@
                     <table class="table" style="text-align: center">
                       <thead>
                         <tr>
-                          <th style="width: 10%">STT</th>
-                          <th>Họ và tên</th>
-                          <th>Tên đăng nhập</th>
-                          <th>Email</th>
-                          <th>Ảnh</th>
+                          <th>STT</th>
+                          <th>Tên chức vụ</th>
                           <th>Hành động</th>
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($users as $key => $user)
+                        @foreach($groups as $key => $group)
                         <tr>
                           <td>{{ $key + 1 }}.</td>
-                          <td width="20%">{{ $user->full_name }}</td>
-                          <td width="20%">{{ $user->user_name }}</td>
-                          <td width="20%">{{ $user->email }}</td>
-                          <td width="10%"><img width="100%" style="border-radius: 50%" height="30%" src="{{ $user->avatar != '' ? asset($user->avatar) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt=""></td>
-                            <td width="20%">
-                                <form action="{{ route('users.destroy',$user->id) }}" method="post">
+                          <td >{{ $group->name }}</td>
+                          <td>
+                                <form action="{{ route('groups.destroy',$group->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <a class="btn btn-warning" href="{{ route('users.edit',$user->id) }}">Sửa</a>
-                                <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                                <a class="btn btn-warning" href="{{ route('groups.edit',$group->id) }}">Chỉnh sửa quyền</a>
+                                <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa chức vụ</button>
                             </form></td>
                         </tr>
                         @endforeach
