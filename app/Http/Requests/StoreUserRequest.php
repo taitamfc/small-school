@@ -26,18 +26,19 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|email',
             'full_name' => 'required',
             'password' => 'required',
-            
+            'group_id' => 'required', 
            ];
             return $rules;
     }
-        public function messages(){
-            $messages =[
-                'user_name.required' => 'Hãy Nhập Tên Đăng Nhập',
-                'full_name.required' => 'Hãy Nhập Họ Và Tên',
-                'email.required' => 'Hãy Nhập Email',
-                'email.email' => 'Email Chưa Đúng Định Dạng',
-                'password.required' => 'Hãy Nhập Mật Khẩu',
+    public function messages(){
+        $messages =[
+            'user_name.required' => 'Hãy Nhập Tên Đăng Nhập',
+            'full_name.required' => 'Hãy Nhập Họ Và Tên',
+            'email.required' => 'Hãy Nhập Email',
+            'email.email' => 'Email Chưa Đúng Định Dạng',
+            'password.required' => 'Hãy Nhập Mật Khẩu',
+            'group_id.required' => 'Hãy Chọn Chức Vụ',
             ];
             return $messages;
-        }
+    }
 }

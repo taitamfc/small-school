@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,14 +15,14 @@ class UserController extends Controller
    
     public function index()
     {   
-        $users = User::search()->paginate(5);
+        $users = User::search()->latest()->paginate(5);
         return view('admin.users.index',compact('users'));
     }
 
   
     public function create()
-    {
-        return view('admin.users.create');
+    {   $groups = Group::all();
+        return view('admin.users.create',compact('groups'));
     }
 
  
@@ -33,6 +34,7 @@ class UserController extends Controller
         $user->user_name = $request->user_name;
         $user->full_name = $request->full_name;
         $user->email = $request->email;
+        $user->group_id = $request->group_id;
         $user->password = bcrypt($request->password);
         $fieldName = 'inputFile';
         if ($request->hasFile($fieldName)) {
@@ -63,10 +65,13 @@ class UserController extends Controller
 
   
     public function edit($id)
-    {
+    {   $groups = Group::all();
         $user = User::find($id);
-     
-        return view('admin.users.edit', compact('user'));
+        $params = [
+            'groups' => $groups,
+            'user' => $user
+        ];
+        return view('admin.users.edit', $params);
     }
 
     public function update(UpdateUserRequest $request, $id)
@@ -76,6 +81,7 @@ class UserController extends Controller
             $user->user_name = $request->user_name;
             $user->full_name = $request->full_name;
             $user->email = $request->email;
+            $user->group_id = $request->group_id;
             if(isset($request->password) && !empty($request->password)){$user->password = bcrypt($request->password);}
             $fieldName = 'inputFile';
             if ($request->hasFile($fieldName)) {
