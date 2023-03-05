@@ -13,7 +13,7 @@
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="{{ route('groups.index') }}">Trang chủ</a></li>
+                  <li class="breadcrumb-item"><a href="{{ route('login') }}">Trang chủ</a></li>
                   <li class="breadcrumb-item active">Quản lý chức vụ và quyền</li>
                 </ol>
               </div>
