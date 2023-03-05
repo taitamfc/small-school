@@ -13,7 +13,7 @@
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Trang chủ</a></li>
+                  <li class="breadcrumb-item"><a href="{{ route('login') }}">Trang chủ</a></li>
                   <li class="breadcrumb-item active">Quản lý tài khoản</li>
                 </ol>
               </div>
@@ -38,10 +38,10 @@
                     @endif
 
                       <form action="{{ route('importUser') }}" method="post" enctype="multipart/form-data">
-                        <a class="btn btn-info" href="{{ route('exportUser') }}">Export</a>
+                        <a class="btn btn-info" href="{{ route('exportUser') }}">Xuất Excel</a>
                           @csrf
                         <input type="file" name="importUser">
-                      <button class="btn btn-success" type="submit">Import</button>
+                      <button class="btn btn-success" type="submit">Nhập Excel</button>
                     </form>
                     @error('importUser')
                     <div ><code>{{ $message }}</code></div>
