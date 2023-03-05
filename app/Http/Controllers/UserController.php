@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\ImportUserRequest;
 use App\Models\Group;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -121,6 +125,30 @@ class UserController extends Controller
             return back()->with('error', 'Xóa tài khoản không thành công!.');
         }
         
+    }
+
+    public function export() 
+    {   
+        try {
+            return Excel::download(new UsersExport, 'users.xlsx');
+            return back()->with('success', 'Export thành công!.');
+        } catch (\Exception $e) {
+            Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+            return back()->with('error', 'Export không thành công!.');
+        }
+        
+    }
+
+    public function import(ImportUserRequest $request) 
+    {   
+        try {
+            Excel::import(new UsersImport, $request->file('importUser'));
+            return back()->with('success', 'Import thành công!.');
+        } catch (\Exception $e) {
+            Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+            return back()->with('error', 'Import không thành công!(Hãy kiểm tra các trường trong file excel đã đủ các trường?[STT, Họ và tên, Tên đăng nhập, Email, Mật khẩu]).');
+        }
+      
     }
 
 }

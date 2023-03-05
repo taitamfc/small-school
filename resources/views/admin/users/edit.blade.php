@@ -98,6 +98,7 @@
                             <div class="form-group col-md-6">
                                 <label>Vai trò</label>
                                 <select id="inputState" class="form-control" name="group_id">
+                                  <option selected value="">--Chọn chức vụ--</option>
                                   @foreach($groups as $group)
                                   <option <?= $user->group_id==$group->id ? 'selected' : '' ?> value="{{$group->id}}">{{$group->name}}</option>
                                   @endforeach
