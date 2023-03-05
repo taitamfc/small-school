@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('full_name'); 
             $table->string('avatar')->nullable();
             $table->string('status')->nullable();
-              $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('group_id')->nullable()->default(null);;
             $table->foreign('group_id')->references('id')->on('groups');
         });
     }

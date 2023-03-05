@@ -18,5 +18,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin.dasboard');
 });
+Route::get('users/export/', [UserController::class, 'export'])->name('exportUser');
+Route::post('users/import/', [UserController::class, 'import'])->name('importUser');
 Route::resource('users', UserController::class);
 Route::resource('groups', GroupController::class);

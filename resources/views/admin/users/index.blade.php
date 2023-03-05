@@ -36,6 +36,17 @@
                             {{ session('success') }}
                         </div>
                     @endif
+
+                      <form action="{{ route('importUser') }}" method="post" enctype="multipart/form-data">
+                        <a class="btn btn-info" href="{{ route('exportUser') }}">Export</a>
+                          @csrf
+                        <input type="file" name="importUser">
+                      <button class="btn btn-success" type="submit">Import</button>
+                    </form>
+                    @error('importUser')
+                    <div ><code>{{ $message }}</code></div>
+                @enderror
+                    
                 <div class="card card card-primary">
                   <div class="card-header">
                
