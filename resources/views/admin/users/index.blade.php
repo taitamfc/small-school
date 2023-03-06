@@ -1,14 +1,24 @@
 
 @extends('admin.layouts.master')
+@section('header_scripts')
+<link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<style>
+  .form-control-lg{
+    height: calc(2.3000rem + 2px); !important
+  }
+</style>
+@endsection
 @section('content')
   <div class="content-wrapper">
     <div class="container">
-
         <section class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
+             
               <div class="col-sm-6">
                 <h1>Quản lý tài khoản</h1><br>
+                
                 <a class="btn btn-warning" href="{{ route('users.create') }}">Thêm tài khoản</a>
               </div>
               <div class="col-sm-6">
@@ -42,11 +52,77 @@
                           @csrf
                         <input type="file" name="importUser">
                       <button class="btn btn-success" type="submit">Nhập Excel</button>
+                      <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Tìm kiếm chi tiết
+                      </button>
                     </form>
                     @error('importUser')
                     <div ><code>{{ $message }}</code></div>
                 @enderror
                     
+             
+                <div class="collapse  text-center" id="collapseExample">
+             <div class="col-12"> 
+                  <section class="content">
+                    <div class="container-fluid">
+                        <form action="{{ route('users.index') }}" method="GET" id="form-search">
+                          @csrf
+                            <div class="row">
+                                <div class="col-md-10 offset-md-1">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Họ và tên</label>
+                                                <input type="text" name="full_name" class="form-control form-control-lg" placeholder="Tìm theo họ và tên" value="{{ request()->full_name }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                          <div class="form-group">
+                                              <label>Tên đăng nhập</label>
+                                              <input type="text" name="user_name" class="form-control form-control-lg" placeholder="Tìm theo tên đăng nhập" value="{{ request()->user_name }}">
+                                          </div>
+                                      </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Sắp xếp</label>
+                                                <select class="select2" name="orderby" style="width: 100%;">
+                                                  <option value="">--Chọn sắp xếp--</option>
+                                                    <option <?= request()->orderby == 'ASC' ? 'selected' : '' ?> value="ASC">Tăng dần</option>
+                                                    <option <?= request()->orderby == 'DESC' ? 'selected' : '' ?> value="DESC">Giảm dần</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Chức vụ</label>
+                                                <select class="select2" name="group_id" style="width: 100%;">
+                                                  <option value="">--Chọn chức vụ--</option>
+                                                  @foreach($groups as $group)
+                                                    <option <?= request()->group_id == $group->id ? 'selected' : '' ?> value="{{ $group->id }}">{{ $group->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group input-group-lg">
+                                            <input type="text" name="email" class="form-control form-control-lg" placeholder="Tìm theo Email" value="{{ request()->email }}">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-lg btn-default">
+                                                    Xác nhận
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+                </div>
+              </div>
+                
+
                 <div class="card card card-primary">
                   <div class="card-header">
                
@@ -98,4 +174,13 @@
     </div>
   </div>
 @endsection
+@section('footer_scripts')
+<script src="{{asset('asset/plugins/select2/js/select2.full.min.js')}}"></script>
+<script>
+  $(function () {
+    $('.select2').select2()
+  });
+</script>
+@endsection
+
 
