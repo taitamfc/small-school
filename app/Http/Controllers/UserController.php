@@ -15,12 +15,49 @@ use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
-{
-   
-    public function index()
-    {   
-        $users = User::search()->latest()->paginate(5);
-        return view('admin.users.index',compact('users'));
+{   
+
+    public function index(Request $request)
+    {    
+        $group_id         = $request->group_id ?? '';
+        $search           = $request->key ?? '';
+        $full_name        = $request->full_name ?? '';
+        $user_name        = $request->user_name ?? '';
+        $orderby          = $request->orderby ?? '';
+        $email            = $request->email ?? '';
+        $groups = Group::all();
+        $query = User::query(true);
+    
+        if (!empty($group_id)) {
+            $query->whereHas('group', function ($query) use ($request) {
+                $query->orWhere('group_id', $request->group_id);
+            });
+        }
+        if (!empty($orderby)) {
+            $query->orderBy('id', $orderby);
+        }
+        if (!empty($full_name)) {
+            $query->orWhere('full_name', 'like', '%' . $full_name . '%');
+        }
+        if (!empty($user_name)) {
+            $query->orWhere('user_name', 'like', '%' . $user_name . '%');
+        }
+        if (!empty($email)) {
+            $query->orWhere('email', 'like', '%' . $email . '%');
+        }
+        if (!empty($search)) {
+            $query->where(function($query) use ($search) {
+                $query->where('user_name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('full_name', 'like', '%' . $search . '%');
+            });
+        }
+        $users = $query->paginate(5);
+        $params = [
+            'users'        => $users,
+            'groups'     => $groups,
+        ];
+        return view('admin.users.index',$params);
     }
 
   
