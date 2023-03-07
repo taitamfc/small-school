@@ -3,6 +3,7 @@
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,5 @@ Route::post('users/import/', [UserController::class, 'import'])->name('importUse
 Route::resource('users', UserController::class);
 Route::resource('groups', GroupController::class);
 });
+
+Route::resource('teachers', TeacherController::class);

@@ -59,6 +59,19 @@
                   <p>Quản lý chức vụ và quyền</p>
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a href="{{ route('teachers.index') }}" class="nav-link">
+                  <p>Quản lý giáo viên</p>
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                <a href="{{ route('groups.index') }}" class="nav-link">
+                  <p>Quản lý chức vụ và quyền</p>
+                </a>
+              </li> -->
+
+
               <li class="nav-item">
                 <a href="pages/layout/boxed.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
