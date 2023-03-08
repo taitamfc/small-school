@@ -29,21 +29,19 @@ class UserController extends Controller
         $query = User::query(true);
     
         if (!empty($group_id)) {
-            $query->whereHas('group', function ($query) use ($request) {
-                $query->orWhere('group_id', $request->group_id);
-            });
-        }
+            $query->where('group_id',  $request->group_id);
+        };
         if (!empty($orderby)) {
             $query->orderBy('id', $orderby);
         }
         if (!empty($full_name)) {
-            $query->orWhere('full_name', 'like', '%' . $full_name . '%');
+            $query->where('full_name', 'like', '%' . $full_name . '%');
         }
         if (!empty($user_name)) {
-            $query->orWhere('user_name', 'like', '%' . $user_name . '%');
+            $query->where('user_name', 'like', '%' . $user_name . '%');
         }
         if (!empty($email)) {
-            $query->orWhere('email', 'like', '%' . $email . '%');
+            $query->where('email', 'like', '%' . $email . '%');
         }
         if (!empty($search)) {
             $query->where(function($query) use ($search) {
