@@ -47,7 +47,7 @@
     
                             <div class="form-group col-md-4">
                               <label>Họ và tên</label>
-                              <input type="text" class="form-control" name="full_name"  placeholder="Nhập họ và tên">
+                              <input type="text" class="form-control" name="full_name" value="{{ old('full_name') ? old('full_name') : request()->full_name }}" placeholder="Nhập họ và tên">
                               @error('full_name')
                               <div ><code>{{ $message }}</code></div>
                             @enderror
@@ -55,7 +55,7 @@
           
                             <div class="form-group col-md-4">
                               <label>Tên đăng nhập</label>
-                              <input type="text" class="form-control" name="user_name"  placeholder="Nhập tên đăng nhập">
+                              <input type="text" class="form-control" name="user_name" value="{{ old('user_name') ? old('user_name') : request()->user_name }}" placeholder="Nhập tên đăng nhập">
                               @error('user_name')
                               <div ><code>{{ $message }}</code></div>
                           @enderror
@@ -63,7 +63,7 @@
     
                             <div class="form-group col-md-4">
                                 <label>Mật khẩu</label>
-                                <input type="password" class="form-control" name="password"  placeholder="Nhập mật khẩu">
+                                <input type="password" class="form-control" name="password" value="{{ old('password') ? old('password') : request()->password }}"  placeholder="Nhập mật khẩu">
                                 @error('password')
                                 <div ><code>{{ $message }}</code></div>
                             @enderror
@@ -73,7 +73,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Email</label>
-                                <input type="text" class="form-control" name="email"  placeholder="Nhập email">
+                                <input type="text" class="form-control" name="email" value="{{ old('email') ? old('email') : request()->email }}"  placeholder="Nhập email">
                                 @error('email')
                                 <div ><code>{{ $message }}</code></div>
                             @enderror
@@ -100,7 +100,7 @@
                                 <select class="form-control" name="group_id" id="exampleFormControlSelect1">
                                   <option selected value="">--Chọn chức vụ--</option>
                                   @foreach ($groups as $group)
-                                      <option value="{{ $group->id }}" @selected(old('group_id') == $group->id)>
+                                      <option value="{{ $group->id }}" {{ (old('group_id') ?? request()->group_id == $group->id) ? 'selected' : '' }}>
                                           {{ $group->name }}</option>
                                   @endforeach
                               </select>
@@ -112,7 +112,7 @@
     
                             <div class="form-group col-md-6">
                        
-                                <img type="hidden" width="300px" height="280px" id="blah" src="" alt="" />
+                                <img type="hidden" width="300px" height="280px" id="blah" src="{{ old('inputFile') ? old('inputFile') : request()->inputFile }}"  alt="" />
     
                             </div>
                          
