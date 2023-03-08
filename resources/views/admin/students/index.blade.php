@@ -52,7 +52,6 @@
                           @csrf
                         <input type="file" name="import_student">
                       <button class="btn btn-success" type="submit">Nhập Excel</button>
-                          @include('admin.students.model-error')
                       <button class="btn btn-info" type="button" >
                         Tìm kiếm chi tiết
                       </button>
