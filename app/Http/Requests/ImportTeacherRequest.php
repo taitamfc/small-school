@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreGroupRequest extends FormRequest
+class ImportTeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,13 @@ class StoreGroupRequest extends FormRequest
     public function rules()
     {
         $rules =[
-            'name' => 'required',
-            'email' => 'required',
-            'name' => 'required',
+            'importTeacher' => 'required',
            ];
             return $rules;
     }
     public function messages(){
         $messages =[
-            'name.required' => 'Hãy Nhập Tên Chức Vụ',
+            'importTeacher.required' => 'Hãy Chọn Tệp Để Import',
             ];
             return $messages;
     }

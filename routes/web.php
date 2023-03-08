@@ -3,7 +3,10 @@
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +39,11 @@ Route::prefix('students')->group(function(){
     Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
     Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
 });
+=======
+Route::get('teachers/export/', [TeacherController::class, 'export'])->name('exportTeacher');
+Route::post('teachers/import/', [TeacherController::class, 'import'])->name('importTeacher');
+Route::resource('teachers', TeacherController::class);
+Route::resource('events', EventController::class);
+Route::get('calendar', [CalendarController::class,'index'])->name('systemCalendar');
+});
+

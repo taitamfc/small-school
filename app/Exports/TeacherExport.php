@@ -1,21 +1,22 @@
 <?php
 namespace App\Exports;
-use App\Models\User;
+use App\Models\Teacher;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-class UsersExport implements FromCollection, WithHeadings, ShouldAutoSize
+class TeacherExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     public function collection()
     {
-        return User::all();
+        return Teacher::select('id','name','email','level')->get();
     }
     public function headings(): array
     {
         return [
+            'STT',
             'Name',
             'Email',
-            'Phone'
+            'Cấp độ'
         ];
     }
 }

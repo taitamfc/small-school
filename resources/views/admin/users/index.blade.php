@@ -66,7 +66,6 @@
                   <section class="content">
                     <div class="container-fluid">
                         <form action="{{ route('users.index') }}" method="GET" id="form-search">
-                          @csrf
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
                                     <div class="row">
