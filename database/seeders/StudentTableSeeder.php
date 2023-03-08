@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class StudentTableSeeder extends Seeder
 {
@@ -14,12 +16,12 @@ class StudentTableSeeder extends Seeder
     {
         DB::table('students')->insert([
             'name' => Str::random(10),
-            'phone' => Str::random(10).'number',
+            'phone' => Str::random(10).'string',
             'room_name' => Str::random(10),
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),
             'image' => Str::random(10),
-            'birthday' => Str::random(10).date("Y-m-d H:i:s"),
+            'birthday' => date("Y-m-d"),
             'status' => Str::random(3),
         ]);
     }
