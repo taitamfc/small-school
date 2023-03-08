@@ -178,12 +178,16 @@ class UserController extends Controller
     {   
         try {
             Excel::import(new UsersImport, $request->file('importUser'));
-            return back()->with('success', 'Import thành công!.');
+            return redirect()->route('users.index')->with('success', 'Import thành công!.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->with('error', 'Import không thành công!(Hãy kiểm tra các trường trong file excel đã đủ các trường?[STT, Họ và tên, Tên đăng nhập, Email, Mật khẩu]).');
+            return redirect()->route('users.index')->with('error', 'Import không thành công!(Hãy kiểm tra các trường trong file excel đã đủ các trường?[STT, Họ và tên, Tên đăng nhập, Email, Mật khẩu]).');
         }
       
+    }
+
+    public function viewImport(){
+        return view('admin.users.import');
     }
 
 }

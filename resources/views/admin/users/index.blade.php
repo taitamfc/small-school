@@ -20,6 +20,13 @@
                 <h1>Quản lý tài khoản</h1><br>
                 
                 <a class="btn btn-warning" href="{{ route('users.create') }}">Thêm tài khoản</a>
+                <a class="btn btn-info" href="{{ route('exportUser') }}">Xuất Excel</a>
+                <a class="btn btn-primary" href="{{ route('viewImportUser') }}">Nhập Excel</a>
+
+                <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Tìm kiếm chi tiết
+                </button>
+        
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -46,21 +53,6 @@
                             {{ session('success') }}
                         </div>
                     @endif
-
-                      <form action="{{ route('importUser') }}" method="post" enctype="multipart/form-data">
-                        <a class="btn btn-info" href="{{ route('exportUser') }}">Xuất Excel</a>
-                          @csrf
-                        <input type="file" name="importUser">
-                      <button class="btn btn-success" type="submit">Nhập Excel</button>
-                      <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Tìm kiếm chi tiết
-                      </button>
-                    </form>
-                    @error('importUser')
-                    <div ><code>{{ $message }}</code></div>
-                @enderror
-                    
-             
                 <div class="collapse  text-center" id="collapseExample">
              <div class="col-12"> 
                   <section class="content">
@@ -72,13 +64,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label>Họ và tên</label>
-                                                <input type="text" name="full_name" class="form-control form-control-lg" placeholder="Tìm theo họ và tên" value="{{ request()->full_name }}">
+                                                <input type="text" name="full_name" class="form-control" placeholder="Tìm theo họ và tên" value="{{ request()->full_name }}">
                                             </div>
                                         </div>
                                         <div class="col-3">
                                           <div class="form-group">
                                               <label>Tên đăng nhập</label>
-                                              <input type="text" name="user_name" class="form-control form-control-lg" placeholder="Tìm theo tên đăng nhập" value="{{ request()->user_name }}">
+                                              <input type="text" name="user_name" class="form-control" placeholder="Tìm theo tên đăng nhập" value="{{ request()->user_name }}">
                                           </div>
                                       </div>
                                         <div class="col-3">
@@ -104,10 +96,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-group input-group-lg">
-                                            <input type="text" name="email" class="form-control form-control-lg" placeholder="Tìm theo Email" value="{{ request()->email }}">
+                                        <div class="input-group">
+                                            <input type="text" name="email" class="form-control" placeholder="Tìm theo Email" value="{{ request()->email }}">
                                             <div class="input-group-append">
-                                                <button type="submit" class="btn btn-lg btn-default">
+                                                <button type="submit" class="btn btn-default">
                                                     Xác nhận
                                                 </button>
                                             </div>
