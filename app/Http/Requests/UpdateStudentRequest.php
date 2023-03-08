@@ -27,6 +27,7 @@ class UpdateStudentRequest extends FormRequest
             'room_name' => 'required',
             'email' => 'required|email',
             'birthday' => 'required',
+            'image' => 'required',
             'status' => 'required',
         ];
         return $rules;
@@ -38,7 +39,6 @@ class UpdateStudentRequest extends FormRequest
             'room_name.required' => 'Hãy Nhập Tên Phòng',
             'email.required' => 'Hãy Nhập Email',
             'email.email' => 'Email Chưa Đúng Định Dạng',
-            'password.required' => 'Hãy Nhập Mật Khẩu',
             'birthday.required' => 'Hãy Nhập Ngày Sinh',
             'status.required' => 'Hãy Nhập Trạng Thái',
         ];

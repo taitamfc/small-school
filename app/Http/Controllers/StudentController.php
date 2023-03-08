@@ -6,6 +6,8 @@ use App\Exports\UsersExport;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentImport;
+use App\Traits\UploadFileTrait;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -15,6 +17,12 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
+    use UploadFileTrait;
+    public function __construct()
+    {
+        $this->model = new Student();
+    }
+
     public function index(Request $request)
     {
         $search           = $request->key ?? '';
@@ -66,35 +74,29 @@ class StudentController extends Controller
 
     public function store(StoreStudentRequest $request)
     {
-
-        try {
-            $student = new Student();
-            $student->name = $request->name;
-            $student->phone = $request->phone;
-            $student->room_name = $request->room_name;
-            $student->email = $request->email;
-            $student->password = bcrypt($request->password);
-            $student->birthday = $request->birthday;
-            $student->status = $request->status;
-            $fieldName = 'inputFile';
-            if ($request->hasFile($fieldName)) {
-                $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-                $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-                $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-                $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-                $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/users', $fileName);
-                $path = str_replace('public/', '', $path);
-                $student->image = $path;
+            $image = $request->file('image');
+            $dataRequest = [
+                'name' => $request->get('name'),
+                'phone' => $request->get('phone'),
+                'room_name' => $request->get('room_name'),
+                'email' => $request->get('email'),
+                'password' => bcrypt($request->get('password')),
+                'birthday' => $request->get('birthday'),
+                'status' => $request->get('status'),
+            ];
+            if($request->hasFile('image')){
+                $pathInfor = $this->uploadFile($image, Student::FOLDER);
+                $dataRequest['image'] = Student::DIR.'/'.$pathInfor;
             }
-
-            $student->save();
-            return redirect()->route('student.index')->with('success', 'Thêm tài khoản thành công.');
+        try {
+            Student::create($dataRequest);
+            return redirect()->route('student.index')->with('success', 'Thêm học sinh thành công.');
         } catch (\Exception $e) {
-            if(isset($path)){
-                $images = str_replace('storage', 'public', $path);
-                Storage::delete($images); }
+            if(!file_exists($pathInfor)){
+               $this->deleteFile($pathInfor);
+            }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Thêm tài khoản không thành công!.');
+            return back()->withInput()->with('error', 'Thêm học sinh không thành công!.');
         }
     }
 
@@ -116,31 +118,37 @@ class StudentController extends Controller
 
     public function update(UpdateStudentRequest $request, $id)
     {
+        $image = $request->file('image');
+        $dataRequest = [
+            'naame' => $request->get('name'),
+            'phonea' => $request->get('phone'),
+            'room_name' => $request->get('room_name'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('password')),
+            'birthday' => $request->get('birthday'),
+            'status' => $request->get('status'),
+        ];
+        if($request->hasFile('image')){
+            $pathInfor = $this->uploadFile($image, Student::FOLDER);
+            $dataRequest['image'] = Student::DIR.'/'.$pathInfor;
+        }
         try {
             $student = Student::find($id);
-            $student->name = $request->name;
-            $student->phone = $request->phone;
-            $student->room_name = $request->room_name;
-            $student->email = $request->email;
-            $student->birthday = $request->birthday;
-            $fieldName = 'inputFile';
-            if ($request->hasFile($fieldName)) {
-                $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-                $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-                $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-                $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-                $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/users', $fileName);
-                $path = str_replace('public/', '', $path);
-                $student->image = $path;
+            if($student){
+                $image = $student->image;
+                $checkImage = Student::FOLDER.'/'.pathinfo($image)['basename'];
+                if($checkImage && $image != null){
+                    $this->deleteFile($checkImage);
+                }
             }
-            $student->save();
-            return redirect()->route('student.index')->with('success', 'Cập nhật tài khoản thành công.');
+            Student::findOrFail($id)->update($dataRequest);
+            return redirect()->route('student.index')->with('success', 'Thêm học sinh thành công.');
         } catch (\Exception $e) {
-            if(isset($path)){
-                $images = str_replace('storage', 'public', $path);
-                Storage::delete($images); }
+            if(isset($pathInfor)){
+                $this->deleteFile($pathInfor);
+            }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Cập nhật tài khoản không thành công!.');
+            return back()->withInput()->with('error', 'Thêm học sinh không thành công!.');
         }
     }
 
@@ -150,13 +158,14 @@ class StudentController extends Controller
             $student = Student::find($id);
             $image = $student->image;
             $student->delete();
-            $images = str_replace('storage', 'public', $image);
-            Storage::delete($images);
-
-            return back()->with('success', 'Xóa tài khoản thành công!.');
+                $checkImage = Student::FOLDER.'/'.pathinfo($image)['basename'];
+                if($checkImage && $image != null){
+                    $this->deleteFile($checkImage);
+                }
+            return back()->with('success', 'Xóa học sinh thành công!.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->with('error', 'Xóa tài khoản không thành công!.');
+            return back()->with('error', 'Xóa học sinh không thành công!.');
         }
 
     }
@@ -165,7 +174,8 @@ class StudentController extends Controller
     {
         try {
             return Excel::download(new UsersExport, 'users.xlsx');
-            return back()->with('success', 'Export thành công!.');
+            Session::flash('success','Export thành công');
+            return back();
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
             return back()->with('error', 'Export không thành công!.');
@@ -187,8 +197,17 @@ class StudentController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $import = Excel::import(new StudentImport, $request->file('import_student')->store('temp'));
+        try {
+            Excel::import(new StudentImport, $request->file('import_student')->store('temp'));
+            Session::flash('success','Import thành công');
+            return redirect()->route('student.index');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+            if($failures){
+                return redirect()->route('student.index')->with(['failures' => $failures]);
+            }
+        }
 
-        dd($import);
     }
 }
