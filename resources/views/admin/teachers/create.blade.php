@@ -46,7 +46,7 @@
 
                                         <div class="form-group col-md-4">
                                             <label>Họ và Tên:</label>
-                                            <input type="text" class="form-control" name="name" placeholder="Nhập họ và tên...">
+                                            <input type="text" class="form-control" name="name" value="{{old('name')}}" placeholder="Nhập họ và tên...">
                                             @error('name')
                                             <div><code>{{ $message }}</code></div>
                                             @enderror
@@ -54,8 +54,16 @@
 
                                         <div class="form-group col-md-4">
                                             <label>Email:</label>
-                                            <input type="email" class="form-control" name="email" placeholder="Nhập email...">
+                                            <input type="email" class="form-control" name="email" value="{{old('email')}}" placeholder="Nhập email...">
                                             @error('email')
+                                            <div><code>{{ $message }}</code></div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label>Mật khẩu:</label>
+                                            <input type="password" class="form-control" name="password" value="{{old('password')}}" placeholder="Nhập email...">
+                                            @error('password')
                                             <div><code>{{ $message }}</code></div>
                                             @enderror
                                         </div>
@@ -63,7 +71,7 @@
 
                                         <div class="form-group col-md-4">
                                             <label>Level</label>
-                                            <input type="text" class="form-control" name="level" placeholder="Nhập level...">
+                                            <input type="text" class="form-control" name="level" value="{{old('level')}}" placeholder="Nhập level...">
                                             @error('level')
                                             <div><code>{{ $message }}</code></div>
                                             @enderror
@@ -72,7 +80,7 @@
                                     <div class="row">
                                         <div class="form-group col-md-6">
                                             <label>Trạng thái</label>
-                                            <input type="text" class="form-control" name="status" placeholder="...">
+                                            <input type="text" class="form-control" name="status" value="{{old('status')}}" placeholder="...">
                                             @error('status')
                                             <div><code>{{ $message }}</code></div>
                                             @enderror
@@ -80,8 +88,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-info">Thêm</button>
-                                    <a class="btn btn-danger" href="{{ route('teachers.index') }}">Quay lại</a>
+                                    <button type="submit" class="btn btn-warning">Thêm</button>
+                                    <a class="btn btn-info" href="{{ route('teachers.index') }}">Quay lại</a>
                                 </div>
                             </form>
                         </div>

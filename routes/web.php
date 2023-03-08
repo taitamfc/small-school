@@ -28,4 +28,6 @@ Route::resource('users', UserController::class);
 Route::resource('groups', GroupController::class);
 });
 
+Route::get('teachers/export/', [TeacherController::class, 'export'])->name('exportTeacher');
+Route::post('teachers/import/', [TeacherController::class, 'import'])->name('importTeacher');
 Route::resource('teachers', TeacherController::class);
