@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>Quản lý</title>
 
   <!-- Google Font: Source Sans Pro -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,7 +15,7 @@
   <!-- Tempusdominus Bootstrap 4 -->
   <link rel="stylesheet" href="{{asset('asset/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
   <!-- iCheck -->
-  <link rel="stylesheet" href="{{asset('asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+  {{-- <link rel="stylesheet" href="{{asset('asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}"> --}}
   <!-- JQVMap -->
   <link rel="stylesheet" href="{{asset('asset/plugins/jqvmap/jqvmap.min.css')}}">
   <!-- Theme style -->
@@ -33,9 +33,7 @@
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="plugins/img/AdminLTELogo.png')}}" alt="AdminLTELogo" height="60" width="60">
-  </div>
+
 
   <!-- Navbar -->
   @include('admin.includes.header')
@@ -62,18 +60,12 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('asset/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
 <!-- Bootstrap 4 -->
 <script src="{{asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
-<script src="{{asset('asset/plugins/chart.js/Chart.min.js')}}"></script>
 <!-- Sparkline -->
 <script src="{{asset('asset/plugins/sparklines/sparkline.js')}}"></script>
 <!-- JQVMap -->
-<script src="{{asset('asset/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('asset/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
 <!-- jQuery Knob Chart -->
 <script src="{{asset('asset/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <!-- daterangepicker -->
@@ -88,7 +80,6 @@
 <!-- AdminLTE App -->
 <script src="{{asset('asset/plugins/js/adminlte.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{asset('asset/plugins/js/demo.js')}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('asset/plugins/js/pages/dashboard.js')}}"></script>
 

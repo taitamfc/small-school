@@ -27,6 +27,7 @@ Route::get('/logoutUser', [AuthController::class, 'logoutUser'])->name('logoutUs
 Route::get('/',[AuthController::class, 'index'])->name('home');
 Route::get('users/export/', [UserController::class, 'export'])->name('exportUser');
 Route::post('users/import/', [UserController::class, 'import'])->name('importUser');
+Route::get('users/viewImport/', [UserController::class, 'viewImport'])->name('viewImportUser');
 Route::resource('users', UserController::class);
 Route::resource('groups', GroupController::class);
 });
