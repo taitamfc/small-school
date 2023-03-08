@@ -9,6 +9,12 @@ class Teacher extends Model
 {
     use HasFactory;
     protected $table = 'teachers';
+      protected $fillable = [
+        'name',
+        'email',
+        'level',
+        'password',
+    ];
     public function events()
     {
         return $this->hasMany(Event::class);
