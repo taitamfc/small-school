@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,14 +15,14 @@ class StudentTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('students')->insert([
-            'name' => fake()->name(),
-            'phone' => Str::random(10).'number',
+            'name' => Str::random(10),
+            'phone' => Str::random(10).'string',
             'room_name' => Str::random(10),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => Hash::make('123456'),
-            'image' => '',
+            'email' => Str::random(10).'@gmail.com',
+            'password' => Hash::make('password'),
+            'image' => Str::random(10),
             'birthday' => date("Y-m-d"),
-            'status' => 1,
+            'status' => Str::random(3),
         ]);
     }
 }

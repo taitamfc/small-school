@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EventController;
@@ -28,6 +29,17 @@ Route::get('users/export/', [UserController::class, 'export'])->name('exportUser
 Route::post('users/import/', [UserController::class, 'import'])->name('importUser');
 Route::resource('users', UserController::class);
 Route::resource('groups', GroupController::class);
+});
+Route::prefix('students')->group(function(){
+    Route::get('/',[StudentController::class,'index'])->name('student.index');
+    Route::get('/create',[StudentController::class,'create'])->name('student.create');
+    Route::post('/store',[StudentController::class,'store'])->name('student.store');
+    Route::post('/import',[StudentController::class,'import'])->name('student.import');
+    Route::get('/edit/{id}',[StudentController::class,'edit'])->name('student.edit');
+    Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
+    Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
+});
+=======
 Route::get('teachers/export/', [TeacherController::class, 'export'])->name('exportTeacher');
 Route::post('teachers/import/', [TeacherController::class, 'import'])->name('importTeacher');
 Route::resource('teachers', TeacherController::class);

@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+
     protected $table = 'students';
+    protected $fillable = ['name', 'phone', 'email', 'status', 'birthday', 'image', 'room_name', 'password'];
+    
     public function events()
     {
         return $this->hasMany(Event::class);

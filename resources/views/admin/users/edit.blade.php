@@ -18,7 +18,7 @@
             </div>
           </div>
         </section>
-    
+
         <section class="content">
           <div class="container-fluid">
             <div class="row">
@@ -36,7 +36,7 @@
                     </div>
                 @endif
                   <div class="card-header">
-              
+
                     <h3 class="card-title">Chỉnh sửa tài khoản</h3><br>
                   </div>
                   <form action="{{ route('users.update',$user->id) }}" method="POST" enctype="multipart/form-data">
@@ -44,7 +44,7 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-    
+
                             <div class="form-group col-md-4">
                               <label>Họ và tên</label>
                               <input type="text" class="form-control" value="{{ $user->full_name }}" name="full_name"  placeholder="Nhập họ và tên">
@@ -52,7 +52,7 @@
                               <div ><code>{{ $message }}</code></div>
                             @enderror
                             </div>
-          
+
                             <div class="form-group col-md-4">
                               <label>Tên đăng nhập</label>
                               <input type="text" class="form-control" value="{{ $user->user_name }}" name="user_name"  placeholder="Nhập tên đăng nhập">
@@ -60,7 +60,7 @@
                               <div ><code>{{ $message }}</code></div>
                             @enderror
                             </div>
-    
+
                             <div class="form-group col-md-4">
                                 <label>Mật khẩu</label>
                                 <input type="password" class="form-control" value="" name="password"  placeholder="Nhập mật khẩu">
@@ -68,7 +68,7 @@
                                 <div ><code>{{ $message }}</code></div>
                               @enderror
                               </div>
-                                           
+
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -78,8 +78,8 @@
                                 <div ><code>{{ $message }}</code></div>
                               @enderror
                             </div>
-    
-    
+
+
                             <div class="form-group col-md-6">
                                 <label for="exampleInputFile">Ảnh đại diện</label>
                             <div class="input-group">
@@ -92,7 +92,7 @@
                               </div>
                             </div>
                             </div>
-                         
+
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -107,17 +107,17 @@
                               <div class="text text-danger">{{ $message }}</div>
                               @enderror
                             </div>
-    
-    
+
+
                             <div class="form-group col-md-6">
-                       
+
                                 <img type="hidden" width="300px" height="280px" id="blah1" src="{{ asset($user->avatar) ?? $request->inputFile }}" alt="" />
 
                             </div>
-                         
+
                         </div>
                     </div>
-    
+
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Lưu</button>
                       <a class="btn btn-danger" href="{{ route('users.index') }}">Hủy</a>
