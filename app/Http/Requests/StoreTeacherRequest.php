@@ -23,7 +23,7 @@ class StoreTeacherRequest extends FormRequest
     {
         $rules =[
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:teachers',
             'password' => 'required',
             'level' => 'required',
             'status' => 'required',
