@@ -96,7 +96,7 @@
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
-                                        <input type='file' class="custom-file-input" id="imgInp" name="inputFile" />
+                                        <input type='file' class="custom-file-input" id="imgInp" name="image" />
                                     </div>
                                     <div class="input-group-append">
                                         <span class="input-group-text">Tải ảnh lên</span>

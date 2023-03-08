@@ -27,7 +27,7 @@ class StoreStudentRequest extends FormRequest
             'room_name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'inputFile' => 'required',
+            'image' => 'required',
             'birthday' => 'required',
             'status' => 'required',
         ];

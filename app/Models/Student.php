@@ -11,7 +11,9 @@ class Student extends Model
 
     protected $table = 'students';
     protected $fillable = ['name', 'phone', 'email', 'status', 'birthday', 'image', 'room_name', 'password'];
-    
+
+    const DIR = 'storage';
+    const FOLDER = 'student';
     public function events()
     {
         return $this->hasMany(Event::class);

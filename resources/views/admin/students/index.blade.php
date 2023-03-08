@@ -52,14 +52,14 @@
                           @csrf
                         <input type="file" name="import_student">
                       <button class="btn btn-success" type="submit">Nhập Excel</button>
-                      <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                          @include('admin.students.model-error')
+                      <button class="btn btn-info" type="button" >
                         Tìm kiếm chi tiết
                       </button>
                     </form>
                     @error('import_student')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
-
 
                 <div class="collapse  text-center" id="collapseExample">
              <div class="col-12">
@@ -115,7 +115,7 @@
 
                     <div class="card-tools">
                       <ul class="pagination pagination-sm float-right">
-                        {{ $students->appends(request()->all())->links() }}
+{{--                        {{ $students->appends(request()->all())->links() }}--}}
                       </ul>
                     </div>
                   </div>
@@ -135,6 +135,7 @@
                         </tr>
                       </thead>
                       <tbody>
+                      @if(!empty($students))
                         @foreach($students as $key => $student)
                         <tr>
                           <td>{{ $key + 1 }}.</td>
@@ -156,6 +157,7 @@
                             </form></td>
                         </tr>
                         @endforeach
+                      @endif
                       </tbody>
                     </table>
                   </div>

@@ -48,7 +48,7 @@
                             <div class="form-group col-md-4">
                               <label>Họ và tên</label>
                               <input type="text" class="form-control" value="{{ $student->name }}" name="name"  placeholder="Nhập họ và tên">
-                              @error('  name')
+                              @error('name')
                               <div ><code>{{ $message }}</code></div>
                             @enderror
                             </div>
@@ -99,14 +99,17 @@
                                 <div class="input-group">
                                     <div class="custom-file">
                                         <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
-                                        <input type='file' class="custom-file-input" id="imgInp" name="inputFile" />
+                                        <input type='file' class="custom-file-input" id="imgInp" name="image" />
                                     </div>
                                     <div class="input-group-append">
                                         <span class="input-group-text">Tải ảnh lên</span>
                                     </div>
                                 </div><br>
                                 <img type="hidden" width="300px" height="280px" id="blah1" src="{{ asset($student->image) ?? $request->inputFile }}" alt="" />
-                                </div>
+                                @error('image')
+                                <div ><code>{{ $message }}</code></div>
+                                @enderror
+                            </div>
 
                     </div>
                     </div>
