@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('level')->nullable();
             $table->string('status')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

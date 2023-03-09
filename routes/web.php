@@ -60,6 +60,8 @@ Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function (
     Route::put('editCalendarEvent/{id}', [CalendarController::class,'editCalendarEvent'])->name('editCalendarEvent');
 });
 Route::prefix('teacher')->middleware(['auth.teacher', 'preventBackHistory'])->group(function () {
+    Route::get('/profile', [TeacherController::class,'profile'])->name('teacher.profile');
+    Route::put('/updateProfile/{id}', [TeacherController::class,'updateProfile'])->name('teacher.updateProfile');
     Route::get('calendar', [CalendarController::class,'index'])->name('teacher.calendar');
     Route::get('/logout', [AuthController::class, 'logoutTeacher'])->name('teachers.logout');
 });

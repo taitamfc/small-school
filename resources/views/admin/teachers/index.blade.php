@@ -110,6 +110,7 @@
                       <th>Email</th>
                       <th>Cấp độ</th>
                       <th>Trạng thái</th>
+                      <th>Ảnh</th>
                       <th>Hành động</th>
                     </tr>
                   </thead>
@@ -121,6 +122,7 @@
                       <td>{{ $teacher->email }}</td>
                       <td>{{ $teacher->level }}</td>
                       <td>{{ $teacher->status }}</td>
+                      <td width="10%"><img width="100%" style="border-radius: 50%" height="90px" src="{{ $teacher->image != '' ? asset($teacher->image) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt=""></td>
                       <td>
                         <form action="{{ route('teachers.destroy',$teacher->id) }}" method="post">
                           @csrf
