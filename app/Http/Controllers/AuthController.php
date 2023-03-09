@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use App\Models\Teacher;
+use App\Models\Student;
 
 class AuthController extends Controller
 {   
@@ -19,6 +20,21 @@ class AuthController extends Controller
             return view('admin.users.login');
         }
     }
+    public function checkLoginTeacher(){
+        if (Auth::guard('teachers')->check()) {
+            return view('admin.dasboard');
+        } else {
+            return view('admin.teachers.login');
+        }
+    }
+    public function checkLoginStudent(){
+        if (Auth::guard('students')->check()) {
+            return view('admin.dasboard');
+        } else {
+            return view('admin.students.login');
+        }
+    }
+
     public function loginUser(LoginRequest $request)
     {
         $arr = [
@@ -35,24 +51,7 @@ class AuthController extends Controller
             return back()->withInput()->withErrors($errorMessage);
         }
     }
-
-
-
-    public function logoutUser(){
-        Auth::logout();
-        return redirect()->route('users.login');
-    }
-    public function logoutTeacher(){
-
-        Auth::guard('teachers')->logout();
-
-        return redirect()->route('teacher.login');
-    }
-    public function loginStudent(LoginRequest $request)
-    {
-       
-    }
-
+   
     public function loginTeacher(LoginRequest $request)
     {
         $arr = [
@@ -60,7 +59,7 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
         if (Auth::guard('teachers')->attempt($arr)) {
-            return redirect()->route('users.index');
+            return redirect()->route('teacher.calendar');
         } else if(Teacher::where('email', $arr['email'])->exists()) {
             $errorMessage = ['password' => 'Mật khẩu không đúng.'];
             return back()->withInput()->withErrors($errorMessage);
@@ -69,13 +68,39 @@ class AuthController extends Controller
             return back()->withInput()->withErrors($errorMessage);
         }
     }
-    
-    public function checkLoginTeacher(){
-        if (Auth::guard('teachers')->check()) {
-            return view('admin.dasboard');
+    public function loginStudent(LoginRequest $request)
+    {
+        $arr = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        if (Auth::guard('students')->attempt($arr)) {
+            return redirect()->route('student.calendar');
+        } else if(Student::where('email', $arr['email'])->exists()) {
+            $errorMessage = ['password' => 'Mật khẩu không đúng.'];
+            return back()->withInput()->withErrors($errorMessage);
         } else {
-            return view('admin.teachers.login');
+            $errorMessage = ['email' => 'Tài khoản không tồn tại.'];
+            return back()->withInput()->withErrors($errorMessage);
         }
     }
+    public function logoutUser(){
+        Auth::logout();
+        return redirect()->route('users.login');
+    }
+    public function logoutTeacher(){
+
+        Auth::guard('teachers')->logout();
+
+        return redirect()->route('teachers.login');
+    }
+    public function logoutStudent(){
+
+        Auth::guard('students')->logout();
+
+        return redirect()->route('students.login');
+    }
+    
+
     
 }

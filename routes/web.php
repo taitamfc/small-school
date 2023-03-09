@@ -21,8 +21,13 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/',[AuthController::class, 'checkLoginUser'])->name('users.login');
 Route::post('/loginUser',[AuthController::class, 'loginUser'])->name('users.checkLogin');
+
 Route::get('/checkLoginTeacher',[AuthController::class, 'checkLoginTeacher'])->name('teachers.login');
 Route::post('/loginTeacher',[AuthController::class, 'loginTeacher'])->name('teachers.checkLogin');
+
+Route::get('/checkLoginStudent',[AuthController::class, 'checkLoginStudent'])->name('students.login');
+Route::post('/loginStudent',[AuthController::class, 'loginStudent'])->name('students.checkLogin');
+
 Route::get('/home',[AuthController::class, 'index'])->name('home');
 Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function () {
 Route::prefix('users')->group(function(){
@@ -52,8 +57,13 @@ Route::resource('teachers', TeacherController::class);
 Route::resource('events', EventController::class);
     Route::get('calendar', [CalendarController::class,'index'])->name('systemCalendar');
 
-Route::prefix('/')->middleware(['auth.teacher', 'preventBackHistory'])->group(function () {
-    Route::resource('teacher', TeacherController::class);
+
+});
+Route::prefix('teacher')->middleware(['auth.teacher', 'preventBackHistory'])->group(function () {
+    Route::get('calendar', [CalendarController::class,'index'])->name('teacher.calendar');
     Route::get('/logout', [AuthController::class, 'logoutTeacher'])->name('teachers.logout');
 });
+Route::prefix('student')->middleware(['auth.student', 'preventBackHistory'])->group(function () {
+    Route::get('calendar', [CalendarController::class,'index'])->name('student.calendar');
+    Route::get('/logout', [AuthController::class, 'logoutStudent'])->name('students.logout');
 });

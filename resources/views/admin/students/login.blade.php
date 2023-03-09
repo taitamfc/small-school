@@ -23,8 +23,8 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
   
-              <h3 class="mb-5">Đăng nhập</h3>
-                <form action="{{ route('users.checkLogin') }}" method="post">
+              <h3 class="mb-5">Đăng nhập học sinh</h3>
+                <form action="{{ route('students.checkLogin') }}" method="post">
                     @csrf
               <div class="form-outline mb-4">
                 <input type="email" name="email" id="typeEmailX-2" value="{{ old('email')}}" class="form-control form-control-lg" />
