@@ -121,6 +121,7 @@ class UserController extends Controller
             $user->full_name = $request->full_name;
             $user->email = $request->email;
             $user->group_id = $request->group_id;
+            $images = str_replace('storage', 'public', $user->avatar);
             if(isset($request->password) && !empty($request->password)){$user->password = bcrypt($request->password);}
             $fieldName = 'inputFile';
             if ($request->hasFile($fieldName)) {
@@ -133,6 +134,9 @@ class UserController extends Controller
                 $user->avatar = $path;
             }
                 $user->save();
+                if (isset($path) && isset($images)) {
+                    Storage::delete($images);
+                }
                 return redirect()->route('users.index')->with('success', 'Cập nhật tài khoản thành công.');
             } catch (\Exception $e) {
                 if(isset($path)){

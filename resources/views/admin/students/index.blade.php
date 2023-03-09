@@ -127,10 +127,10 @@
                           <th>Số điện thoại</th>
                           <th>Tên phòng</th>
                           <th>Email</th>
-                            <th>Trạng thái</th>
-                            <th>Sinh nhật</th>
-                            <th>Ảnh </th>
-
+                          <th>Trạng thái</th>
+                          <th>Sinh nhật</th>
+                          <th>Ảnh </th>
+                          <th>Hành động </th>
                         </tr>
                       </thead>
                       <tbody>
@@ -138,19 +138,17 @@
                         @foreach($students as $key => $student)
                         <tr>
                           <td>{{ $key + 1 }}.</td>
-                          <td width="20%">{{ $student->name }}</td>
-                          <td width="20%">{{ $student->phone }}</td>
-                            <td width="20%">{{ $student->room_name }}</td>
-                            <td width="20%">{{ $student->email }}</td>
-                            <td width="20%">{{ $student->status }}</td>
-                            <td width="20%">{{ $student->birthday }}</td>
-                            <td width="10%"><img width="100%" style="border-radius: 50%" height="30%" src="{{ $student->image }}" alt=""></td>
-
-                            <td width="20%">
+                          <td >{{ $student->name }}</td>
+                          <td >{{ $student->phone }}</td>
+                            <td >{{ $student->room_name }}</td>
+                            <td >{{ $student->email }}</td>
+                            <td >{{ $student->status }}</td>
+                            <td >{{ $student->birthday }}</td>
+                            <td width="10%"><img width="100%" style="border-radius: 50%" height="90px" src="{{ $student->image }}" alt=""></td>
+                            <td >
                                 <form action="{{route('student.destroy',$student->id)}}" method="post">
                                     @method('DELETE')
                                 @csrf
-
                                 <a class="btn btn-warning" href="{{route('student.edit', $student->id)}}">Sửa</a>
                                 <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                             </form></td>
