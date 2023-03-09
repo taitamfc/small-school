@@ -20,13 +20,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/',[AuthController::class, 'checkLoginUser'])->name('users.login');
-Route::post('/loginUser',[AuthController::class, 'loginUser'])->name('users.checkLogin');
+Route::post('/checkLoginUser',[AuthController::class, 'loginUser'])->name('users.checkLogin');
 
-Route::get('/checkLoginTeacher',[AuthController::class, 'checkLoginTeacher'])->name('teachers.login');
-Route::post('/loginTeacher',[AuthController::class, 'loginTeacher'])->name('teachers.checkLogin');
+Route::get('/loginTeacher',[AuthController::class, 'checkLoginTeacher'])->name('teachers.login');
+Route::post('/checkLoginTeacher',[AuthController::class, 'loginTeacher'])->name('teachers.checkLogin');
 
-Route::get('/checkLoginStudent',[AuthController::class, 'checkLoginStudent'])->name('students.login');
-Route::post('/loginStudent',[AuthController::class, 'loginStudent'])->name('students.checkLogin');
+Route::get('/loginStudent',[AuthController::class, 'checkLoginStudent'])->name('students.login');
+Route::post('/checkLoginStudent',[AuthController::class, 'loginStudent'])->name('students.checkLogin');
 
 Route::get('/home',[AuthController::class, 'index'])->name('home');
 Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function () {

@@ -1,67 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>Material Design for Bootstrap</title>
-  <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
-  <link rel="stylesheet" href="{{ asset('asset/plugins/css/bootstrap-login-form.min.css') }}" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="{{asset('asset/plugins/fontawesome-free/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{asset('asset/plugins/css/adminlte.min.css')}}">
 </head>
 <style>
-    .error{
-        color:red;
-    }
+  .error{
+      color:red;
+  }
 </style>
-<body>
-  <section class="vh-100" style="background-color: #508bfc;">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-          <div class="card shadow-2-strong" style="border-radius: 1rem;">
-            <div class="card-body p-5 text-center">
-  
-              <h3 class="mb-5">Đăng nhập học sinh</h3>
-                <form action="{{ route('students.checkLogin') }}" method="post">
-                    @csrf
-              <div class="form-outline mb-4">
-                <input type="email" name="email" id="typeEmailX-2" value="{{ old('email')}}" class="form-control form-control-lg" />
-                <label class="form-label" for="typeEmailX-2">Email</label>
-                @error('email')
-                    <b class="error">{{ $message }}</b>
-                @enderror
-              </div>
-  
-              <div class="form-outline mb-4">
-                <input type="password" name="password" value="{{ old('password')}}" id="typePasswordX-2" class="form-control form-control-lg" />
-                <label class="form-label" for="typePasswordX-2">Password</label>
-                @error('password')
-                <b class="error">{{ $message }}</b>
-                @enderror
-              </div>
-  
-              <div class="form-check d-flex justify-content-start mb-4">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="form1Example3"
-                />
-                <label class="form-check-label" for="form1Example3"> Ghi nhớ tài khoản</label>
-              </div>
-  
-              <button class="btn btn-primary btn-lg btn-block" type="submit">Đăng nhập</button>
-            </form>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="#" class="h1"><b>Admin</b>School</a>
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Đăng nhập hệ thống để tiếp tục</p>
+      <form action="{{ route('students.checkLogin') }}" method="post">
+        @csrf
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" name="email" value="{{ old('email')}}" placeholder="Email">
+       
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+        @error('email')
+          <b class="error">{{ $message }}</b>
+        @enderror
+      
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" name="password" value="{{ old('password')}}" placeholder="Mật khẩu">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        @error('password')
+          <b class="error">{{ $message }}</b>
+         @enderror
+        <div class="row">
+          <div class="col-7">
+            <div class="icheck-primary">
+              <input type="checkbox" id="remember">
+              <label for="remember">
+                Nhớ tài khoản
+              </label>
+            </div>
+          </div>
+          <div class="col-5">
+            <button type="submit" class="btn btn-warning btn-block">Đăng nhập</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center mt-2 mb-3">
+        <a href="{{ route('teachers.login') }}" class="btn btn-block btn-primary">
+         Đăng nhập với tư cách Giáo viên
+        </a>
+        <a href="{{ route('users.login') }}" class="btn btn-block btn-danger">
+          Đăng nhập với tư cách Quản trị viên
+        </a>
       </div>
+      <p class="mb-1">
+        <a href="forgot-password.html">Quên mật khẩu</a>
+      </p>
     </div>
-  </section>
-  <script type="text/javascript" src="{{ asset('asset/plugins/js/mdb.min.js') }}"></script>
-
+  </div>
+</div>
+<script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('asset/plugins/js/adminlte.min.js')}}"></script>
 </body>
-
 </html>
