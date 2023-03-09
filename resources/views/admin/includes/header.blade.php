@@ -61,7 +61,7 @@
             <i class="fas fa-sign-out-alt"></i>
           </a>
             @elseif (isset(Auth()->guard('students')->user()->name))
-          <a href="{{ route('student.logout') }}" class="dropdown-item text-center">Đăng xuất
+          <a href="{{ route('students.logout') }}" class="dropdown-item text-center">Đăng xuất
             <i class="fas fa-sign-out-alt"></i>
           </a>
           @endif
