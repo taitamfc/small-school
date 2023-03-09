@@ -3,11 +3,6 @@
 @section('header_scripts')
 <link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-<style>
-  .form-control-lg{
-    height: calc(2.3000rem + 2px); !important
-  }
-</style>
 @endsection
 @section('content')
   <div class="content-wrapper">
@@ -15,26 +10,27 @@
         <section class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
-             
-              <div class="col-sm-6">
-                <h1>Quản lý tài khoản</h1><br>
-                
-                <a class="btn btn-warning" href="{{ route('users.create') }}">Thêm tài khoản</a>
-                <a class="btn btn-info" href="{{ route('exportUser') }}">Xuất Excel</a>
-                <a class="btn btn-primary" href="{{ route('viewImportUser') }}">Nhập Excel</a>
-
-                <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  Tìm kiếm chi tiết
-                </button>
-        
-              </div>
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="{{ route('login') }}">Trang chủ</a></li>
+                  <li class="breadcrumb-item"><a href="{{ route('users.login') }}">Trang chủ</a></li>
                   <li class="breadcrumb-item active">Quản lý tài khoản</li>
                 </ol>
               </div>
             </div>
+            <div class="row mb-2">
+            <div class="col-sm-12">
+              <h1>Quản lý tài khoản</h1><br>
+              
+              <a class="btn btn-warning" href="{{ route('users.create') }}">Thêm tài khoản</a>
+              <a class="btn btn-info" href="{{ route('users.export') }}">Xuất Excel</a>
+              <a class="btn btn-primary" href="{{ route('users.viewImport') }}">Nhập Excel</a>
+
+              <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Tìm kiếm chi tiết
+              </button>
+      
+            </div>
+          </div>
           </div>
         </section>
         <section class="content">
@@ -59,7 +55,7 @@
                     <div class="container-fluid">
                         <form action="{{ route('users.index') }}" method="GET" id="form-search">
                             <div class="row">
-                                <div class="col-md-10 offset-md-1">
+                                <div class="col-md-12">
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">

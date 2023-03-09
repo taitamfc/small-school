@@ -19,17 +19,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/checkLoginUser',[AuthController::class, 'checkLoginUser'])->name('login');
-Route::post('/loginUser',[AuthController::class, 'loginUser'])->name('userLogin');
-
+Route::get('/',[AuthController::class, 'checkLoginUser'])->name('users.login');
+Route::post('/loginUser',[AuthController::class, 'loginUser'])->name('users.checkLogin');
+Route::get('/checkLoginTeacher',[AuthController::class, 'checkLoginTeacher'])->name('teachers.login');
+Route::post('/loginTeacher',[AuthController::class, 'loginTeacher'])->name('teachers.checkLogin');
+Route::get('/home',[AuthController::class, 'index'])->name('home');
 Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function () {
-Route::get('/logoutUser', [AuthController::class, 'logoutUser'])->name('logoutUser');
-Route::get('/',[AuthController::class, 'index'])->name('home');
-Route::get('users/export/', [UserController::class, 'export'])->name('exportUser');
-Route::post('users/import/', [UserController::class, 'import'])->name('importUser');
-Route::get('users/viewImport/', [UserController::class, 'viewImport'])->name('viewImportUser');
-Route::resource('users', UserController::class);
-Route::resource('groups', GroupController::class);
+Route::prefix('users')->group(function(){
+    Route::get('/export', [UserController::class, 'export'])->name('users.export');
+    Route::post('/import', [UserController::class, 'import'])->name('users.import');
+    Route::get('/logout', [AuthController::class, 'logoutUser'])->name('users.logout');
+    Route::get('/viewImport', [UserController::class, 'viewImport'])->name('users.viewImport');
 });
 Route::prefix('students')->group(function(){
     Route::get('/',[StudentController::class,'index'])->name('student.index');
@@ -41,10 +41,19 @@ Route::prefix('students')->group(function(){
     Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
     Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
 });
-
-Route::get('teachers/export/', [TeacherController::class, 'export'])->name('exportTeacher');
-Route::post('teachers/import/', [TeacherController::class, 'import'])->name('importTeacher');
+Route::prefix('teachers')->group(function(){
+    Route::get('/export', [TeacherController::class, 'export'])->name('teachers.export');
+    Route::post('/import', [TeacherController::class, 'import'])->name('teachers.import');
+    Route::get('/viewImport', [TeacherController::class, 'viewImport'])->name('teachers.viewImport');
+});
+Route::resource('users', UserController::class);
+Route::resource('groups', GroupController::class);
 Route::resource('teachers', TeacherController::class);
 Route::resource('events', EventController::class);
-Route::get('calendar', [CalendarController::class,'index'])->name('systemCalendar');
+    Route::get('calendar', [CalendarController::class,'index'])->name('systemCalendar');
 
+Route::prefix('/')->middleware(['auth.teacher', 'preventBackHistory'])->group(function () {
+    Route::resource('teacher', TeacherController::class);
+    Route::get('/logout', [AuthController::class, 'logoutTeacher'])->name('teachers.logout');
+});
+});

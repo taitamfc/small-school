@@ -6,12 +6,12 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Quản lý tài khoản</h1><br>
+                <h1>Quản lý giáo viên</h1><br>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="{{ route('users.login') }}">Trang chủ</a></li>
-                  <li class="breadcrumb-item active">Quản lý tài khoản</li>
+                  <li class="breadcrumb-item active">Quản lý giáo viên</li>
                 </ol>
               </div>
             </div>
@@ -35,9 +35,9 @@
                 @endif
                   <div class="card-header">
               
-                    <h3 class="card-title">Nhập nhân viên</h3><br>
+                    <h3 class="card-title">Nhập giáo viên</h3><br>
                   </div>
-                  <form action="{{ route('users.import') }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('teachers.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
 
@@ -54,7 +54,7 @@
                                 <span class="input-group-text">Tải file lên</span>
                               </div>
                             </div>
-                                @error('importUser')
+                                @error('importTeacher')
                                     <div><code>{{ $message }}</code></div>
                                 @enderror
                             </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Nhập</button>
-                      <a class="btn btn-danger" href="{{ route('users.index') }}">Trở về</a>
+                      <a class="btn btn-danger" href="{{ route('teachers.index') }}">Trở về</a>
                     </div>
                   </form>
                 </div>

@@ -44,11 +44,27 @@
           <i class="fas fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">Tài khoản <i class="fas fa-user"></i><br><b>{{ Auth::user()->full_name }}</b></span>
+          @if(isset(Auth::user()->full_name))
+          <span class="dropdown-item dropdown-header">Tài khoản <i class="fas fa-user"></i><br><b>{{ Auth::user()->full_name}}</b></span>
+          @elseif (isset(Auth()->guard('teachers')->user()->name))
+          <span class="dropdown-item dropdown-header">Tài khoản <i class="fas fa-user"></i><br><b>{{ Auth()->guard('teachers')->user()->name}}</b></span>
+          @elseif (isset(Auth()->guard('students')->user()->name))
+          <span class="dropdown-item dropdown-header">Tài khoản <i class="fas fa-user"></i><br><b>{{ Auth()->guard('students')->user()->name}}</b></span>
+          @endif
           <div class="dropdown-divider"></div>
-          <a href="{{ route('logoutUser') }}" class="dropdown-item text-center">Đăng xuất
+          @if(isset(Auth::user()->full_name))
+          <a href="{{ route('users.logout') }}" class="dropdown-item text-center">Đăng xuất
             <i class="fas fa-sign-out-alt"></i>
           </a>
+            @elseif (isset(Auth()->guard('teachers')->user()->name))
+          <a href="{{ route('teachers.logout') }}" class="dropdown-item text-center">Đăng xuất
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+            @elseif (isset(Auth()->guard('students')->user()->name))
+          <a href="{{ route('student.logout') }}" class="dropdown-item text-center">Đăng xuất
+            <i class="fas fa-sign-out-alt"></i>
+          </a>
+          @endif
         </div>
       </li>
     </ul>

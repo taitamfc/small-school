@@ -23,8 +23,8 @@
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5 text-center">
   
-              <h3 class="mb-5">Đăng nhập</h3>
-                <form action="{{ route('users.login') }}" method="post">
+              <h3 class="mb-5">Đăng nhập giáo viên</h3>
+                <form action="{{ route('teachers.checkLogin') }}" method="post">
                     @csrf
               <div class="form-outline mb-4">
                 <input type="email" name="email" id="typeEmailX-2" value="{{ old('email')}}" class="form-control form-control-lg" />
@@ -35,7 +35,7 @@
               </div>
   
               <div class="form-outline mb-4">
-                <input type="password" name="password" value="{{ old('password')}}" id="typePasswordX-2" class="form-control form-control-lg" />
+                <input type="password" name="password" id="typePasswordX-2" value="{{ old('password')}}" class="form-control form-control-lg" />
                 <label class="form-label" for="typePasswordX-2">Password</label>
                 @error('password')
                 <b class="error">{{ $message }}</b>

@@ -73,14 +73,14 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        // 'students' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\Student::class,
-        // ],
-                // 'teachers' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\Teacher::class,
-        // ],
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
+        ],
+        'teachers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Teacher::class,
+        ],
     ],
 
     /*
