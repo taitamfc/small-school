@@ -27,7 +27,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <a href="{{ route('login') }}" class="nav-link active">
+            <a href="{{ route('users.login') }}" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Trang chủ
@@ -96,7 +96,7 @@
               </li>
             </ul>
           </li>
-          {{-- <li class="nav-item">
+          <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
@@ -106,19 +106,17 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('students.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{ route('student.index') }}" class="nav-link">
                   <p>Danh sách học sinh</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('students.create') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{ route('student.create') }}" class="nav-link">
                   <p>Thêm học sinh</p>
                 </a>
               </li>
             </ul>
-          </li> --}}
+          </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('login') }}">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('users.login') }}">Trang chủ</a></li>
                             <li class="breadcrumb-item active">Quản lý giáo viên</li>
                         </ol>
                     </div>

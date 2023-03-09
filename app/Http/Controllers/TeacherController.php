@@ -168,5 +168,9 @@ class TeacherController extends Controller
             }
           
         }
+
+        public function viewImport(){
+            return view('admin.teachers.import');
+        }
     }
 
