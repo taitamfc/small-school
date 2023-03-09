@@ -120,8 +120,8 @@ class StudentController extends Controller
     {
         $image = $request->file('image');
         $dataRequest = [
-            'naame' => $request->get('name'),
-            'phonea' => $request->get('phone'),
+            'name' => $request->get('name'),
+            'phone' => $request->get('phone'),
             'room_name' => $request->get('room_name'),
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
@@ -174,11 +174,11 @@ class StudentController extends Controller
     {
         try {
             return Excel::download(new StudentExport, 'student.xlsx');
-            Session::flash('success','Export thành công');
+            Session::flash('success','Xuất tài liệu thành công');
             return back();
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->with('error', 'Export không thành công!.');
+            return back()->with('error', 'Xuất tài liệu không thành công!.');
         }
     }
 
@@ -188,7 +188,7 @@ class StudentController extends Controller
         $validator = Validator::make($request->all(), [
             'import_student'   => 'required',
         ],[
-            'import_student.required' => 'Vui lòng chọn file để import',
+            'import_student.required' => 'Vui lòng chọn tài liệu để nhập',
 //            'import_student.mimes' => 'Vui lòng chọn file đúng định dạng xlsx'
         ]);
 
@@ -199,7 +199,7 @@ class StudentController extends Controller
         }
         try {
             Excel::import(new StudentImport, $request->file('import_student')->store('temp'));
-            Session::flash('success','Import thành công');
+            Session::flash('success','Nhập tài liệu thành công');
             return redirect()->route('student.index');
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
