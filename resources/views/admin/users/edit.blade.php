@@ -111,7 +111,7 @@
 
                             <div class="form-group col-md-6">
 
-                                <img type="hidden" width="300px" height="280px" id="blah1" src="{{ asset($user->avatar) ?? $request->inputFile }}" alt="" />
+                                <img type="hidden" width="300px" height="300px" id="blah1" src="{{ $user->avatar != null ? asset($user->avatar) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt="" />
 
                             </div>
 

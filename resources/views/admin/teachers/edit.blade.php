@@ -75,14 +75,27 @@
                                             <div><code>{{ $message }}</code></div>
                                             @enderror
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-4">
                                             <label>Trạng thái</label>
                                             <input type="text" class="form-control" name="status" value="{{$teacher ->status}}" placeholder="...">
                                             @error('status')
                                             <div><code>{{ $message }}</code></div>
                                             @enderror
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="exampleInputFile">Ảnh đại diện</label>
+                                        <div class="input-group">
+                                          <div class="custom-file">
+                                            <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
+                                            <input type='file' class="custom-file-input" id="imgInp" name="inputFile" />
+                                          </div>
+                                          <div class="input-group-append">
+                                            <span class="input-group-text">Tải ảnh lên</span>
+                                          </div>
+                                        </div>
+                                        </div>
+                                        <div  class="form-group col-md-12">
+                                            <img type="hidden" style="float: right" width="350px" height="280px" id="blah1" src="{{ $teacher->image != null ? asset($teacher->image) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt="" />
                                         </div>
                                     </div>
                                 </div>

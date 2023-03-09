@@ -140,7 +140,7 @@
                           <td width="20%">{{ $user->full_name }}</td>
                           <td width="20%">{{ $user->user_name }}</td>
                           <td width="20%">{{ $user->email }}</td>
-                          <td width="10%"><img width="100%" style="border-radius: 50%" height="30%" src="{{ $user->avatar != '' ? asset($user->avatar) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt=""></td>
+                          <td width="10%"><img width="100%" style="border-radius: 50%" height="90px" src="{{ $user->avatar != '' ? asset($user->avatar) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt=""></td>
                             <td width="20%">
                                 <form action="{{ route('users.destroy',$user->id) }}" method="post">
                                 @csrf
