@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\UsersExport;
+use App\Exports\StudentExport;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Imports\StudentImport;
@@ -173,7 +173,7 @@ class StudentController extends Controller
     public function export()
     {
         try {
-            return Excel::download(new UsersExport, 'users.xlsx');
+            return Excel::download(new StudentExport, 'student.xlsx');
             Session::flash('success','Export thành công');
             return back();
         } catch (\Exception $e) {

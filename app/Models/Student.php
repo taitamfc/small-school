@@ -14,6 +14,11 @@ class Student extends Model
 
     const DIR = 'storage';
     const FOLDER = 'student';
+
+    public static function except(string $string)
+    {
+    }
+
     public function events()
     {
         return $this->hasMany(Event::class);

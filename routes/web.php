@@ -36,6 +36,7 @@ Route::prefix('students')->group(function(){
     Route::get('/create',[StudentController::class,'create'])->name('student.create');
     Route::post('/store',[StudentController::class,'store'])->name('student.store');
     Route::post('/import',[StudentController::class,'import'])->name('student.import');
+    Route::get('/export',[StudentController::class,'export'])->name('student.export');
     Route::get('/edit/{id}',[StudentController::class,'edit'])->name('student.edit');
     Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
     Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');

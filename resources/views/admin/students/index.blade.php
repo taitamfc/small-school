@@ -48,7 +48,7 @@
                     @endif
 
                       <form action="{{ route('student.import') }}" method="post" enctype="multipart/form-data">
-                        <a class="btn btn-info" href="{{ route('exportUser') }}">Xuất Excel</a>
+                        <a class="btn btn-info" href="{{ route('student.export') }}">Xuất Excel</a>
                           @csrf
                         <input type="file" name="import_student">
                       <button class="btn btn-success" type="submit">Nhập Excel</button>
