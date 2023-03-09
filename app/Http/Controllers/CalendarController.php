@@ -54,7 +54,10 @@ class CalendarController extends Controller
         return view('admin.calendars.index');
     }
 
-    public function deleteEvent($event_id){
+    public function editCalendarEvent($event_id){
+
+    }
+    public function deleteCalendarEvent($event_id){
         try {
             $item = Event::where('id', '=',$event_id);
             $item->delete();

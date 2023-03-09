@@ -90,10 +90,21 @@ $(document).ready(function() {
         let ask = confirm('Bạn cũng muốn xóa các sự kiện lặp lại trong tương lai');
         if(ask){
             $.ajax({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                dataType:'json',
                 url : "{{ route('deleteCalendarEvent','') }}/"+ even_id,
                 method : 'DELETE',
                 success: function(res){
-                    console.log(res);
+                    if(res.success){
+                        alert(res.msg);
+                        calendar.render();
+                    }else{
+                        alert(res.msg);
+                    }
                 }
             });
         }

@@ -56,8 +56,8 @@ Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function (
     Route::resource('teachers', TeacherController::class);
     Route::resource('events', EventController::class);
     Route::get('calendar', [CalendarController::class,'index'])->name('systemCalendar');
-    Route::delete('deleteCalendarEvent/{id}', [CalendarController::class,'index'])->name('deleteCalendarEvent');
-    Route::put('editCalendarEvent/{id}', [CalendarController::class,'index'])->name('editCalendarEvent');
+    Route::delete('deleteCalendarEvent/{id}', [CalendarController::class,'deleteCalendarEvent'])->name('deleteCalendarEvent');
+    Route::put('editCalendarEvent/{id}', [CalendarController::class,'editCalendarEvent'])->name('editCalendarEvent');
 });
 Route::prefix('teacher')->middleware(['auth.teacher', 'preventBackHistory'])->group(function () {
     Route::get('calendar', [CalendarController::class,'index'])->name('teacher.calendar');
