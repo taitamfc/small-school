@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
-use App\Http\Requests\UpdateProfileTeacgerRequest;
+use App\Http\Requests\UpdateProfileTeacherRequest;
 use App\Models\Teacher;
 use App\Http\Requests\ImportTeacherRequest;
 use Illuminate\Http\Request;
@@ -207,7 +207,7 @@ class TeacherController extends Controller
                 return view('admin.teachers.profile', compact('teacher'));
             }
         }
-        public function updateProfile(UpdateProfileTeacgerRequest $request, string $id){
+        public function updateProfile(UpdateProfileTeacherRequest $request, string $id){
             try {
                 $teacher = Teacher::find($id);
                 $teacher->name = $request->name;
@@ -215,6 +215,7 @@ class TeacherController extends Controller
                 if(isset($request->password) && !empty($request->password)){
                     $teacher->password = bcrypt($request->password);
                 }
+                $images = str_replace('storage', 'public', $teacher->avatar);
                 $fieldName = 'inputFile';
                 if ($request->hasFile($fieldName)) {
                     $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
@@ -226,8 +227,14 @@ class TeacherController extends Controller
                     $teacher->image = $path;
                 }
                 $teacher->save();
+                    if (isset($path) && isset($images)) {
+                        Storage::delete($images);
+                    }
                     return back()->with('success', 'Cập nhật thành công.');
                 } catch (\Exception $e) {
+                    if(isset($path)){
+                        $images = str_replace('storage', 'public', $path);
+                        Storage::delete($images); }
                     Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
                     return back()->with('error', 'Cập nhật không thành công.');
                 }

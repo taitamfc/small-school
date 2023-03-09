@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\StudentExport;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use App\Http\Requests\UpdateProfileStudentRequest;
 use App\Imports\StudentImport;
 use App\Traits\UploadFileTrait;
 use Illuminate\Support\Facades\Session;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
@@ -209,5 +211,44 @@ class StudentController extends Controller
             }
         }
 
+    }
+    public function profile(){
+        if(isset(Auth::guard('students')->user()->name)){
+            $student = Auth::guard('students')->user();
+            return view('admin.students.profile', compact('student'));
+        }
+    }
+    public function updateProfile(UpdateProfileStudentRequest $request, string $id){
+        try {
+            $image = $request->file('image');
+            $teacher = Student::find($id);
+            $teacher->name = $request->name;
+            $teacher->email = $request->email;
+            $teacher->phone = $request->phone;
+            $teacher->birthday = $request->birthday;
+            if(isset($request->password) && !empty($request->password)){
+                $teacher->password = bcrypt($request->password);
+            }
+            if($request->hasFile('image')){
+                $pathInfor = $this->uploadFile($image, Student::FOLDER);
+                $teacher->image = Student::DIR.'/'.$pathInfor;
+            }
+            $student = Student::find($id);
+            if($student){
+                $image = $student->image;
+                $checkImage = Student::FOLDER.'/'.pathinfo($image)['basename'];
+                if($checkImage && $image != null){
+                    $this->deleteFile($checkImage);
+                }
+            }
+            $teacher->save();
+                return back()->with('success', 'Cập nhật thành công.');
+            } catch (\Exception $e) {
+                if(!file_exists($pathInfor)){
+                    $this->deleteFile($pathInfor);
+                 }
+                Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+                return back()->with('error', 'Cập nhật không thành công.');
+            }
     }
 }

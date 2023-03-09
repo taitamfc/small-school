@@ -66,6 +66,8 @@ Route::prefix('teacher')->middleware(['auth.teacher', 'preventBackHistory'])->gr
     Route::get('/logout', [AuthController::class, 'logoutTeacher'])->name('teachers.logout');
 });
 Route::prefix('student')->middleware(['auth.student', 'preventBackHistory'])->group(function () {
+    Route::get('/profile', [StudentController::class,'profile'])->name('student.profile');
+    Route::put('/updateProfile/{id}', [StudentController::class,'updateProfile'])->name('student.updateProfile');
     Route::get('calendar', [CalendarController::class,'index'])->name('student.calendar');
     Route::get('/logout', [AuthController::class, 'logoutStudent'])->name('students.logout');
 });
