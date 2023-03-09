@@ -90,7 +90,7 @@ $(document).ready(function() {
         let ask = confirm('Bạn cũng muốn xóa các sự kiện lặp lại trong tương lai');
         if(ask){
             $.ajax({
-                url : "{{ route('deleteCalendarEvent') }}/"+ even_id,
+                url : "{{ route('deleteCalendarEvent','') }}/"+ even_id,
                 method : 'DELETE',
                 success: function(res){
                     console.log(res);
