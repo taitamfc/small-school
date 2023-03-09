@@ -57,19 +57,19 @@
                         },
                     });
                     $.ajax({
-                            url:"{{ route('events.update', '') }}" +'/'+ id,
-                            type:"PATCH",
-                            dataType:'json',
-                            data:{ start_time, end_time},
-                            success:function(response)
-                            {
-                               
-                            },
-                            error:function(error)
-                            {
-                                console.log(error)
-                            },
-                        });
+                        url:"{{ route('events.update', '') }}" +'/'+ id,
+                        type:"PATCH",
+                        dataType:'json',
+                        data:{ start_time, end_time},
+                        success:function(response)
+                        {
+                            
+                        },
+                        error:function(error)
+                        {
+                            console.log(error)
+                        },
+                    });
                 },
             })
         });

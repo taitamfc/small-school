@@ -34,8 +34,10 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <input type="hidden" id="md-cl-id" value="0">
+                <a id="md-cl-url-edit" href="#" class="btn btn-info">Sửa</a>
+                <button id="md-cl-url-delete" type="button" class="btn btn-danger">Xóa</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>
