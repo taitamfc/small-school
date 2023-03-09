@@ -30,34 +30,34 @@ Route::post('/loginStudent',[AuthController::class, 'loginStudent'])->name('stud
 
 Route::get('/home',[AuthController::class, 'index'])->name('home');
 Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function () {
-Route::prefix('users')->group(function(){
-    Route::get('/export', [UserController::class, 'export'])->name('users.export');
-    Route::post('/import', [UserController::class, 'import'])->name('users.import');
-    Route::get('/logout', [AuthController::class, 'logoutUser'])->name('users.logout');
-    Route::get('/viewImport', [UserController::class, 'viewImport'])->name('users.viewImport');
-});
-Route::prefix('students')->group(function(){
-    Route::get('/',[StudentController::class,'index'])->name('student.index');
-    Route::get('/create',[StudentController::class,'create'])->name('student.create');
-    Route::post('/store',[StudentController::class,'store'])->name('student.store');
-    Route::post('/import',[StudentController::class,'import'])->name('student.import');
-    Route::get('/export',[StudentController::class,'export'])->name('student.export');
-    Route::get('/edit/{id}',[StudentController::class,'edit'])->name('student.edit');
-    Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
-    Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
-});
-Route::prefix('teachers')->group(function(){
-    Route::get('/export', [TeacherController::class, 'export'])->name('teachers.export');
-    Route::post('/import', [TeacherController::class, 'import'])->name('teachers.import');
-    Route::get('/viewImport', [TeacherController::class, 'viewImport'])->name('teachers.viewImport');
-});
-Route::resource('users', UserController::class);
-Route::resource('groups', GroupController::class);
-Route::resource('teachers', TeacherController::class);
-Route::resource('events', EventController::class);
+    Route::prefix('users')->group(function(){
+        Route::get('/export', [UserController::class, 'export'])->name('users.export');
+        Route::post('/import', [UserController::class, 'import'])->name('users.import');
+        Route::get('/logout', [AuthController::class, 'logoutUser'])->name('users.logout');
+        Route::get('/viewImport', [UserController::class, 'viewImport'])->name('users.viewImport');
+    });
+    Route::prefix('students')->group(function(){
+        Route::get('/',[StudentController::class,'index'])->name('student.index');
+        Route::get('/create',[StudentController::class,'create'])->name('student.create');
+        Route::post('/store',[StudentController::class,'store'])->name('student.store');
+        Route::post('/import',[StudentController::class,'import'])->name('student.import');
+        Route::get('/export',[StudentController::class,'export'])->name('student.export');
+        Route::get('/edit/{id}',[StudentController::class,'edit'])->name('student.edit');
+        Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
+        Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
+    });
+    Route::prefix('teachers')->group(function(){
+        Route::get('/export', [TeacherController::class, 'export'])->name('teachers.export');
+        Route::post('/import', [TeacherController::class, 'import'])->name('teachers.import');
+        Route::get('/viewImport', [TeacherController::class, 'viewImport'])->name('teachers.viewImport');
+    });
+    Route::resource('users', UserController::class);
+    Route::resource('groups', GroupController::class);
+    Route::resource('teachers', TeacherController::class);
+    Route::resource('events', EventController::class);
     Route::get('calendar', [CalendarController::class,'index'])->name('systemCalendar');
-
-
+    Route::delete('deleteCalendarEvent/{id}', [CalendarController::class,'index'])->name('deleteCalendarEvent');
+    Route::put('editCalendarEvent/{id}', [CalendarController::class,'index'])->name('editCalendarEvent');
 });
 Route::prefix('teacher')->middleware(['auth.teacher', 'preventBackHistory'])->group(function () {
     Route::get('calendar', [CalendarController::class,'index'])->name('teacher.calendar');
