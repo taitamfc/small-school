@@ -1,3 +1,4 @@
+@if(Auth::user()->hasPermission('Teacher_import'))
 @extends('admin.layouts.master')
 @section('content')
   <div class="content-wrapper">
@@ -74,3 +75,4 @@
     </div>
   </div>
 @endsection
+@endif

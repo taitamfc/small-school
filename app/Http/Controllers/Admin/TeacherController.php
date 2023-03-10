@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UpdateTeacherRequest;
 use App\Models\Teacher;
 use App\Http\Requests\ImportTeacherRequest;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TeacherExport;
 use App\Imports\TeacherImport;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
@@ -20,6 +22,7 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Teacher::class);
         $name         = $request->name ?? '';
         $search       = $request->key ?? '';
         $email        = $request->email ?? '';
@@ -59,6 +62,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Teacher::class);
         $teachers = Teacher::get();
         $param = [
             'teachers' => $teachers,
@@ -71,17 +75,30 @@ class TeacherController extends Controller
      */
     public function store(StoreTeacherRequest $request)
     {
-       
+        $this->authorize('create', Teacher::class);
        try {
-        $teachers = new Teacher();
-        $teachers->name = $request->name;
-        $teachers->email = $request->email;
-        $teachers->password = bcrypt($request->password);
-        $teachers->level = $request->level;
-        $teachers->status = $request->status;
-        $teachers->save();
-        return redirect()->route('teachers.create')->with('success', 'Thêm giáo viên thành công.');
+        $teacher = new Teacher();
+        $teacher->name = $request->name;
+        $teacher->email = $request->email;
+        $teacher->password = bcrypt($request->password);
+        $teacher->level = $request->level;
+        $teacher->status = $request->status;
+        $fieldName = 'inputFile';
+        if ($request->hasFile($fieldName)) {
+            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
+            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
+            $extenshion = $request->file($fieldName)->getClientOriginalExtension();
+            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
+            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
+            $path = str_replace('public/', '', $path);
+            $teacher->image = $path;
+        }
+        $teacher->save();
+        return redirect()->route('teachers.index')->with('success', 'Cập nhật thành công.');
        } catch (\Exception $e) { 
+        if(isset($path)){
+            $images = str_replace('storage', 'public', $path);
+            Storage::delete($images); }
         Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
         return redirect()->route('teachers.create')->with('error', 'Thêm giáo viên thất bại.');
        }      
@@ -101,6 +118,7 @@ class TeacherController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('update', Teacher::class);
         $teacher = Teacher::find($id);
         $param = [
             'teacher' => $teacher,
@@ -113,18 +131,32 @@ class TeacherController extends Controller
      */
     public function update(UpdateTeacherRequest $request, string $id)
     {
+        $this->authorize('update', Teacher::class);
         try {
-        $teachers = Teacher::find($id);
-        $teachers->name = $request->name;
-        $teachers->email = $request->email;
+        $teacher = Teacher::find($id);
+        $teacher->name = $request->name;
+        $teacher->email = $request->email;
         if(isset($request->password) && !empty($request->password)){
-            $teachers->password = bcrypt($request->password);
+            $teacher->password = bcrypt($request->password);
         }
-        $teachers->level = $request->level;
-        $teachers->status = $request->status;
-        $teachers->save();
+        $teacher->level = $request->level;
+        $teacher->status = $request->status;
+        $fieldName = 'inputFile';
+        if ($request->hasFile($fieldName)) {
+            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
+            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
+            $extenshion = $request->file($fieldName)->getClientOriginalExtension();
+            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
+            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
+            $path = str_replace('public/', '', $path);
+            $teacher->image = $path;
+        }
+        $teacher->save();
             return redirect()->route('teachers.index')->with('success', 'Cập nhật thành công.');
         } catch (\Exception $e) {
+            if(isset($path)){
+                $images = str_replace('storage', 'public', $path);
+                Storage::delete($images); }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
             return redirect()->route('teachers.index')->with('error', 'Cập nhật không thành công.');
         }
@@ -135,6 +167,7 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete', Teacher::class);
         try {
             $teacher = Teacher::find($id);
             $teacher->delete();
@@ -147,7 +180,7 @@ class TeacherController extends Controller
 
         public function export() 
         {   
-            
+            $this->authorize('export', Teacher::class);
             try {
                 return Excel::download(new TeacherExport, 'teachers.xlsx');
                 return back()->with('success', 'Export thành công!.');
@@ -160,6 +193,7 @@ class TeacherController extends Controller
     
         public function import(ImportTeacherRequest $request) 
         {   
+            $this->authorize('import', Teacher::class);
             try {
                 Excel::import(new TeacherImport, $request->file('importTeacher'));
                 return back()->with('success', 'Import thành công!.');
@@ -171,7 +205,47 @@ class TeacherController extends Controller
         }
 
         public function viewImport(){
+            $this->authorize('import', Teacher::class);
             return view('admin.teachers.import');
+        }
+
+        public function profile(){
+            if(isset(Auth::guard('teachers')->user()->name)){
+                $teacher = Auth::guard('teachers')->user();
+                return view('admin.teachers.profile', compact('teacher'));
+            }
+        }
+        public function updateProfile(UpdateProfileTeacherRequest $request, string $id){
+            try {
+                $teacher = Teacher::find($id);
+                $teacher->name = $request->name;
+                $teacher->email = $request->email;
+                if(isset($request->password) && !empty($request->password)){
+                    $teacher->password = bcrypt($request->password);
+                }
+                $images = str_replace('storage', 'public', $teacher->avatar);
+                $fieldName = 'inputFile';
+                if ($request->hasFile($fieldName)) {
+                    $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
+                    $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
+                    $extenshion = $request->file($fieldName)->getClientOriginalExtension();
+                    $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
+                    $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
+                    $path = str_replace('public/', '', $path);
+                    $teacher->image = $path;
+                }
+                $teacher->save();
+                    if (isset($path) && isset($images)) {
+                        Storage::delete($images);
+                    }
+                    return back()->with('success', 'Cập nhật thành công.');
+                } catch (\Exception $e) {
+                    if(isset($path)){
+                        $images = str_replace('storage', 'public', $path);
+                        Storage::delete($images); }
+                    Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+                    return back()->with('error', 'Cập nhật không thành công.');
+                }
         }
     }
 

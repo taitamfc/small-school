@@ -7,26 +7,16 @@ trait HasPermissions
 {
     protected $permissionList = null;
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
+    public function userCan($permission = null){
+        return $this->hasPermission($permission);
     }
-
-    public function hasRole($role)
-    {
-        if (is_string($role)) {
-            return $this->roles->contains('name', $role);
-        }
-
-        return false;
-    }
-
     public function hasPermission($permission = null)
-    {   
+    {
+        
         if (is_null($permission)) {
             return $this->getPermissions()->count() > 0;
         }
-        
+
         if (is_string($permission)) {
             return $this->getPermissions()->contains('name', $permission);
         }
@@ -35,18 +25,8 @@ trait HasPermissions
     }
 
     private function getPermissions()
-    {
-        $role = $this->roles->first();
-        if ($role) {
-            if (! $role->relationLoaded('permissions')) {
-                $this->roles->load('permissions');
-            }
-
-            $this->permissionList = $this->roles->pluck('permissions')->flatten();
-        }
-
+    {    
+        $this->permissionList = $this->groups->roles;
         return $this->permissionList ?? collect();
-      
-
     }
 }

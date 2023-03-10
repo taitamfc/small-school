@@ -1,9 +1,7 @@
 
+@if(Auth::user()->hasPermission('Group_create'))
 @extends('admin.layouts.master')
 @section('content')
-
- 
-
   <div class="content-wrapper">
     <div class="container">
 
@@ -119,3 +117,4 @@
     </div>
   </div>
 @endsection
+@endif

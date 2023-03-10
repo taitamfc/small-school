@@ -15,6 +15,7 @@ class EventController extends Controller
     //
     public function store(StoreEventRequest $request)
     {   
+        $this->authorize('create', Event::class);
         try {
             Event::create($request->all());
             return redirect()->route('systemCalendar');
@@ -28,6 +29,7 @@ class EventController extends Controller
 
     public function update(Request $request, Event $event)
     {
+        $this->authorize('update', Event::class);
         $item = Event::where('id', '=',$event->id);
         $data = $request->except(['_token','_method']);
         $item->update($data);
@@ -37,6 +39,7 @@ class EventController extends Controller
     {
        
 
+        $this->authorize('viewAny', Event::class);
         $events = Event::withCount('events')
             ->get();
 
@@ -44,7 +47,8 @@ class EventController extends Controller
     }
 
     public function create()
-    {
+    {   
+        $this->authorize('create', Event::class);
         $teachers = Teacher::all();
         $students = Student::all();
         $params = [
@@ -55,7 +59,8 @@ class EventController extends Controller
     }
 
     public function edit(Event $event)
-    {
+    {   
+        $this->authorize('update', Event::class);
         $event->load('event')
         ->loadCount('events');
         $teachers = Teacher::all();
@@ -72,7 +77,7 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
-      
+        $this->authorize('view', Event::class);
         $event->load('event');
         return view('admin.events.show', compact('event'));
     }
@@ -80,6 +85,7 @@ class EventController extends Controller
     public function destroy(Event $event)
     { 
         try {
+        $this->authorize('delete', Event::class);
         $item = Event::where('id', '=',$event->id);
         $item->delete();
     } catch (\Exception $e) {

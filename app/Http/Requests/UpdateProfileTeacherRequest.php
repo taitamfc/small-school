@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTeacherRequest extends FormRequest
+class UpdateProfileTeacherRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,6 @@ class UpdateTeacherRequest extends FormRequest
         $rules =[
             'name' => 'required',
             'email' => 'required',
-            'level' => 'required',
-            'status' => 'required',
            ];
             return $rules;
     }
@@ -33,8 +31,6 @@ class UpdateTeacherRequest extends FormRequest
         $messages =[
             'name.required' => ':attribute không được để trống',
             'email.required' => ':attribute không được để trống',
-            'level.required' => ':attribute không được để trống',
-            'status.required' => ':attribute không được để trống',
             ];
             return $messages;
     }

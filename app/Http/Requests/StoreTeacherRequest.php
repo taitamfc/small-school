@@ -34,6 +34,7 @@ class StoreTeacherRequest extends FormRequest
         $messages =[
             'name.required' => ':attribute không được để trống',
             'email.required' => ':attribute không được để trống',
+            'email.unique' => ':attribute đã tồn tại',
             'password.required' => ':attribute không được để trống',
             'level.required' => ':attribute không được để trống',
             'status.required' => ':attribute không được để trống',

@@ -23,7 +23,7 @@ class StoreUserRequest extends FormRequest
     {
         $rules =[
             'user_name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'full_name' => 'required',
             'password' => 'required',
             'group_id' => 'required', 
@@ -35,6 +35,7 @@ class StoreUserRequest extends FormRequest
             'user_name.required' => 'Hãy Nhập Tên Đăng Nhập',
             'full_name.required' => 'Hãy Nhập Họ Và Tên',
             'email.required' => 'Hãy Nhập Email',
+            'email.unique' => 'Email đã tồn tại',
             'email.email' => 'Email Chưa Đúng Định Dạng',
             'password.required' => 'Hãy Nhập Mật Khẩu',
             'group_id.required' => 'Hãy Chọn Chức Vụ',

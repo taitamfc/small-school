@@ -63,10 +63,10 @@
                                 {{ $event->name ?? '' }}
                             </td>
                             <td>
-                                <?php $datetime = new DateTime($event->start_time) ;echo date_format($datetime, "H:i:s - d/m/Y") ?? '' ?>
+                                {{date_format(new DateTime($event->start_time), "H:i:s - d/m/Y") ?? ''}}
                             </td>
                             <td>
-                                <?php $datetime = new DateTime($event->end_time) ;echo date_format($datetime, "H:i:s - d/m/Y") ?? '' ?>
+                                {{date_format(new DateTime($event->end_time), "H:i:s - d/m/Y") ?? ''}}
                             </td>
                             <td>
                                 <?php

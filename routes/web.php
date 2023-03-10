@@ -26,7 +26,7 @@ Route::post('/postLogin',[AuthController::class, 'loginUser'])->name('users.chec
 
 // Admin section
 Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(function () {
-    Route::get('/',[\App\Http\Controllers\Admin\DasboardController::class, 'index'])->name('admin.dasboard');
+    Route::get('/',[\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Manage users
     Route::prefix('users')->group(function(){
@@ -49,6 +49,7 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
     Route::prefix('students')->group(function(){
         Route::post('/import',[StudentController::class,'import'])->name('students.import');
         Route::get('/export',[StudentController::class,'export'])->name('students.export');
+        Route::get('/viewImport', [StudentController::class, 'viewImport'])->name('students.viewImport');
     });
     Route::resource('students', StudentController::class);
 
@@ -65,13 +66,13 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
 });
 
 // Teacher section
-Route::get('/login-teacher',[AuthController::class, 'checkLoginTeacher'])->name('teachers.login');
-Route::post('/postLoginTeacher',[AuthController::class, 'loginTeacher'])->name('teachers.checkLogin');
+Route::get('/login-teacher',[\App\Http\Controllers\Teacher\ProfileController::class, 'login'])->name('teachers.login');
+Route::post('/post-login-teacher',[\App\Http\Controllers\Teacher\ProfileController::class, 'postLogin'])->name('teachers.checkLogin');
 Route::prefix('teachers')->middleware('auth.teacher')->group(function () {
-    Route::get('/',[\App\Http\Controllers\Teacher\DasboardController::class, 'index'])->name('teachers.dasboard');
-    Route::get('/profile',[\App\Http\Controllers\Teacher\ProfileController::class, 'index'])->name('teachers.profile.index');
-    Route::get('/postProfile',[\App\Http\Controllers\Teacher\ProfileController::class, 'postProfile'])->name('teachers.profile.postProfile');
-    Route::get('/logout',[\App\Http\Controllers\Teacher\ProfileController::class, 'logout'])->name('teachers.profile.logout');
+    Route::get('/',[\App\Http\Controllers\Teacher\DashboardController::class, 'index'])->name('teachers.dashboard');
+    Route::get('/profile',[\App\Http\Controllers\Teacher\ProfileController::class, 'index'])->name('teachers.profile');
+    Route::put('/postProfile',[\App\Http\Controllers\Teacher\ProfileController::class, 'postProfile'])->name('teachers.postProfile');
+    Route::get('/logout',[\App\Http\Controllers\Teacher\ProfileController::class, 'logout'])->name('teachers.logout');
     
     Route::get('/events/calendar',[\App\Http\Controllers\Teacher\EventController::class, 'calendar'])->name('teachers.events.calendar');
     Route::delete('/events/calendar/{id}',[\App\Http\Controllers\Teacher\EventController::class, 'calendar_detail'])->name('teachers.events.calendar_detail');
@@ -87,13 +88,13 @@ Route::prefix('teachers')->middleware('auth.teacher')->group(function () {
 });
 
 // Student section
-Route::get('/login-student',[AuthController::class, 'checkLoginStudent'])->name('students.login');
-Route::post('/postLoginStudent',[AuthController::class, 'loginStudent'])->name('students.checkLogin');
+Route::get('/login-student',[\App\Http\Controllers\Student\ProfileController::class, 'login'])->name('students.login');
+Route::post('/postLoginStudent',[\App\Http\Controllers\Student\ProfileController::class, 'postLogin'])->name('students.checkLogin');
 Route::prefix('students')->middleware(['auth.student','preventBackHistory'])->group(function () {
-    Route::get('/',[\App\Http\Controllers\Student\DasboardController::class, 'index'])->name('students.dasboard');
-    Route::get('/profile',[\App\Http\Controllers\Student\ProfileController::class, 'index'])->name('students.profile.index');
-    Route::get('/postProfile',[\App\Http\Controllers\Student\ProfileController::class, 'postProfile'])->name('students.profile.postProfile');
-    Route::get('/logout',[\App\Http\Controllers\Student\ProfileController::class, 'logout'])->name('students.profile.logout');
+    Route::get('/',[\App\Http\Controllers\Student\DashboardController::class, 'index'])->name('students.dashboard');
+    Route::get('/profile',[\App\Http\Controllers\Student\ProfileController::class, 'index'])->name('students.profile');
+    Route::put('/postProfile',[\App\Http\Controllers\Student\ProfileController::class, 'postProfile'])->name('students.postProfile');
+    Route::get('/logout',[\App\Http\Controllers\Student\ProfileController::class, 'logout'])->name('students.logout');
     
     Route::get('/events/calendar',[\App\Http\Controllers\Student\EventController::class, 'calendar'])->name('students.events.calendar');
     Route::delete('/events/calendar/{id}',[\App\Http\Controllers\Student\EventController::class, 'calendar_detail'])->name('students.events.calendar_detail');
@@ -105,5 +106,4 @@ Route::prefix('students')->middleware(['auth.student','preventBackHistory'])->gr
     Route::get('/histories',[\App\Http\Controllers\Student\HistoryController::class, 'index'])->name('students.histories.index');
     Route::get('/histories/{id}',[\App\Http\Controllers\Student\HistoryController::class, 'show'])->name('students.histories.show');
     
-    Route::get('/logout', [AuthController::class, 'logoutStudent'])->name('students.logout');
 });

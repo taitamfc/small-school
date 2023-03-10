@@ -10,10 +10,6 @@ class Role extends Model
     use HasFactory;
     protected $table = 'roles';
     protected $fillable = ['name', 'group_name'];
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_roles');
-    }
     function childrentroles(){
         return $this->hasMany(Role::class, 'group_key', 'id');
     }

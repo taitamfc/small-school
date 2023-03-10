@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\ImportUserRequest;
 use App\Models\Group;
 use App\Models\User;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +18,7 @@ class UserController extends Controller
 {   
 
     public function index(Request $request)
-    {    
+    {   $this->authorize('viewAny', User::class);
         $group_id         = $request->group_id ?? '';
         $search           = $request->key ?? '';
         $full_name        = $request->full_name ?? '';
@@ -61,14 +60,16 @@ class UserController extends Controller
 
   
     public function create()
-    {   $groups = Group::all();
+    {   
+        $this->authorize('create', User::class);
+        $groups = Group::all();
         return view('admin.users.create',compact('groups'));
     }
 
  
     public function store(StoreUserRequest $request)
     {
-     
+        $this->authorize('create', User::class);
         try {
         $user = new User();
         $user->user_name = $request->user_name;
@@ -105,7 +106,9 @@ class UserController extends Controller
 
   
     public function edit($id)
-    {   $groups = Group::all();
+    {   
+        $this->authorize('update', User::class);
+        $groups = Group::all();
         $user = User::find($id);
         $params = [
             'groups' => $groups,
@@ -116,12 +119,14 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, $id)
     {
+        $this->authorize('update', User::class);
         try {
             $user = User::find($id);
             $user->user_name = $request->user_name;
             $user->full_name = $request->full_name;
             $user->email = $request->email;
             $user->group_id = $request->group_id;
+            $images = str_replace('storage', 'public', $user->avatar);
             if(isset($request->password) && !empty($request->password)){$user->password = bcrypt($request->password);}
             $fieldName = 'inputFile';
             if ($request->hasFile($fieldName)) {
@@ -134,6 +139,9 @@ class UserController extends Controller
                 $user->avatar = $path;
             }
                 $user->save();
+                if (isset($path) && isset($images)) {
+                    Storage::delete($images);
+                }
                 return redirect()->route('users.index')->with('success', 'Cập nhật tài khoản thành công.');
             } catch (\Exception $e) {
                 if(isset($path)){
@@ -147,7 +155,8 @@ class UserController extends Controller
 
    
     public function destroy( $id)
-    {
+    {   
+        $this->authorize('delete', User::class);
         try {
             $user = User::find($id);
             $image = $user->avatar;
@@ -165,6 +174,7 @@ class UserController extends Controller
 
     public function export() 
     {   
+        $this->authorize('export', User::class);
         try {
             return Excel::download(new UsersExport, 'users.xlsx');
             return back()->with('success', 'Export thành công!.');
@@ -177,6 +187,7 @@ class UserController extends Controller
 
     public function import(ImportUserRequest $request) 
     {   
+        $this->authorize('import', User::class);
         try {
             Excel::import(new UsersImport, $request->file('importUser'));
             return redirect()->route('users.index')->with('success', 'Import thành công!.');
@@ -188,6 +199,7 @@ class UserController extends Controller
     }
 
     public function viewImport(){
+        $this->authorize('import', User::class);
         return view('admin.users.import');
     }
 

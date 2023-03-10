@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreStudentRequest extends FormRequest
+class UpdateProfileStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,8 @@ class StoreStudentRequest extends FormRequest
         $rules =[
             'name' => 'required',
             'phone' => 'required',
-            'room_name' => 'required',
-            'email' => 'required|email|unique:students',
-            'password' => 'required',
-            'image' => 'required',
+            'email' => 'required|email',
             'birthday' => 'required',
-            'status' => 'required',
         ];
         return $rules;
     }
@@ -37,14 +33,9 @@ class StoreStudentRequest extends FormRequest
         $messages =[
             'name.required' => 'Hãy Nhập Họ Và Tên',
             'phone.required' => 'Hãy Nhập Số Điện Thoại',
-            'room_name.required' => 'Hãy Nhập Tên Phòng',
             'email.required' => 'Hãy Nhập Email',
             'email.email' => 'Email Chưa Đúng Định Dạng',
-            'email.unique' => 'Email đã tồn tại',
-            'password.required' => 'Hãy Nhập Mật Khẩu',
-            'image.required' => 'Chưa Tải Ảnh Lên',
             'birthday.required' => 'Hãy Nhập Ngày Sinh',
-            'status.required' => 'Hãy Nhập Trạng Thái',
         ];
         return $messages;
     }

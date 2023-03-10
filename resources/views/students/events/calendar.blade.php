@@ -1,10 +1,10 @@
-@extends('teachers.layouts.master')
+@extends('students.layouts.master')
 @section('content')
     <div class="content-wrapper">
         <div class="container"><br>
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12">
-                    <a class="btn btn-warning" href="{{ route("teachers.events.index") }}">
+                    <a class="btn btn-warning" href="{{ route("students.events.index") }}">
                         Danh sách sự kiện
                     </a>
                 </div>
@@ -71,7 +71,7 @@ $(document).ready(function() {
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         themeSystem: 'bootstrap',
-        events: "{{ route('teachers.events.calendar') }}",
+        events: "{{ route('students.events.calendar') }}",
         eventClick: function(info) {
             $('#md-cl-id').val(info.event.id);
             $('#md-cl-title').text(info.event.title);

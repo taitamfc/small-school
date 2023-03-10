@@ -18,12 +18,12 @@ class DasboardController extends Controller
         }
     }
     public function user_dasboard(){
-        return view('admin.dasboard');
+        return view('admin.dashboard');
     }
     public function teacher_dasboard(){
-        return view('teachers.dasboard');
+        return view('teachers.dashboard');
     }
     public function student_index(){
-        return view('students.dasboard');
+        return view('students.dashboard');
     }
 }

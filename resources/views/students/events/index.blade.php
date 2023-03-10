@@ -2,19 +2,12 @@
 @section('content')
     <div class="content-wrapper">
         <div class="container"><br>
-            <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12">
-                    <a class="btn btn-warning" href="{{ route("teachers.events.index") }}">
-                        Danh sách sự kiện
-                    </a>
-                </div>
-            </div>
             <div class="card">
                 <div class="card-header">
 
                 </div>
                 <div class="card-body">
-                    <div id='calendar'></div>
+                    
                 </div>
             </div>
         </div>
@@ -60,7 +53,6 @@
     */
 $(document).ready(function() {
     $('#md-cl-url-delete').remove();
-    $('#md-cl-url-edit').remove();
 
     var calendarEl = document.getElementById('calendar');
     var Calendar = FullCalendar.Calendar;

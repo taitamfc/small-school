@@ -81,7 +81,6 @@
 <script src="{{asset('asset/plugins/js/adminlte.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<!-- <script src="{{asset('asset/plugins/js/pages/dashboard.js')}}"></script> -->
 
 @yield('footer_scripts')
 <script>

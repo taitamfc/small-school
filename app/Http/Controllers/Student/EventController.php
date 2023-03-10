@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Event;
 
 
-class ProfileController extends Controller
+class EventController extends Controller
 {
     public function index(Request $request)
+    {
+        return view('students.events.index');
+    }
+    public function calendar(Request $request)
     {
         $start = $request->start ?? '';
         $end = $request->end ?? '';
@@ -44,6 +49,6 @@ class ProfileController extends Controller
 
             return response()->json($events);
         }
-        return view('admin.calendars.index');
+        return view('students.events.calendar');
     }
 }

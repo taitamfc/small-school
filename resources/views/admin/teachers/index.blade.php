@@ -1,3 +1,4 @@
+@if(Auth::user()->hasPermission('Teacher_viewAny'))
 @extends('admin.layouts.master')
 @section('header_scripts')
 <link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
@@ -19,11 +20,15 @@
         <div class="row mb-2">
         <div class="col-sm-12">
           <h1>Quản lý giáo viên</h1><br>
-          
+          @if(Auth::user()->hasPermission('Teacher_create'))
           <a class="btn btn-warning" href="{{ route('teachers.create') }}">Thêm giáo viên</a>
+          @endif
+          @if(Auth::user()->hasPermission('Teacher_export'))
           <a class="btn btn-info" href="{{ route('teachers.export') }}">Xuất Excel</a>
+          @endif
+          @if(Auth::user()->hasPermission('Teacher_import'))
           <a class="btn btn-primary" href="{{ route('teachers.viewImport') }}">Nhập Excel</a>
-
+          @endif
           <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Tìm kiếm chi tiết
           </button>
@@ -110,6 +115,7 @@
                       <th>Email</th>
                       <th>Cấp độ</th>
                       <th>Trạng thái</th>
+                      <th>Ảnh</th>
                       <th>Hành động</th>
                     </tr>
                   </thead>
@@ -121,12 +127,17 @@
                       <td>{{ $teacher->email }}</td>
                       <td>{{ $teacher->level }}</td>
                       <td>{{ $teacher->status }}</td>
+                      <td width="10%"><img width="100%" style="border-radius: 50%" height="90px" src="{{ $teacher->image != '' ? asset($teacher->image) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt=""></td>
                       <td>
                         <form action="{{ route('teachers.destroy',$teacher->id) }}" method="post">
                           @csrf
                           @method('DELETE')
+                          @if(Auth::user()->hasPermission('Teacher_update'))
                           <a class="btn btn-info" href="{{ route('teachers.edit',$teacher->id) }}">Sửa</a>
+                          @endif
+                          @if(Auth::user()->hasPermission('Teacher_delete'))
                           <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                          @endif
                         </form>
                       </td>
                     </tr>
@@ -150,3 +161,4 @@
   });
 </script>
 @endsection
+@endif

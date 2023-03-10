@@ -1,4 +1,4 @@
-
+@if(Auth::user()->hasPermission('User_update'))
 @extends('admin.layouts.master')
 @section('content')
   <div class="content-wrapper">
@@ -111,7 +111,7 @@
 
                             <div class="form-group col-md-6">
 
-                                <img type="hidden" width="300px" height="280px" id="blah1" src="{{ asset($user->avatar) ?? $request->inputFile }}" alt="" />
+                                <img type="hidden" width="300px" height="300px" id="blah1" src="{{ $user->avatar != null ? asset($user->avatar) : 'https://vivureviews.com/wp-content/uploads/2022/08/avatar-vo-danh-10.png' }}" alt="" onerror="this.src='https://vivureviews.com/wp-content/uploads/2022/08/avatar-vo-danh-10.png'"/>
 
                             </div>
 
@@ -131,3 +131,4 @@
     </div>
   </div>
 @endsection
+@endif
