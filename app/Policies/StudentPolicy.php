@@ -67,4 +67,14 @@ class StudentPolicy
         return $user->hasPermission('Student_delete');
     }
 
+    public function export(User $user)
+    {
+        return $user->hasPermission('Student_export');
+    }
+
+    public function import(User $user)
+    {
+        return $user->hasPermission('Student_import');
+    }
+
 }

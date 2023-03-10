@@ -27,12 +27,14 @@ class StudentController extends Controller
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Student::class);
         $search           = $request->key ?? '';
         $name             = $request->name ?? '';
         $orderby          = $request->orderby ?? '';
         $email            = $request->email ?? '';
         $phone            = $request->phone ?? '';
         $room_name        = $request->room_name ?? '';
+        $birthday        = $request->birthday ?? '';
 
         $query = Student::query(true);
 
@@ -40,16 +42,19 @@ class StudentController extends Controller
             $query->orderBy('id', $orderby);
         }
         if (!empty($name)) {
-            $query->orWhere('name', 'like', '%' . $name . '%');
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+        if (!empty($birthday)) {
+            $query->where('birthday', 'like', '%' . $birthday . '%');
         }
         if (!empty($email)) {
-            $query->orWhere('email', 'like', '%' . $email . '%');
+            $query->where('email', 'like', '%' . $email . '%');
         }
         if (!empty($phone)) {
-            $query->orWhere('phone', 'like', '%' . $phone . '%');
+            $query->where('phone', 'like', '%' . $phone . '%');
         }
         if (!empty($room_name)) {
-            $query->orWhere('room_name', 'like', '%' . $room_name . '%');
+            $query->where('room_name', 'like', '%' . $room_name . '%');
         }
         if (!empty($search)) {
             $query->where(function($query) use ($search) {
@@ -69,13 +74,16 @@ class StudentController extends Controller
 
 
     public function create()
-    {   $students = Student::all();
+    {   
+        $this->authorize('create', Student::class);
+        $students = Student::all();
         return view('admin.students.create',compact('students'));
     }
 
 
     public function store(StoreStudentRequest $request)
     {
+            $this->authorize('create', Student::class);
             $image = $request->file('image');
             $dataRequest = [
                 'name' => $request->get('name'),
@@ -111,6 +119,7 @@ class StudentController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('update', Student::class);
         $student = Student::find($id);
         $params = [
             'student' => $student
@@ -120,6 +129,7 @@ class StudentController extends Controller
 
     public function update(UpdateStudentRequest $request, $id)
     {
+        $this->authorize('update', Student::class);
         $image = $request->file('image');
         $dataRequest = [
             'name' => $request->get('name'),
@@ -156,6 +166,7 @@ class StudentController extends Controller
 
         public function destroy( $id)
     {
+        $this->authorize('delete', Student::class);
         try {
             $student = Student::find($id);
             $image = $student->image;
@@ -173,7 +184,8 @@ class StudentController extends Controller
     }
 
     public function export()
-    {
+    {   
+        $this->authorize('export', Student::class);
         try {
             return Excel::download(new StudentExport, 'student.xlsx');
             Session::flash('success','Xuất tài liệu thành công');
@@ -186,7 +198,7 @@ class StudentController extends Controller
 
     public function import(Request $request)
     {
-
+        $this->authorize('import', Student::class);
         $validator = Validator::make($request->all(), [
             'import_student'   => 'required',
         ],[
@@ -250,5 +262,9 @@ class StudentController extends Controller
                 Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
                 return back()->with('error', 'Cập nhật không thành công.');
             }
+    }
+    public function viewImport(){
+        $this->authorize('import', Student::class);
+        return view('admin.students.import');
     }
 }

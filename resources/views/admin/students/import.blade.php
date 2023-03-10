@@ -1,4 +1,4 @@
-@if(Auth::user()->hasPermission('User_import'))
+@if(Auth::user()->hasPermission('Student_import'))
 @extends('admin.layouts.master')
 @section('content')
   <div class="content-wrapper">
@@ -7,12 +7,12 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Quản lý tài khoản</h1><br>
+                <h1>Quản lý học sinh</h1><br>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="{{ route('users.login') }}">Trang chủ</a></li>
-                  <li class="breadcrumb-item active">Quản lý tài khoản</li>
+                  <li class="breadcrumb-item active">Quản lý học sinh</li>
                 </ol>
               </div>
             </div>
@@ -36,9 +36,9 @@
                 @endif
                   <div class="card-header">
               
-                    <h3 class="card-title">Nhập nhân viên</h3><br>
+                    <h3 class="card-title">Nhập học sinh</h3><br>
                   </div>
-                  <form action="{{ route('users.import') }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('student.import') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
 

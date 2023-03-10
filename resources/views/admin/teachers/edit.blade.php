@@ -1,3 +1,4 @@
+@if(Auth::user()->hasPermission('Teacher_update'))
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper">
@@ -112,3 +113,4 @@
     </div>
 </div>
 @endsection
+@endif

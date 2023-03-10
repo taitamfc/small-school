@@ -1,4 +1,5 @@
 
+@if(Auth::user()->hasPermission('Student_create'))
 @extends('admin.layouts.master')
 @section('content')
   <div class="content-wrapper">
@@ -47,7 +48,7 @@
 
                             <div class="form-group col-md-4">
                               <label>Họ và tên</label>
-                              <input type="text" class="form-control" name="name"  placeholder="Nhập họ và tên">
+                              <input type="text" class="form-control" name="name" value="{{ old('name') ? old('name') : request()->name }}" placeholder="Nhập họ và tên">
                               @error('name')
                               <div ><code>{{ $message }}</code></div>
                             @enderror
@@ -55,7 +56,7 @@
 
                             <div class="form-group col-md-4">
                               <label>Số điện thoại</label>
-                              <input type="text" class="form-control" name="phone"  placeholder="Nhập số điện thoại">
+                              <input type="text" class="form-control" name="phone" value="{{ old('phone') ? old('phone') : request()->phone }}"  placeholder="Nhập số điện thoại">
                               @error('phone')
                               <div ><code>{{ $message }}</code></div>
                           @enderror
@@ -63,7 +64,7 @@
 
                             <div class="form-group col-md-4">
                                 <label>Tên phòng</label>
-                                <input type="text" class="form-control" name="room_name"  placeholder="Nhập tên phòng">
+                                <input type="text" class="form-control" name="room_name" value="{{ old('room_name') ? old('room_name') : request()->room_name }}" placeholder="Nhập tên phòng">
                                 @error('room_name')
                                 <div ><code>{{ $message }}</code></div>
                                 @enderror
@@ -71,21 +72,21 @@
                         </div>
                             <div class="form-group col-md-4">
                                 <label>E-mail</label>
-                                <input type="text" class="form-control" name="email"  placeholder="Nhập E-mail">
+                                <input type="text" class="form-control" name="email" value="{{ old('email') ? old('email') : request()->email }}" placeholder="Nhập E-mail">
                                 @error('email')
                                 <div ><code>{{ $message }}</code></div>
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Mật khẩu</label>
-                                <input type="password" class="form-control" name="password"  placeholder="Nhập mật khẩu">
+                                <input type="password" class="form-control" name="password" value="{{ old('password') ? old('password') : request()->password }}"  placeholder="Nhập mật khẩu">
                                 @error('password')
                                 <div ><code>{{ $message }}</code></div>
                                 @enderror
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Ngày sinh</label>
-                                <input type="date" class="form-control" name="birthday"  placeholder="Nhập ngày sinh nhật">
+                                <input type="date" class="form-control" name="birthday" value="{{ old('birthday') ? old('birthday') : request()->birthday }}" placeholder="Nhập ngày sinh nhật">
                                 @error('birthday')
                                 <div ><code>{{ $message }}</code></div>
                                 @enderror
@@ -106,7 +107,7 @@
 
                             <div class="form-group col-md-6">
                                 <label>Trạng thái</label>
-                                <input type="text" class="form-control" name="status"  placeholder="Nhập trạng thái">
+                                <input type="text" class="form-control" name="status" value="{{ old('status') ? old('status') : request()->status }}"  placeholder="Nhập trạng thái">
                                 @error('status')
                                 <div ><code>{{ $message }}</code></div>
                                 @enderror
@@ -134,3 +135,4 @@
     </div>
   </div>
 @endsection
+@endif

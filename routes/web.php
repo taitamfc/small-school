@@ -45,6 +45,8 @@ Route::prefix('/')->middleware(['auth', 'preventBackHistory'])->group(function (
         Route::get('/edit/{id}',[StudentController::class,'edit'])->name('student.edit');
         Route::put('/update/{id}',[StudentController::class,'update'])->name('student.update');
         Route::delete('/destroy/{id}',[StudentController::class,'destroy'])->name('student.destroy');
+        Route::get('/viewImport', [StudentController::class, 'viewImport'])->name('student.viewImport');
+
     });
     Route::prefix('teachers')->group(function(){
         Route::get('/export', [TeacherController::class, 'export'])->name('teachers.export');
