@@ -1,33 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Student;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use App\Models\Event;
-use App\Http\Resources\EventCalendarResource;
-class CalendarController extends Controller
-{
-    public $sources = [
-        [
-            'model'      =>  Event::class,
-            'date_field' => 'start_time',
-            'end_field'  => 'end_time',
-            'field'      => 'name',
-            'route'      => 'events.edit',
-        ],
-    ];
+use Illuminate\Support\Facades\Auth;
 
+
+class ProfileController extends Controller
+{
     public function index(Request $request)
     {
         $start = $request->start ?? '';
         $end = $request->end ?? '';
-        if($start && $end){
+        $student_id = Auth::guard('students')->user()->id;
+        if($start && $end && $student_id){
             $start = date('Y-m-d 00:00:00',strtotime($start));
             $end = date('Y-m-d 23:59:59',strtotime($end));
             $events = [];
             $items = Event::where('start_time', '>=', $start)
             ->where('start_time', '<=', $end)
+            ->where('student_id',$student_id)
             ->get();
             
             foreach( $items as $the_event ){
@@ -52,24 +45,5 @@ class CalendarController extends Controller
             return response()->json($events);
         }
         return view('admin.calendars.index');
-    }
-
-    public function editCalendarEvent($event_id){
-
-    }
-    public function deleteCalendarEvent($event_id){
-        try {
-            $item = Event::where('id', '=',$event_id);
-            $item->delete();
-            return response()->json([
-                'success' => true,
-                'msg' => 'Xóa sự kiện thành công'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'msg' => $e->getMessage()
-            ]);
-        }
     }
 }

@@ -19,7 +19,7 @@
               <div class="col-sm-6">
                 <h1>Quản lý học sinh</h1><br>
 
-                <a class="btn btn-warning" href="{{ route('student.create') }}">Thêm học sinh </a>
+                <a class="btn btn-warning" href="{{ route('students.create') }}">Thêm học sinh </a>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -47,8 +47,8 @@
                         </div>
                     @endif
 
-                      <form action="{{ route('student.import') }}" method="post" enctype="multipart/form-data">
-                        <a class="btn btn-info" href="{{ route('student.export') }}">Xuất Excel</a>
+                      <form action="{{ route('students.import') }}" method="post" enctype="multipart/form-data">
+                        <a class="btn btn-info" href="{{ route('students.export') }}">Xuất Excel</a>
                           @csrf
                         <input type="file" name="import_student">
                       <button class="btn btn-success" type="submit">Nhập Excel</button>
@@ -64,7 +64,7 @@
              <div class="col-12">
                   <section class="content">
                     <div class="container-fluid">
-                        <form action="{{ route('student.index') }}" method="GET" id="form-search">
+                        <form action="{{ route('students.index') }}" method="GET" id="form-search">
                           @csrf
                             <div class="row">
                                 <div class="col-md-10 offset-md-1">
@@ -147,11 +147,11 @@
                             <td width="10%"><img width="100%" style="border-radius: 50%" height="30%" src="{{ $student->image }}" alt=""></td>
 
                             <td width="20%">
-                                <form action="{{route('student.destroy',$student->id)}}" method="post">
+                                <form action="{{route('students.destroy',$student->id)}}" method="post">
                                     @method('DELETE')
                                 @csrf
 
-                                <a class="btn btn-warning" href="{{route('student.edit', $student->id)}}">Sửa</a>
+                                <a class="btn btn-warning" href="{{route('students.edit', $student->id)}}">Sửa</a>
                                 <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                             </form></td>
                         </tr>

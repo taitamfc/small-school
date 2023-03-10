@@ -106,12 +106,12 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('student.index') }}" class="nav-link">
+                <a href="{{ route('students.index') }}" class="nav-link">
                   <p>Danh sách học sinh</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('student.create') }}" class="nav-link">
+                <a href="{{ route('students.create') }}" class="nav-link">
                   <p>Thêm học sinh</p>
                 </a>
               </li>

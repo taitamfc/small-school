@@ -40,7 +40,7 @@
 
                     <h3 class="card-title">Thêm học sinh</h3><br>
                   </div>
-                  <form action="{{ route('student.store') }}" method="POST" enctype="multipart/form-data">
+                  <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
@@ -123,7 +123,7 @@
 
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Thêm</button>
-                      <a class="btn btn-danger" href="{{ route('student.index') }}">Trở về</a>
+                      <a class="btn btn-danger" href="{{ route('students.index') }}">Trở về</a>
                     </div>
                   </form>
                 </div>
