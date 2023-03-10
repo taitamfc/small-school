@@ -101,7 +101,7 @@ $(document).ready(function() {
                 success: function(res){
                     if(res.success){
                         alert(res.msg);
-                        calendar.render();
+                        window.location.reload();
                     }else{
                         alert(res.msg);
                     }
