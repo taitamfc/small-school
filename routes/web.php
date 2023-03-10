@@ -72,12 +72,17 @@ Route::prefix('teachers')->middleware('auth.teacher')->group(function () {
     Route::get('/profile',[\App\Http\Controllers\Teacher\ProfileController::class, 'index'])->name('teachers.profile.index');
     Route::get('/postProfile',[\App\Http\Controllers\Teacher\ProfileController::class, 'postProfile'])->name('teachers.profile.postProfile');
     Route::get('/logout',[\App\Http\Controllers\Teacher\ProfileController::class, 'logout'])->name('teachers.profile.logout');
-    Route::get('/calendar',[\App\Http\Controllers\Teacher\CalendarController::class, 'calendar'])->name('teachers.calendar.index');
-    Route::delete('/calendar/{id}',[\App\Http\Controllers\Teacher\CalendarController::class, 'destroy'])->name('teachers.calendar.destroy');
+    
+    Route::get('/events/calendar',[\App\Http\Controllers\Teacher\EventController::class, 'calendar'])->name('teachers.events.calendar');
+    Route::delete('/events/calendar/{id}',[\App\Http\Controllers\Teacher\EventController::class, 'calendar_detail'])->name('teachers.events.calendar_detail');
+    Route::get('/events',[\App\Http\Controllers\Teacher\EventController::class, 'index'])->name('teachers.events.index');
+    
     Route::get('/students',[\App\Http\Controllers\Teacher\StudentController::class, 'index'])->name('teachers.students.index');
     Route::get('/students/{id}',[\App\Http\Controllers\Teacher\StudentController::class, 'show'])->name('teachers.students.show');
+    
     Route::get('/histories',[\App\Http\Controllers\Teacher\HistoryController::class, 'index'])->name('teachers.histories.index');
     Route::get('/histories/{id}',[\App\Http\Controllers\Teacher\HistoryController::class, 'show'])->name('teachers.histories.show');
+    
     Route::resource('tasks', \App\Http\Controllers\Teacher\TaskController::class);
 });
 
@@ -89,11 +94,16 @@ Route::prefix('students')->middleware(['auth.student','preventBackHistory'])->gr
     Route::get('/profile',[\App\Http\Controllers\Student\ProfileController::class, 'index'])->name('students.profile.index');
     Route::get('/postProfile',[\App\Http\Controllers\Student\ProfileController::class, 'postProfile'])->name('students.profile.postProfile');
     Route::get('/logout',[\App\Http\Controllers\Student\ProfileController::class, 'logout'])->name('students.profile.logout');
-    Route::get('/calendar',[\App\Http\Controllers\Student\CalendarController::class, 'calendar'])->name('students.calendar.index');
-    Route::delete('/calendar/{id}',[\App\Http\Controllers\Student\CalendarController::class, 'destroy'])->name('students.calendar.destroy');
+    
+    Route::get('/events/calendar',[\App\Http\Controllers\Student\EventController::class, 'calendar'])->name('students.events.calendar');
+    Route::delete('/events/calendar/{id}',[\App\Http\Controllers\Student\EventController::class, 'calendar_detail'])->name('students.events.calendar_detail');
+    Route::get('/events',[\App\Http\Controllers\Student\EventController::class, 'index'])->name('students.events.index');
+
     Route::get('/teachers',[\App\Http\Controllers\Student\TeacherController::class, 'index'])->name('students.teachers.index');
     Route::get('/teachers/{id}',[\App\Http\Controllers\Student\TeacherController::class, 'show'])->name('students.teachers.show');
+    
     Route::get('/histories',[\App\Http\Controllers\Student\HistoryController::class, 'index'])->name('students.histories.index');
     Route::get('/histories/{id}',[\App\Http\Controllers\Student\HistoryController::class, 'show'])->name('students.histories.show');
+    
     Route::get('/logout', [AuthController::class, 'logoutStudent'])->name('students.logout');
 });

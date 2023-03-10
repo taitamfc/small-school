@@ -59,7 +59,7 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
         if (Auth::guard('teachers')->attempt($arr)) {
-            return redirect()->route('teacher.calendar');
+            return redirect()->route('teachers.calendar.index');
         } else if(Teacher::where('email', $arr['email'])->exists()) {
             $errorMessage = ['password' => 'Mật khẩu không đúng.'];
             return back()->withInput()->withErrors($errorMessage);
