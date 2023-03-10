@@ -23,7 +23,7 @@ class GroupController extends Controller
   
     public function create()
     {   
-        $this->authorize('Group_create', Group::class);
+        $this->authorize('create', Group::class);
         $parent_roles = Role::where('group_key', 0)->get();
         return view('admin.groups.create',compact('parent_roles'));
     }
@@ -31,7 +31,7 @@ class GroupController extends Controller
   
     public function store(StoreGroupRequest $request)
     {   
-        $this->authorize('Group_create', Group::class);
+        $this->authorize('create', Group::class);
         try {
             $role = Group::create([
                 'name' => $request->name,
@@ -55,7 +55,7 @@ class GroupController extends Controller
     public function edit(string $id)
     {
         try {
-            $this->authorize('Group_update', Group::class);
+            $this->authorize('update', Group::class);
             $group = Group::find($id);
             $roles_checked = $group->roles;
             $parent_roles = Role::where('group_key', 0)->get();
@@ -75,7 +75,7 @@ class GroupController extends Controller
    
     public function update(UpdateGroupRequest $request,$id)
     {
-        $this->authorize('Group_update', Group::class);
+        $this->authorize('update', Group::class);
         try {
             $group = Group::find($id);
             $group->update([
@@ -92,7 +92,7 @@ class GroupController extends Controller
 
     public function destroy(string $id)
     {   
-        $this->authorize('Group_delete', Group::class);
+        $this->authorize('delete', Group::class);
         try {
             $group = Group::find($id);
             DB::table('group_roles')->where('group_id', '=', $group->id)->delete();
