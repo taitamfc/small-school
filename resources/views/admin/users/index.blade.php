@@ -1,4 +1,5 @@
 
+@if(Auth::user()->hasPermission('User_viewAny'))
 @extends('admin.layouts.master')
 @section('header_scripts')
 <link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
@@ -20,11 +21,17 @@
             <div class="row mb-2">
             <div class="col-sm-12">
               <h1>Quản lý tài khoản</h1><br>
-              
+              @if(Auth::user()->hasPermission('User_create'))
               <a class="btn btn-warning" href="{{ route('users.create') }}">Thêm tài khoản</a>
-              <a class="btn btn-info" href="{{ route('users.export') }}">Xuất Excel</a>
-              <a class="btn btn-primary" href="{{ route('users.viewImport') }}">Nhập Excel</a>
+              @endif
 
+              @if(Auth::user()->hasPermission('User_export'))
+              <a class="btn btn-info" href="{{ route('users.export') }}">Xuất Excel</a>
+              @endif
+
+              @if(Auth::user()->hasPermission('User_import'))
+              <a class="btn btn-primary" href="{{ route('users.viewImport') }}">Nhập Excel</a>
+              @endif
               <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Tìm kiếm chi tiết
               </button>
@@ -130,7 +137,9 @@
                           <th>Tên đăng nhập</th>
                           <th>Email</th>
                           <th>Ảnh</th>
+                        @if(Auth::user()->hasPermission('User_update') || Auth::user()->hasPermission('User_delete'))
                           <th>Hành động</th>
+                        @endif
                         </tr>
                       </thead>
                       <tbody>
@@ -145,8 +154,12 @@
                                 <form action="{{ route('users.destroy',$user->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-                                <a class="btn btn-warning" href="{{ route('users.edit',$user->id) }}">Sửa</a>
-                                <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                                  @if(Auth::user()->hasPermission('User_update'))
+                                    <a class="btn btn-warning" href="{{ route('users.edit',$user->id) }}">Sửa</a>
+                                  @endif
+                                  @if(Auth::user()->hasPermission('User_delete'))
+                                    <button class="btn btn-danger" type="submit" onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                                  @endif
                             </form></td>
                         </tr>
                         @endforeach
@@ -169,5 +182,5 @@
   });
 </script>
 @endsection
-
+@endif
 

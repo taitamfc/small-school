@@ -1,8 +1,8 @@
+@if(Auth::user()->hasPermission('Teacher_create'))
 @extends('admin.layouts.master')
 @section('content')
 <div class="content-wrapper">
     <div class="container">
-
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -114,3 +114,4 @@
     </div>
 </div>
 @endsection
+@endif

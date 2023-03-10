@@ -66,4 +66,13 @@ class TeacherPolicy
     {
         return $user->hasPermission('Teacher_delete');
     }
+    public function export(User $user)
+    {
+        return $user->hasPermission('Teacher_export');
+    }
+
+    public function import(User $user)
+    {
+        return $user->hasPermission('Teacher_import');
+    }
 }

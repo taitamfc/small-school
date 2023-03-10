@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TeacherExport;
 use App\Imports\TeacherImport;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TeacherController extends Controller
 {
@@ -21,6 +22,7 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Teacher::class);
         $name         = $request->name ?? '';
         $search       = $request->key ?? '';
         $email        = $request->email ?? '';
@@ -60,6 +62,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Teacher::class);
         $teachers = Teacher::get();
         $param = [
             'teachers' => $teachers,
@@ -72,7 +75,7 @@ class TeacherController extends Controller
      */
     public function store(StoreTeacherRequest $request)
     {
-       
+        $this->authorize('create', Teacher::class);
        try {
         $teacher = new Teacher();
         $teacher->name = $request->name;
@@ -115,6 +118,7 @@ class TeacherController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('update', Teacher::class);
         $teacher = Teacher::find($id);
         $param = [
             'teacher' => $teacher,
@@ -127,6 +131,7 @@ class TeacherController extends Controller
      */
     public function update(UpdateTeacherRequest $request, string $id)
     {
+        $this->authorize('update', Teacher::class);
         try {
         $teacher = Teacher::find($id);
         $teacher->name = $request->name;
@@ -162,6 +167,7 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete', Teacher::class);
         try {
             $teacher = Teacher::find($id);
             $teacher->delete();
@@ -174,7 +180,7 @@ class TeacherController extends Controller
 
         public function export() 
         {   
-            
+            $this->authorize('export', Teacher::class);
             try {
                 return Excel::download(new TeacherExport, 'teachers.xlsx');
                 return back()->with('success', 'Export thành công!.');
@@ -187,6 +193,7 @@ class TeacherController extends Controller
     
         public function import(ImportTeacherRequest $request) 
         {   
+            $this->authorize('import', Teacher::class);
             try {
                 Excel::import(new TeacherImport, $request->file('importTeacher'));
                 return back()->with('success', 'Import thành công!.');
@@ -198,6 +205,7 @@ class TeacherController extends Controller
         }
 
         public function viewImport(){
+            $this->authorize('import', Teacher::class);
             return view('admin.teachers.import');
         }
 

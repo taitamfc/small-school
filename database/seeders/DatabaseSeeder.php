@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
 
        
 
-        $groups = ['User', 'Student', 'Teacher','Event'];
-        $nameparent = ['Quản Trị Viên', 'Giáo Viên', 'Sinh Viên', 'Lịch Trình',];
+        $groups = ['User','Group' , 'Teacher', 'Student','Event'];
+        $nameparent = ['Quản Trị Viên','Chức vụ', 'Giáo Viên', 'Sinh Viên', 'Lịch Trình'];
         $this->importGroup();
         $this->importRole($groups,$nameparent);
         $this->importGroupRole();
@@ -87,6 +87,16 @@ class DatabaseSeeder extends Seeder
            Role::create([
                 'group_name' => 'Xóa '.$nameparent[$key],
                 'name' => $parentNameGroup.'_delete',
+                'group_key' => $parentGroup->id,
+            ]);
+            Role::create([
+                'group_name' => 'Nhập excel '.$nameparent[$key],
+                'name' => $parentNameGroup.'_import',
+                'group_key' => $parentGroup->id,
+            ]);
+            Role::create([
+                'group_name' => 'Xuất excel '.$nameparent[$key],
+                'name' => $parentNameGroup.'_export',
                 'group_key' => $parentGroup->id,
             ]);
         

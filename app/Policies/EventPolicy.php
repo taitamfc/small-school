@@ -66,6 +66,15 @@ class EventPolicy
     {
         return $user->hasPermission('Event_delete');
     }
+    public function export(User $user)
+    {
+        return $user->hasPermission('Event_export');
+    }
+
+    public function import(User $user)
+    {
+        return $user->hasPermission('Event_import');
+    }
 
 
 
