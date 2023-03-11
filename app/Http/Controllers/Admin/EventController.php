@@ -12,7 +12,6 @@ use App\Http\Requests\StoreEventRequest;
 
 class EventController extends Controller
 {
-    //
     public function store(StoreEventRequest $request)
     {   
         $this->authorize('create', Event::class);
@@ -21,7 +20,6 @@ class EventController extends Controller
             return redirect()->route('systemCalendar');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            // return back()->with('error', 'Export không thành công!.');
             return redirect()->route('systemCalendar');
         }
 
@@ -37,8 +35,6 @@ class EventController extends Controller
     }
     public function index()
     {
-       
-
         $this->authorize('viewAny', Event::class);
         $events = Event::withCount('events')
             ->get();
@@ -70,8 +66,6 @@ class EventController extends Controller
             'students' => $students,
             'event' => $event
         ];
-       
-
         return view('admin.events.edit', $params);
     }
 
@@ -85,23 +79,20 @@ class EventController extends Controller
     public function destroy(Event $event)
     { 
         try {
-        $this->authorize('delete', Event::class);
-        $item = Event::where('id', '=',$event->id);
-        $item->delete();
-    } catch (\Exception $e) {
-        $item = Event::where('event_id', '=',$event->id);
-        $item->delete();
-        $event->delete();
-    }
-        
-
+            $this->authorize('delete', Event::class);
+            $item = Event::where('id', '=',$event->id);
+            $item->delete();
+        } catch (\Exception $e) {
+            $item = Event::where('event_id', '=',$event->id);
+            $item->delete();
+            $event->delete();
+        }
         return back();
     }
 
     public function massDestroy(Request $request)
     {
         Event::whereIn('id', request('ids'))->delete();
-
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -15,45 +15,18 @@ class TeacherSeeder extends Seeder
    
         public function run(): void
         {
-            DB::table('teachers')->insert([
-           [ 
-            'name' => 'khang',
-            'email' => 'cukhang@gmail.com',
-            'password' =>bcrypt('admin'),
-            'level' => 1,
-            'status' => 10,
-            ],
-            [ 
-                'name' => 'toàn',
-                'email' => 'cutoan@gmail.com',
-                'password' =>bcrypt('admin'),
-                'level' => 2,
-                'status' => 8,
-                ],
-
-                [ 
-                    'name' => 'đỏ',
-                    'email' => 'cudo@gmail.com',
-                    'password' =>bcrypt('admin'),
-                    'level' => 3,
-                    'status' => 9,
-                    ],
-
-                    [ 
-                        'name' => 'cún',
-                        'email' => 'cucun@gmail.com',
-                        'password' =>bcrypt('admin'),
-                        'level' => 5,
-                        'status' => 15,
-                        ],
-                        [ 
-                            'name' => 'chó',
-                            'email' => 'cho@gmail.com',
-                            'password' =>bcrypt('admin'),
-                            'level' => 1,
-                            'status' => 10,
-                            ],
-        ]);  
+            $teachers = [
+                'tam','khang'
+            ];
+            foreach( $teachers as $teacher ){
+                DB::table('teachers')->insert([
+                    'name'      => $teacher,
+                    'email'     => $teacher.'@gmail.com',
+                    'password'  => bcrypt('admin'),
+                    'level'     => 1,
+                    'status'    => 'hoat_dong',
+                ]);
+            }
         }
     }
    
