@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             GroupRoleSeeder::class,
             RoomSeeder::class,
+            TeacherSeeder::class,
             StudentSeeder::class,
         ]);
     }
