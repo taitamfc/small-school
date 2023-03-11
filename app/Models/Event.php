@@ -58,6 +58,10 @@ class Event extends Model
         'student_id',
         'teacher_id',
         'updated_at',
+        'durration',
+        'end_loop',
+        'fee',
+        'recurrence_days',
     ];
 
 
