@@ -20,64 +20,86 @@
             @method('PUT')
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                 <label for="name">Tên sự kiện*</label>
-                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($event) ? $event->name : '') }}" required>
-         
+                <input type="text" id="name" name="name" class="form-control" value="{{ old('name', isset($event) ? $event->name : '') }}">
+                @error('name')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group {{ $errors->has('start_time') ? 'has-error' : '' }}">
-                <label for="start_time">Bắt đầu*</label>
-                <input type="text" id="start_time" name="start_time" class="form-control datetime" value="{{ old('start_time', isset($event) ? $event->start_time : '') }}" required>
-       
+                <label for="start_time">Thời gian bắt đầu*</label>
+                <input type="datetime-local" id="start_time" name="start_time" class="form-control datetime" value="{{ old('start_time', isset($event) ? $event->start_time : '') }}">
+                @error('start_time')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
-                <label for="end_time">Kết thúc*</label>
-                <input type="text" id="end_time" name="end_time" class="form-control datetime" value="{{ old('end_time', isset($event) ? $event->end_time : '') }}" required>
-      
+                <label for="end_time">Thời gian kết thúc*</label>
+                <input type="datetime-local" id="end_time" name="end_time" class="form-control datetime" value="{{ old('end_time', isset($event) ? $event->end_time : '') }}">
+                @error('end_time')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
             </div>
-            <div class="form-group {{ $errors->has('end_time') ? 'has-error' : '' }}">
-                <label for="end_time">Giáo viên* <br>  @error('teacher_id')<code>{{ $message }}</code>@enderror</label>
-               
-              
-                    <select class="select2 col-4" name="teacher_id">
-                          <option selected value="">--Chọn giáo viên--</option>
-                          @foreach ($teachers as $teacher)
-                          <option value="{{ $teacher->id }}" {{ ($teacher->id == $event->teacher_id || ($event->event && $event->event->teacher_id == $teacher->id)) ? 'selected' : '' }}>
-                              {{ $teacher->name }}
-                          </option>
-                      @endforeach
-                        
-                      </select>&emsp; Và &emsp;
-                      <label for="end_time">Học viên* <br>  @error('student_id') <code>{{ $message }}</code>@enderror</label>
-                     
-                      <select class="select2 col-4" name="student_id">
-                          <option selected value="">--Chọn học viên--</option>
-                          @foreach ($students as $student)
-                          <option value="{{ $student->id }}" {{ ($student->id == $event->student_id || ($event->event && $event->event->student_id == $student->id)) ? 'selected' : '' }}>
-                              {{ $student->name }}
-                          </option>
-                      @endforeach
-                     
-                      </select>
-    
-            </div>
-            @if(!$event->event && !$event->events_count)
-                <div class="form-group {{ $errors->has('recurrence') ? 'has-error' : '' }}">
-                    <label>Sự kiện lặp lại</label>
-                    <?php $arr = ['None' => 'Không lặp lại','Daily' => 'Hàng ngày','Weekly' => 'Hàng tuần','Monthly' => 'Hàng tháng'];?>
-                    @foreach(App\Models\Event::RECURRENCE_RADIO as $key => $label)
-                            &emsp;<input id="recurrence_{{ $key }}" name="recurrence" type="radio" value="{{ $key }}" {{ old('recurrence', $event->recurrence) === (string)$key ? 'checked' : '' }}>
-                            <span for="recurrence_{{ $key }}">{{ $arr[$label] ?? $label}}</span>
+            <div class="form-group {{ $errors->has('teacher_id') ? 'has-error' : '' }}">
+                <label for="teacher_id">Giáo viên*</label>
+                <select class="form-control select2" name="teacher_id">
+                    <option selected value="">--Chọn giáo viên--</option>
+                    @foreach ($teachers as $teacher)
+                    <option value="{{ $teacher->id }}" @selected($teacher->id == $event->teacher_id)>
+                        {{ $teacher->name }}
+                    </option>
                     @endforeach
-             
+                </select>
+                @error('teacher_id')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="recurrence">Tiền công/giờ</label>
+                <input type="number" min="1000" value="{{ old('fee', isset($event) ? $event->fee : 100000) }}" class="form-control" name="fee" id="fee" >
+                @error('fee')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
+            @if( $event->event_id == NULL )
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="recurrence" value="yes" id="recurrence" data-bootstrap-switch @checked( $event->recurrence == 'yes')>
+                    <label class="form-check-label" for="recurrence">Sự kiện lặp lại</label>
                 </div>
-            @else
-                <input type="hidden" name="recurrence" value="{{ $event->recurrence }}">
+            </div>
+            <div class="form-group" id="recurrence-wrapper" style="display:none111">
+                <label>Ngày lặp</label>
+                <?php
+                    $week_days = ['Monday','Tuesday','Wednesday','Thursday','Friday' ,'Saturday','Sunday'];
+                ?>
+                @foreach( $week_days as $week_day )
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="recurrence_days[]" value="{{ $week_day }}" id="{{ $week_day }}" data-bootstrap-switch @checked( in_array($week_day,$event->recurrence_days)  )>
+                    <label class="form-check-label" for="{{ $week_day }}">{{ $week_day }}</label>
+                </div>
+                @endforeach
+            </div>
+            <div class="form-group {{ $errors->has('end_loop') ? 'has-error' : '' }}">
+                <label for="end_loop">Thời gian lặp kết thúc*</label>
+                <input type="date" id="end_loop" name="end_loop" class="form-control datetime" value="{{ old('end_loop', isset($event) ? $event->end_loop : '') }}">
+                @error('end_loop')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
             @endif
-            <div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" name="update_feature" value="yes" id="update_feature" data-bootstrap-switch >
+                    <label class="form-check-label" for="update_feature">Cập nhật cho những sự kiện tiếp theo</label>
+                </div>
+            </div>
+            <div class="form-group">
                 <input class="btn btn-success" type="submit" value="Cập nhật">
-                <a class="btn btn-danger" href="{{ url()->previous() }}">
+                <a class="btn btn-danger" href="{{ route('events.index') }}">
                     Trở về
                  </a>
             </div>
+            
         </form>
 
 

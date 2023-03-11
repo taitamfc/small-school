@@ -22,11 +22,8 @@
             <table class=" table table-bordered table-striped table-hover datatable datatable-Event">
                 <thead>
                     <tr>
-                        <th width="10">
-
-                        </th>
                         <th>
-                            STT
+                            Mã sự kiện
                         </th>
                         <th>
                            Tên sự kiện
@@ -49,15 +46,11 @@
                     </tr>
                 </thead>
                 <tbody id="list-events">
-                    <?php $arr = ['None' => 'Không lặp lại','Daily' => 'Hàng ngày','Weekly' => 'Hàng tuần','Monthly' => 'Hàng tháng'];
-                    $recurrence = App\Models\Event::RECURRENCE_RADIO;?>
                     @foreach($events as $key => $event)
                         <tr data-entry-id="{{ $event->id }}">
+                            
                             <td>
-
-                            </td>
-                            <td>
-                                {{ $key + 1 }}
+                                {{ $event->id }}
                             </td>
                             <td>
                                 {{ $event->name ?? '' }}
@@ -69,22 +62,7 @@
                                 {{date_format(new DateTime($event->end_time), "H:i:s - d/m/Y") ?? ''}}
                             </td>
                             <td>
-                                <?php
-                                 switch ($recurrence[$event->recurrence]) {
-                                    case 'None':
-                                       echo $arr['None'];
-                                        break;
-                                    case 'Daily':
-                                        echo $arr['Daily'];
-                                        break;
-                                    case 'Weekly':
-                                        echo $arr['Weekly'];
-                                        break;
-                                    case 'Monthly':
-                                        echo $arr['Monthly'];
-                                        break;
-                                    default:
-                                        break; }?>
+                                {{ $event->recurrence_days }}
                             </td>
                             <td>
                                 {{ $event->event->name ?? 'Sự kiện gốc' }}

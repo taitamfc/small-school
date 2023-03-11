@@ -26,6 +26,6 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
-        Event::observe(RecurrenceObserver::class);
+        // Event::observe(RecurrenceObserver::class);
     }
 }
