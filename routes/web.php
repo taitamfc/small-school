@@ -47,6 +47,7 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
 
     // Manage students
     Route::prefix('students')->group(function(){
+        Route::get('/dataTable',[StudentController::class,'dataTable'])->name('students.dataTable');
         Route::post('/import',[StudentController::class,'import'])->name('students.import');
         Route::get('/export',[StudentController::class,'export'])->name('students.export');
         Route::get('/viewImport', [StudentController::class, 'viewImport'])->name('students.viewImport');

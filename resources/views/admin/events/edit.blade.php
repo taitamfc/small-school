@@ -55,11 +55,32 @@
             </div>
             <div class="form-group">
                 <label for="recurrence">Tiền công/giờ</label>
-                <input type="number" min="1000" value="{{ old('fee', isset($event) ? $event->fee : 100000) }}" class="form-control" name="fee" id="fee" >
+                <input type="number" min="1000" value="{{ old('fee', isset($event) ? $event->fee : 0) }}" class="form-control" name="fee" id="fee" >
                 @error('fee')
                 <div class="invalid-feedback d-block">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="form-group">
+                <label for="proof">Ghi chú</label>
+                <textarea class="form-control small-editor" name="proof" id="proof" >{{ old('proof', isset($event) ? $event->proof : '') }}</textarea>
+                @error('proof')
+                <div class="invalid-feedback d-block">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="proof">Trạng thái</label>
+                <select name="status" class="form-control">
+                    @foreach( $event->statuses as $status => $lb_status )
+                    <option 
+                        @selected( $status == $event->status )
+                        value="{{ $status }}"
+                    >{{ $lb_status }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+
+            @include('global_layouts.modal-students')
             @if( $event->event_id == NULL )
             <div class="form-group">
                 <div class="form-check">

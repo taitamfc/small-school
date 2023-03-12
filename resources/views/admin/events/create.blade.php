@@ -56,6 +56,26 @@
                         @enderror
                     </div>
                     <div class="form-group">
+                        <label for="proof">Ghi chú</label>
+                        <textarea class="form-control small-editor" name="proof" id="proof" >{{ old('proof', isset($event) ? $event->proof : '') }}</textarea>
+                        @error('proof')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="proof">Trạng thái</label>
+                        <select name="status" class="form-control">
+                            @foreach( $event->statuses as $status => $lb_status )
+                            <option 
+                                @selected( $status == old('status') )
+                                value="{{ $status }}"
+                            >{{ $lb_status }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @include('global_layouts.modal-students')
+
+                    <div class="form-group">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input" name="recurrence" value="yes" id="recurrence" data-bootstrap-switch @checked(old('recurrence', 'none') === 'yes')>
                             <label class="form-check-label" for="recurrence">Sự kiện lặp lại</label>
@@ -82,7 +102,7 @@
                     </div>
 
                     <div class="form-group mt-1">
-                        <input class="btn btn-danger" type="submit" value="Thêm sự kiện">
+                        <input class="btn btn-primary" type="submit" value="Thêm sự kiện">
                         <a class="btn btn-danger" href="{{ route('events.index') }}">
                             Trở về
                         </a>

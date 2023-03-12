@@ -11,4 +11,8 @@ class DashboardController extends Controller
         // return view('students.dashboard');
         return view('students.events.calendar');
     }
+
+    public function dataTable(){
+        
+    }
 }
