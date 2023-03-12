@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\CalendarController;
+use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,10 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
     Route::get('calendars', [CalendarController::class,'index'])->name('systemCalendar');
     Route::delete('deleteCalendarEvent/{id}', [CalendarController::class,'deleteCalendarEvent'])->name('deleteCalendarEvent');
     Route::put('editCalendarEvent/{id}', [CalendarController::class,'editCalendarEvent'])->name('editCalendarEvent');
+
+    // Manage tasks
+    Route::resource('tasks', TaskController::class);
+
 });
 
 // Teacher section
@@ -85,7 +90,9 @@ Route::prefix('teachers')->middleware('auth.teacher')->group(function () {
     Route::get('/histories',[\App\Http\Controllers\Teacher\HistoryController::class, 'index'])->name('teachers.histories.index');
     Route::get('/histories/{id}',[\App\Http\Controllers\Teacher\HistoryController::class, 'show'])->name('teachers.histories.show');
     
-    Route::resource('tasks', \App\Http\Controllers\Teacher\TaskController::class);
+    Route::name('teachers.')->group(function () {
+        Route::resource('tasks', \App\Http\Controllers\Teacher\TaskController::class);
+    });
 });
 
 // Student section
