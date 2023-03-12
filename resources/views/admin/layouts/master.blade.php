@@ -26,7 +26,8 @@
   <link rel="stylesheet" href="{{asset('asset/plugins/daterangepicker/daterangepicker.css')}}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{asset('asset/plugins/summernote/summernote-bs4.min.css')}}">
-
+  <!-- jQuery -->
+  <script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
   @yield('header_scripts')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -55,8 +56,7 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('asset/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

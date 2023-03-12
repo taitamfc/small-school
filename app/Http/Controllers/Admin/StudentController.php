@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\EloquentDataTable;
+use DataTables;
 
 class StudentController extends Controller
 {
@@ -267,5 +269,24 @@ class StudentController extends Controller
     public function viewImport(){
         $this->authorize('import', Student::class);
         return view('admin.students.import');
+    }
+    public function dataTable(Request $request){
+        $model  = Student::query(true);
+        return DataTables::eloquent($model)
+        ->filter(function ($query) {
+            if (request()->has('f_name')) {
+                $query->where('name', 'like', "%" . request('f_name') . "%");
+            }
+            if (request()->has('f_phone')) {
+                $query->where('phone', 'like', "%" . request('f_phone') . "%");
+            }
+            if (request()->has('f_email')) {
+                $query->where('email', 'like', "%" . request('f_email') . "%");
+            }
+            if (request()->has('f_room_id')) {
+                
+            }
+        })
+        ->toJson();
     }
 }

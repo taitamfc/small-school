@@ -15,7 +15,7 @@ class StudentSeeder extends Seeder
     public function run(): void
     {
         $c1022 = [
-            'Huyền','Nho','Phong','Ngọc','Phong Tâm'
+            'Huyền','Nho','Phong','Ngọc','Phong Tâm','B.Thắng','X.Thắng','Nhân','Toàn','Trường','Thảo','Phi'
         ];
         $c0223 = [
             'Cường','Phi','Hiếu','Long','Khương'

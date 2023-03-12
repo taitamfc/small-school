@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\EventStudent;
 use App\Models\Teacher;
 use App\Models\Student;
 use Illuminate\Support\Facades\Log;
@@ -43,14 +44,17 @@ class EventController extends Controller
             $event->fee = $fee;
             $event->recurrence_days = implode(',',$recurrence_days);
             $event->save();
-            
+            $event->students()->attach($request->student_ids);
 
             if( $event && $recurrence == 'yes' ){
                 $start_loop = date('Y-m-d', strtotime($start_time) );
                 $end_loop   = date('Y-m-d', strtotime($end_loop) );
                 $periods = CarbonPeriod::create($start_loop, $end_loop);
                 if( count($periods) ){
-                    foreach ($periods as $date) {
+                    foreach ($periods as $key => $date) {
+                        if($key == 0){
+                            continue;
+                        }
                         $week_day_name = date('l',strtotime($date->format('Y-m-d')));
                         if( in_array($week_day_name,$recurrence_days) ){
                             $child_events = [
@@ -80,12 +84,18 @@ class EventController extends Controller
     {
         $this->authorize('update', Event::class);
         $data = $request->except(['_token','_method']);
+        if( isset($data['recurrence_days']) ){
+            $data['recurrence_days'] = implode(',',$data['recurrence_days']);
+        }
         $item = Event::find($id);
 
         // Cập nhật cho sự kiện này và sự kiện trở về sau
         try {
             // Cập nhật cho sự kiện hiện tại
             $item->update($data);
+            if($request->student_ids){
+                $item->students()->sync($request->student_ids);
+            }
             // Cập nhật cho sự kiện tiếp theo
             if($request->update_feature){
                 $next_events = Event::where('status','cho_thuc_hien');
@@ -155,9 +165,9 @@ class EventController extends Controller
     public function edit(Event $event)
     {   
         $this->authorize('update', Event::class);
-        $event->load('event')
-        ->loadCount('events');
+        
         $event->recurrence_days = explode(',',$event->recurrence_days);
+        $event->student_ids = $event->students ? implode(',',$event->students->pluck('id')->toArray()) : '';
         $teachers = Teacher::all();
         $students = Student::all();
         $params = [
@@ -171,7 +181,6 @@ class EventController extends Controller
     public function show(Event $event)
     {
         $this->authorize('view', Event::class);
-        $event->load('event');
         return view('admin.events.show', compact('event'));
     }
 
@@ -182,6 +191,9 @@ class EventController extends Controller
 
             // Delete child
             Event::where('event_id', '=',$id)->delete();
+
+            // Delete EventStudent
+            EventStudent::where('event_id', '=',$id)->delete();
 
             // Delete main event
             $item = Event::where('id', '=',$id);

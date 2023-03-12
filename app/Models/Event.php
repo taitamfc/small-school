@@ -12,7 +12,6 @@ class Event extends Model
     {
         return $this->hasMany(Event::class, 'event_id', 'id');
     }
-
     public function event()
     {
         return $this->belongsTo(Event::class);
@@ -21,9 +20,9 @@ class Event extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
-    public function student()
+    public function students()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsToMany(Student::class,'event_students','event_id','student_id');
     }
     public function saveQuietly($options = [])
     {
@@ -62,6 +61,14 @@ class Event extends Model
         'end_loop',
         'fee',
         'recurrence_days',
+        'status'
+    ];
+
+    public $statuses = [
+        'cho_thuc_hien' => 'Chờ thực hiện',
+        'da_thuc_hien' => 'Đã thực hiện',
+        'da_xac_nha' => 'Đã xác nhận',
+        'da_tu_choi' => 'Đã từ chối',
     ];
 
 
