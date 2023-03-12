@@ -57,6 +57,11 @@
                 </table>
             </div>
             <div class="modal-footer">
+                <div class="form-check">
+                    <label for="is_replace">
+                        <input type="checkbox" value="1" id="is_replace"> Thay thế danh sách hiện tại ?
+                    </label>
+                </div>
                 <button type="button" id="btn_modal_students_add" data-dismiss="modal" class="btn btn-success">Thêm</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
@@ -183,7 +188,12 @@
                 </tr>
                 `;
             }
-            $('#student_tb').html(tb_html);
+            let is_replace = $('#is_replace').is(":checked");
+            if(is_replace){
+                $('#student_tb').html(tb_html);
+            }else{
+                $('#student_tb').append(tb_html);
+            }
         });
 
         jQuery('body').on('click','.student_tb_delete_row',function(){
