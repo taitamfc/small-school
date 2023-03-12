@@ -180,6 +180,10 @@ class EventController extends Controller
 
     public function show(Event $event)
     {
+        // Nếu ko có danh sách học viên riêng thì lấy danh sách cha
+        if( !count($event->students) ){
+            $event->students = $event->event->students;
+        }
         $this->authorize('view', Event::class);
         return view('admin.events.show', compact('event'));
     }
