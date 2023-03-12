@@ -93,8 +93,13 @@ class EventController extends Controller
         try {
             // Cập nhật cho sự kiện hiện tại
             $item->update($data);
+            
             if($request->student_ids){
-                $item->students()->sync($request->student_ids);
+                if( $item->students->count() ){
+                    $item->students()->sync($request->student_ids);
+                }else{
+                    $item->students()->attach($request->student_ids);
+                }
             }
             // Cập nhật cho sự kiện tiếp theo
             if($request->update_feature){
@@ -130,6 +135,13 @@ class EventController extends Controller
                         ];
                         $the_child_event = Event::find($next_event->id);
                         $the_child_event->update($child_event);
+                        if($request->student_ids){
+                            if( $the_child_event->students->count() ){
+                                $the_child_event->students()->sync($request->student_ids);
+                            }else{
+                                $the_child_event->students()->attach($request->student_ids);
+                            }
+                        }
                     }
                 }
             }
@@ -165,7 +177,10 @@ class EventController extends Controller
     public function edit(Event $event)
     {   
         $this->authorize('update', Event::class);
-        
+        // Nếu ko có danh sách học viên riêng thì lấy danh sách cha
+        if( !count($event->students) ){
+            $event->students = $event->event->students;
+        }
         $event->recurrence_days = explode(',',$event->recurrence_days);
         $event->student_ids = $event->students ? implode(',',$event->students->pluck('id')->toArray()) : '';
         $teachers = Teacher::all();

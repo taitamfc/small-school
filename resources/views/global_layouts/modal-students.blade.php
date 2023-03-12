@@ -81,7 +81,9 @@
                 @if( isset($event->students) && count($event->students) )
                     @foreach( $event->students as $key => $student )
                     <tr>
-                        <td>{{ $key + 1 }}</td>
+                        <td>{{ $key + 1 }}
+                        <input type="hidden" name="student_ids[]" value="{{ $student->id }}">
+                        </td>
                         <td>{{ $student->id }}</td>
                         <td>{{ $student->name }}</td>
                         <td>{{ $student->phone }}</td>
