@@ -13,8 +13,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $groups = ['User', 'Student', 'Teacher','Event'];
-        $nameparent = ['Quản Trị Viên', 'Giáo Viên', 'Sinh Viên', 'Lịch Trình',];
+        $groups = ['User', 'Student', 'Teacher','Event', 'Group'];
+        $nameparent = ['Quản Trị Viên', 'Giáo Viên', 'Sinh Viên', 'Lịch Trình','Nhóm người dùng'];
         foreach($groups as $key => $parentNameGroup){
             $parentGroup = Role::create([
                 'group_name' => $nameparent[$key], 
@@ -46,7 +46,16 @@ class RoleSeeder extends Seeder
                 'name' => $parentNameGroup.'_delete',
                 'group_key' => $parentGroup->id,
             ]);
-        
+            Role::create([
+                'group_name' => 'Nhập '.$nameparent[$key],
+                'name' => $parentNameGroup.'_import',
+                'group_key' => $parentGroup->id,
+            ]);
+            Role::create([
+                'group_name' => 'Xuất '.$nameparent[$key],
+                'name' => $parentNameGroup.'_export',
+                'group_key' => $parentGroup->id,
+            ]);
         }
     }
 }

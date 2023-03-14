@@ -9,4 +9,6 @@ class EventStudent extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $table = 'event_student';
+    protected $fillable = 'student_id';
 }

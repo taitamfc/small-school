@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreEventRequest;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-
+use Illuminate\Http\Response;
 
 class EventController extends Controller
 {
@@ -153,23 +153,70 @@ class EventController extends Controller
         
         return redirect()->route('systemCalendar');
     }
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Event::class);
-        $events = Event::orderBy('id','DESC')
-            ->get();
 
-        return view('admin.events.index', compact('events'));
+
+        $teacher_id       = $request->teacher_id ?? '';
+        $student_id       = $request->student_id ?? '';
+        $name             = $request->name ?? '';
+        // $room_name        = $request->room_name ?? '';
+        $orderby          = $request->orderby ?? '';
+        $status_search            = $request->status ?? '';
+        $start_time            = $request->start_time ?? '';
+        $end_time            = $request->end_time ?? '';
+        $teachers = Teacher::all();
+        $students = Student::all();
+        $status = new Event();
+        $query = Event::query(true);
+        
+        // if (!empty($room_name)) {
+        //     $query->where('group_id',  $request->room_name);
+        // };
+        
+        if (!empty($student_id)) {
+            $query->leftJoin('event_students', 'events.id', '=', 'event_students.event_id')
+            ->where('event_students.student_id', $student_id);
+     
+        }
+        if (!empty($teacher_id)) {
+            $query->where('teacher_id',  $request->teacher_id);
+        };
+        if (!empty($orderby)) {
+            $query->orderBy('events.id', $orderby);
+        }
+        if (!empty($name)) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+        if (!empty($status_search)) {
+            $query->where('status', 'like', '%' . $status_search . '%');
+        }
+        if (!empty($start_time)) {
+            $query->where('start_time', 'like', '%' . $start_time . '%');
+        }
+        if (!empty($end_time)) {
+            $query->where('end_time', 'like', '%' . $end_time . '%');
+        }
+
+        $events = $query->paginate(10);
+        $params = [
+            'events'       => $events,
+            'teachers'     => $teachers,
+            'students'     => $students,
+            'status'     => $status,
+        ];
+        return view('admin.events.index', $params);
     }
 
     public function create()
     {   
         $this->authorize('create', Event::class);
         $teachers = Teacher::all();
-        $students = Student::all();
+        $event = new Event();
         $params = [
             'teachers' => $teachers,
-            'students' => $students
+            'event' => $event
         ];
         return view('admin.events.create',$params);
     }
