@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\CalendarController;
+use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TaskController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
@@ -68,6 +69,9 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
 
     // Manage tasks
     Route::resource('tasks', TaskController::class);
+
+    // Manage rooms
+    Route::resource('rooms', RoomController::class);
 
 });
 
