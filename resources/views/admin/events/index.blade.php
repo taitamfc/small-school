@@ -37,11 +37,40 @@
                                                         placeholder="Tìm theo tên sự kiện" value="{{ request()->name }}">
                                                 </div>
                                             </div>
+                                            
+
                                             <div class="col-3">
+                                                <div class="form-group">
+                                                    <label>Giáo viên</label>
+                                                    <select class="select2" name="teacher_id" style="width: 100%;">
+                                                        <option value="">--Chọn giáo viên--</option>
+                                                        @foreach ($teachers as $teacher)
+                                                            <option
+                                                                <?= request()->teacher_id == $teacher->id ? 'selected' : '' ?>
+                                                                value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="col-3">
                                                 <div class="form-group">
                                                     <label>Tên phòng</label>
                                                     <input type="text" name="room_name" class="form-control"
                                                         placeholder="Tìm theo tên phòng" value="{{ request()->room_name }}">
+                                                </div>
+                                            </div> --}}
+                                            
+                                            <div class="col-3">
+                                                <div class="form-group">
+                                                    <label>Học sinh</label>
+                                                    <select class="select2" name="student_id" style="width: 100%;">
+                                                        <option value="">--Chọn học sinh--</option>
+                                                        @foreach ($students as $student)
+                                                            <option
+                                                                <?= request()->student_id == $student->id ? 'selected' : '' ?>
+                                                                value="{{ $student->id }}">{{ $student->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-3">
@@ -57,19 +86,8 @@
                                                 </div>
                                             </div>
 
+                                
                                             <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Sắp xếp</label>
-                                                    <select class="select2" name="orderby" style="width: 100%;">
-                                                        <option value="">--Chọn sắp xếp--</option>
-                                                        <option <?= request()->orderby == 'ASC' ? 'selected' : '' ?>
-                                                            value="ASC">Tăng dần</option>
-                                                        <option <?= request()->orderby == 'DESC' ? 'selected' : '' ?>
-                                                            value="DESC">Giảm dần</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
                                                 <div class="form-group">
                                                     <label>Ngày bắt đầu</label>
                                                     <input type="date" name="start_time" class="form-control"
@@ -83,31 +101,15 @@
                                                         placeholder="Ngày kết thúc" value="{{ request()->end_time }}">
                                                 </div>
                                             </div>
-
-
                                             <div class="col-3">
                                                 <div class="form-group">
-                                                    <label>Giáo viên</label>
-                                                    <select class="select2" name="teacher_id" style="width: 100%;">
-                                                        <option value="">--Chọn giáo viên--</option>
-                                                        @foreach ($teachers as $teacher)
-                                                            <option
-                                                                <?= request()->teacher_id == $teacher->id ? 'selected' : '' ?>
-                                                                value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Học sinh</label>
-                                                    <select class="select2" name="student_id" style="width: 100%;">
-                                                        <option value="">--Chọn học sinh--</option>
-                                                        @foreach ($students as $student)
-                                                            <option
-                                                                <?= request()->student_id == $student->id ? 'selected' : '' ?>
-                                                                value="{{ $student->id }}">{{ $student->name }}</option>
-                                                        @endforeach
+                                                    <label>Sắp xếp</label>
+                                                    <select class="select2" name="orderby" style="width: 100%;">
+                                                        <option value="">--Chọn sắp xếp--</option>
+                                                        <option <?= request()->orderby == 'ASC' ? 'selected' : '' ?>
+                                                            value="ASC">Tăng dần</option>
+                                                        <option <?= request()->orderby == 'DESC' ? 'selected' : '' ?>
+                                                            value="DESC">Giảm dần</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -141,13 +143,13 @@
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" >
                     <div class="table-responsive">
                         <table class=" table table-bordered table-striped table-hover datatable datatable-Event">
                             <thead>
                                 <tr>
                                     <th>
-                                        Mã sự kiện
+                                        ID
                                     </th>
                                     <th>
                                         Tên sự kiện
@@ -162,7 +164,7 @@
                                         Lặp lại
                                     </th>
                                     <th>
-                                        Sự kiện lặp
+                                        GV
                                     </th>
                                     <th>
                                         Thao tác
@@ -186,10 +188,10 @@
                                             {{ date_format(new DateTime($event->end_time), 'H:i:s - d/m/Y') ?? '' }}
                                         </td>
                                         <td>
-                                            {{ $event->recurrence_days }}
+                                            {{ $event->recurrence_days}}
                                         </td>
                                         <td>
-                                            {{ $event->event->name ?? 'Sự kiện gốc' }}
+                                            {{ $event->teacher->name}}
                                         </td>
                                         <td>
                                             {{-- @can('event_show') --}}
