@@ -118,7 +118,7 @@
                                             <label class="form-check-label" for="recurrence">Sự kiện lặp lại</label>
                                         </div>
                                     </div>
-                                    <div class="form-group" id="recurrence-wrapper" style="display:none111">
+                                    <div class="form-group" id="recurrence-wrapper" >
                                         <label>Ngày lặp</label>
                                         <?php
                                             $week_days = ['Monday','Tuesday','Wednesday','Thursday','Friday' ,'Saturday','Sunday'];

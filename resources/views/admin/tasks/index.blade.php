@@ -47,57 +47,93 @@
                             {{ session('success') }}
                         </div>
                     @endif
-                <div class="collapse" id="collapseExample">
-             <div class="col-12">
-                  <section class="content">
-                    <div class="container-fluid">
-                        <form action="{{ route('tasks.index') }}" method="GET" id="form-search">
-                          @csrf
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label>Họ và tên</label>
-                                                <input type="text" name="name" class="form-control" placeholder="Tìm theo họ và tên" value="{{ request()->name }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                          <div class="form-group">
-                                              <label>Số điện thoại</label>
-                                              <input type="text" name="phone" class="form-control" placeholder="Tìm theo số điện thoại" value="{{ request()->phone }}">
+                    <div class="collapse" id="collapseExample">
+                      <div class="col-12">
+                          <section class="content">
+                              <div class="container-fluid">
+                                  <form action="{{ route('tasks.index') }}" method="GET" id="form-search">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="row">
+                                   
+                                                  <div class="col-3">
+                                                      <div class="form-group">
+                                                          <label>Tên sự kiện</label>
+                                                          <input type="text" name="event_name" class="form-control"
+                                                              placeholder="Tìm theo tên sự kiện" value="{{ request()->event_name }}">
+                                                      </div>
+                                                  </div>
+                                                  
+      
+                                                  <div class="col-3">
+                                                      <div class="form-group">
+                                                          <label>Giáo viên</label>
+                                                          <select class="select2" name="teacher_id" style="width: 100%;">
+                                                              <option value="">--Chọn giáo viên--</option>
+                                                              @foreach ($teachers as $teacher)
+                                                                  <option
+                                                                      <?= request()->teacher_id == $teacher->id ? 'selected' : '' ?>
+                                                                      value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                                              @endforeach
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-3">
+                                                      <div class="form-group">
+                                                          <label>Trạng thái</label>
+                                                          <select class="select2" name="status" style="width: 100%;">
+                                                              <option value="">--Chọn trạng thái--</option>
+                                                              @foreach ($item->statuses as $status => $lb_status)
+                                                                  <option <?= request()->status == $status ? 'selected' : '' ?>
+                                                                      value="{{ $status }}">{{ $lb_status }}</option>
+                                                              @endforeach
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-3">
+                                                      <div class="form-group">
+                                                          <label>Ngày bắt đầu</label>
+                                                          <input type="date" name="start_time" class="form-control"
+                                                              placeholder="Ngày bắt đầu" value="{{ request()->start_time }}">
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-3">
+                                                      <div class="form-group">
+                                                          <label>Ngày kết thúc</label>
+                                                          <input type="date" name="end_time" class="form-control"
+                                                              placeholder="Ngày kết thúc" value="{{ request()->end_time }}">
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-3">
+                                                      <div class="form-group">
+                                                          <label>Sắp xếp</label>
+                                                          <select class="select2" name="orderby" style="width: 100%;">
+                                                              <option value="">--Chọn sắp xếp--</option>
+                                                              <option <?= request()->orderby == 'ASC' ? 'selected' : '' ?>
+                                                                  value="ASC">Tăng dần</option>
+                                                              <option <?= request()->orderby == 'DESC' ? 'selected' : '' ?>
+                                                                  value="DESC">Giảm dần</option>
+                                                          </select>
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-group">
+                                                      <label>Thao tác</label>
+                                                      <div class="input-group">
+                                                          <div class="input-group-append">
+                                                              <button type="submit" class="btn btn-default">
+                                                                  Xác nhận
+                                                              </button>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
                                           </div>
                                       </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label>Tên phòng</label>
-                                                <input type="text" name="room_name" class="form-control" placeholder="Tìm theo tên phòng" value="{{ request()->room_name }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                          <div class="form-group">
-                                              <label>Sinh nhật</label>
-                                              <input type="date" name="birthday" class="form-control" placeholder="Tìm theo ngày sinh" value="{{ request()->birthday }}">
-                                          </div>
-                                      </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <input type="text" name="email" class="form-control" placeholder="Tìm theo Email" value="{{ request()->email }}">
-                                            <div class="input-group-append">
-                                                <button type="submit" class="btn btn-default">
-                                                    Xác nhận
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </section>
-                </div>
-              </div>
+                                  </form>
+                              </div>
+                          </section>
+                      </div>
+                  </div>
 
 
                 <div class="card card card-primary">
@@ -111,14 +147,12 @@
                       <thead>
                         <tr>
                           <th style="width: 10%">STT</th>
-                          <th>Họ và tên</th>
-                          <th>Số điện thoại</th>
-                          <th>Tên phòng</th>
-                          <th>Email</th>
+                          <th>Tên sự kiện</th>
+                          <th>Bắt đầu</th>
+                          <th>Kết thúc</th>
+                          <th>Giáo viên</th>
                           <th>Trạng thái</th>
-                          <th>Sinh nhật</th>
-                          <th>Ảnh </th>
-                          <th>Hành động </th>
+                          <th>Hành động</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -126,13 +160,11 @@
                         @foreach($items as $key => $item)
                         <tr>
                           <td>{{ $item->id }}.</td>
-                          <td >{{ $item->name }}</td>
-                          <td >{{ $item->phone }}</td>
-                            <td >{{ $item->room_name }}</td>
-                            <td >{{ $item->email }}</td>
-                            <td >{{ $item->status }}</td>
-                            <td >{{ $item->birthday }}</td>
-                            <td width="10%"><img width="100%" style="border-radius: 50%" height="90px" src="{{ $item->image }}" alt=""></td>
+                          <td >{{ $item->event_name }}</td>
+                          <td >{{ date_format(new DateTime($item->start_time), 'H:i:s - d/m/Y') ?? '' }}</td>
+                            <td >{{ date_format(new DateTime($item->end_time), 'H:i:s - d/m/Y') ?? '' }}</td>
+                            <td >{{ $item->teacher->name }}</td>
+                            <td >{{ $item->statuses[$item->status] }}</td>
                             <td >
                                 <form action="{{route('tasks.destroy',$item->id)}}" method="post">
                                     @method('DELETE')

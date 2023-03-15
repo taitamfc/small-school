@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('teacher_id');
             $table->string('name')->nullable();
-            $table->text('descripton')->nullable();
+            $table->text('description')->nullable();
             $table->foreign('teacher_id')->references('id')->on('teachers');
             $table->string('type')->default('yeu_cau_buoi_day');
-
+            $table->float('fee')->default(0)->nullable();
             // Đề nghị thêm sinh viên mới
             $table->text('add_students')->nullable();
             // Đề nghị cho sinh viên hiện tại
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->date('start_time')->nullable();
             $table->date('end_time')->nullable();
             $table->date('end_loop')->nullable();
-            $table->boolean('recurrence')->default(0);
+            $table->boolean('recurrence')->default(0)->nullable();
             $table->text('recurrence_days')->nullable();
             $table->bigInteger('durration')->default(0);
 

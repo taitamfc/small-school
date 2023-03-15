@@ -13,8 +13,8 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $groups = ['User', 'Student', 'Teacher','Event', 'Group','Room'];
-        $nameparent = ['Quản Trị Viên', 'Giáo Viên', 'Sinh Viên', 'Lịch Trình','Nhóm người dùng','Lớp học'];
+        $groups = ['User', 'Student', 'Teacher','Event', 'Group','Room','Task'];
+        $nameparent = ['Quản Trị Viên', 'Giáo Viên', 'Sinh Viên', 'Lịch Trình','Nhóm người dùng','Lớp học','Yêu cầu'];
         foreach($groups as $key => $parentNameGroup){
             $parentGroup = Role::create([
                 'group_name' => $nameparent[$key], 
