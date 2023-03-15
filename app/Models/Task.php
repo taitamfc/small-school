@@ -13,4 +13,8 @@ class Task extends Model
         'cho_xac_nhan' => 'Chờ xác nhận',
         'da_xac_nhan' => 'Đã xác nhận',
     ];
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
 }

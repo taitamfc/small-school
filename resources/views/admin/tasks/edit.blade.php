@@ -38,7 +38,8 @@
                             <div class="card-header">
                                 <h3 class="card-title">Thêm yêu cầu</h3><br>
                             </div>
-                            <form action="{{ route('tasks.store') }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('tasks.update',$item->id) }}" method="POST" enctype="multipart/form-data">
+                                @method("PUT")
                                 @csrf
                                 <div class="card-body">
                                 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
@@ -51,7 +52,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Ghi chú</label>
-                                        <textarea class="form-control small-editor" name="description" id="description" >{{ old('description', isset($item) ? $item->description : '') }}</textarea>
+                                        <textarea class="form-control small-editor" name="description" id="description" >{{ isset($item) ? $item->description : '' }}</textarea>
                                         @error('description')
                                         <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
@@ -152,11 +153,9 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    
                                 </div>
-
                                 <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
                                     <a class="btn btn-danger" href="{{ route('tasks.index') }}">Trở về</a>
                                 </div>
                             </form>
