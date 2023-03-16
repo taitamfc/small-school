@@ -4,11 +4,7 @@
     <div class="container">
         <div class="row mb-2 mt-2">
             <div class="col-lg-12">
-                @if( $show_calendar_button )
-                <a class="btn btn-warning" href="{{ route('teachers.events.calendar') }}">
-                    Trang lịch
-                </a>
-                @endif
+                
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Tìm kiếm chi tiết
@@ -104,12 +100,19 @@
                                 <th> Mã sự kiện </th>
                                 <th> Tên sự kiện </th>
                                 <th>Thời gian</th>
-                                <th> Trạng thái </th>
-                                <th> Thao tác </th>
+                                <th> Tiền công </th>
+                                <th> Thành tiền </th>
                             </tr>
                         </thead>
                         <tbody id="list-events">
+                            <?php
+                            $sub_total = 0;
+                            ?>
                             @foreach ($items as $key => $item)
+                            <?php
+                            $total = $item->fee * ($item->durration / 60);
+                            $sub_total += $total;
+                            ?>
                             <tr data-entry-id="{{ $item->event_id ?? $item->id}}">
                                 <td>
                                     {{ $item->id }}
@@ -123,20 +126,22 @@
                                     - {{ date('d/m/Y',strtotime($item->end_time)) }}
                                 </td>
                                 <td>
-                                    {{ $item->statuses[$item->status] }}
+                                    {{ number_format($item->fee) }}
                                 </td>
                                 <td>
-                                    {{-- @can('event_show') --}}
-                                    <a class="btn btn-xs btn-primary"
-                                        href="{{ route('teachers.events.show', $item->event_id ?? $item->id) }}">
-                                        Xem
-                                    </a>
-                                    {{-- @endcan --}}
+                                
+                                {{ number_format( $total ) }}
                                 </td>
 
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">Tổng tiền</td>
+                                <td><strong>{{ number_format($sub_total) }}</strong></td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>

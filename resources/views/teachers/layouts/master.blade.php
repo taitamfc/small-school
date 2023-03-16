@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="{{asset('asset/plugins/css/adminlte.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{asset('asset/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+  <script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
+  
   @yield('header_scripts')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -41,7 +43,6 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('asset/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->

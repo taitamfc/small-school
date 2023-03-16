@@ -1,14 +1,11 @@
 @extends('admin.layouts.master')
 @section('header_scripts')
     <link rel="stylesheet" href="{{ asset('asset/plugins/select2/css/select2.min.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
-    </script>
 @endsection
 @section('content')
     <div class="content-wrapper">
-        <div class="container"><br>
-            <div style="margin-bottom: 10px;" class="row">
+        <div class="container">
+            <div class="row mt-2 mb-2">
                 <div class="col-lg-12">
                     <a class="btn btn-success" href="{{ route('events.create') }}">
                         Thêm
@@ -16,121 +13,117 @@
                     <a class="btn btn-warning" href="{{ route('systemCalendar') }}">
                         Trang lịch
                     </a>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" href="#collapseExample">
                         Tìm kiếm chi tiết
                     </button>
                 </div>
-            </div>
-            <div class="collapse" id="collapseExample">
-                <div class="col-12">
-                    <section class="content">
-                        <div class="container-fluid">
-                            <form action="{{ route('events.index') }}" method="GET" id="form-search">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Tên sự kiện</label>
-                                                    <input type="text" name="name" class="form-control"
-                                                        placeholder="Tìm theo tên sự kiện" value="{{ request()->name }}">
-                                                </div>
-                                            </div>
-                                            
-
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Giáo viên</label>
-                                                    <select class="select2" name="teacher_id" style="width: 100%;">
-                                                        <option value="">--Chọn giáo viên--</option>
-                                                        @foreach ($teachers as $teacher)
-                                                            <option
-                                                                <?= request()->teacher_id == $teacher->id ? 'selected' : '' ?>
-                                                                value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Tên phòng</label>
-                                                    <input type="text" name="room_name" class="form-control"
-                                                        placeholder="Tìm theo tên phòng" value="{{ request()->room_name }}">
-                                                </div>
-                                            </div> --}}
-                                            
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Học sinh</label>
-                                                    <select class="select2" name="student_id" style="width: 100%;">
-                                                        <option value="">--Chọn học sinh--</option>
-                                                        @foreach ($students as $student)
-                                                            <option
-                                                                <?= request()->student_id == $student->id ? 'selected' : '' ?>
-                                                                value="{{ $student->id }}">{{ $student->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Trạng thái</label>
-                                                    <select class="select2" name="status" style="width: 100%;">
-                                                        <option value="">--Chọn trạng thái--</option>
-                                                        @foreach ($status->statuses as $status => $lb_status)
-                                                            <option <?= request()->status == $status ? 'selected' : '' ?>
-                                                                value="{{ $status }}">{{ $lb_status }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Ngày bắt đầu</label>
-                                                    <input type="date" name="start_time" class="form-control"
-                                                        placeholder="Ngày bắt đầu" value="{{ request()->start_time }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Ngày kết thúc</label>
-                                                    <input type="date" name="end_time" class="form-control"
-                                                        placeholder="Ngày kết thúc" value="{{ request()->end_time }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label>Sắp xếp</label>
-                                                    <select class="select2" name="orderby" style="width: 100%;">
-                                                        <option value="">--Chọn sắp xếp--</option>
-                                                        <option <?= request()->orderby == 'ASC' ? 'selected' : '' ?>
-                                                            value="ASC">Tăng dần</option>
-                                                        <option <?= request()->orderby == 'DESC' ? 'selected' : '' ?>
-                                                            value="DESC">Giảm dần</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+                <div class="collapse" id="collapseExample">
+                    <div class="col-12">
+                        <form action="{{ route('events.index') }}" method="GET" id="form-search">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-3">
                                             <div class="form-group">
-                                                <label>Thao tác</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-append">
-                                                        <button type="submit" class="btn btn-default">
-                                                            Xác nhận
-                                                        </button>
-                                                    </div>
+                                                <label>Tên sự kiện</label>
+                                                <input type="text" name="name" class="form-control"
+                                                    placeholder="Tìm theo tên sự kiện" value="{{ request()->name }}">
+                                            </div>
+                                        </div>
+                                        
+
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Giáo viên</label>
+                                                <select class="select2" name="teacher_id" style="width: 100%;">
+                                                    <option value="">--Chọn giáo viên--</option>
+                                                    @foreach ($teachers as $teacher)
+                                                        <option
+                                                            <?= request()->teacher_id == $teacher->id ? 'selected' : '' ?>
+                                                            value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {{-- <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Tên phòng</label>
+                                                <input type="text" name="room_name" class="form-control"
+                                                    placeholder="Tìm theo tên phòng" value="{{ request()->room_name }}">
+                                            </div>
+                                        </div> --}}
+                                        
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Học sinh</label>
+                                                <select class="select2" name="student_id" style="width: 100%;">
+                                                    <option value="">--Chọn học sinh--</option>
+                                                    @foreach ($students as $student)
+                                                        <option
+                                                            <?= request()->student_id == $student->id ? 'selected' : '' ?>
+                                                            value="{{ $student->id }}">{{ $student->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Trạng thái</label>
+                                                <select class="select2" name="status" style="width: 100%;">
+                                                    <option value="">--Chọn trạng thái--</option>
+                                                    @foreach ($status->statuses as $status => $lb_status)
+                                                        <option <?= request()->status == $status ? 'selected' : '' ?>
+                                                            value="{{ $status }}">{{ $lb_status }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                            
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Ngày bắt đầu</label>
+                                                <input type="date" name="start_time" class="form-control"
+                                                    placeholder="Ngày bắt đầu" value="{{ request()->start_time }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Ngày kết thúc</label>
+                                                <input type="date" name="end_time" class="form-control"
+                                                    placeholder="Ngày kết thúc" value="{{ request()->end_time }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <label>Sắp xếp</label>
+                                                <select class="select2" name="orderby" style="width: 100%;">
+                                                    <option value="">--Chọn sắp xếp--</option>
+                                                    <option <?= request()->orderby == 'ASC' ? 'selected' : '' ?>
+                                                        value="ASC">Tăng dần</option>
+                                                    <option <?= request()->orderby == 'DESC' ? 'selected' : '' ?>
+                                                        value="DESC">Giảm dần</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Thao tác</label>
+                                            <div class="input-group">
+                                                <div class="input-group-append">
+                                                    <button type="submit" class="btn btn-default">
+                                                        Xác nhận
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
-                    </section>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+            
             <div class="card">
                 <div class="row">
                     <div class="card-header">
@@ -218,8 +211,6 @@
                             </tbody>
                         </table>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -232,7 +223,7 @@
             $('.select2').select2()
         });
     </script>
-    <script>
+    <!-- <script>
         $(function() {
             let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
             @can('event_delete')
@@ -299,5 +290,5 @@
                 });
             });
         });
-    </script>
+    </script> -->
 @endsection

@@ -92,6 +92,11 @@
                                     </a>
                                 </li>
                             @endif
+                            <li class="nav-item">
+                                <a href="{{ route('events.salary') }}" class="nav-link">
+                                    <p>Lương giáo viên</p>
+                                </a>
+                            </li>
                             @if (Auth::user()->hasPermission('Teacher_create'))
                                 <li class="nav-item">
                                     <a href="{{ route('teachers.create') }}" class="nav-link">
@@ -99,6 +104,7 @@
                                     </a>
                                 </li>
                             @endif
+                            
                         </ul>
                     </li>
                 @endif
