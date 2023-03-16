@@ -40,63 +40,78 @@
 
                                 <h3 class="card-title">Chỉnh sửa giáo viên</h3><br>
                             </div>
-                            <form action="{{ route('teachers.update',$teacher->id) }}" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('teachers.update',$teacher->id) }}" method="POST"
+                                enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
                                 <div class="card-body">
                                     <div class="row">
-
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Họ và Tên:</label>
-                                            <input type="text" class="form-control" name="name" value="{{$teacher->name}}" placeholder="Nhập họ và tên...">
+                                            <input type="text" class="form-control" name="name"
+                                                value="{{$teacher->name}}" placeholder="Nhập họ và tên...">
                                             @error('name')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Email:</label>
-                                            <input type="email" class="form-control" name="email" value="{{$teacher->email}}" placeholder="Nhập email...">
+                                            <input type="email" class="form-control" name="email"
+                                                value="{{$teacher->email}}" placeholder="Nhập email...">
                                             @error('email')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Mật khẩu:</label>
-                                            <input type="password" autocomplete="off" class="form-control" name="password" placeholder="Nhập mật khẩu...">
+                                            <input type="password" autocomplete="off" class="form-control"
+                                                name="password" placeholder="Nhập mật khẩu...">
                                             @error('password')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                        <div class="form-group col-md-4">
-                                            <label>Level</label>
-                                            <input type="text" class="form-control" name="level" value="{{$teacher->level}}" placeholder="Nhập level...">
+                                        <div class="form-group col-md-6">
+                                            <label>Số điện thoại:</label>
+                                            <input type="text" class="form-control" name="phone"
+                                                value="{{$teacher->phone}}" placeholder="Nhập họ và tên...">
+                                            @error('phone')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <label>Trình độ</label>
+                                            <textarea class="form-control" name="level">{{$teacher->level}}</textarea>
                                             @error('level')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div>{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Trạng thái</label>
-                                            <input type="text" class="form-control" name="status" value="{{$teacher ->status}}" placeholder="...">
-                                            @error('status')
-                                            <div><code>{{ $message }}</code></div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
+
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputFile">Ảnh đại diện</label>
-                                        <div class="input-group">
-                                          <div class="custom-file">
-                                            <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
-                                            <input type='file' class="custom-file-input" id="imgInp" name="inputFile" />
-                                          </div>
-                                          <div class="input-group-append">
-                                            <span class="input-group-text">Tải ảnh lên</span>
-                                          </div>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <label class="custom-file-label" for="exampleInputFile">Chọn
+                                                        ảnh</label>
+                                                    <input type='file' class="custom-file-input" id="imgInp"
+                                                        name="inputFile" />
+                                                </div>
+                                                <img type="hidden" style="float: right" width="100px" height="100px" alt="Hình ảnh"
+                                                id="blah1"
+                                                src="{{ $teacher->image != null ? asset($teacher->image) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}"
+                                                alt="" />
+                                            </div>
                                         </div>
-                                        </div>
-                                        <div  class="form-group col-md-12">
-                                            <img type="hidden" style="float: right" width="350px" height="280px" id="blah1" src="{{ $teacher->image != null ? asset($teacher->image) : 'https://taytou.com/wp-content/uploads/2022/08/Avatar-trang-anime-nam-sinh-tay-chong-cam.jpg' }}" alt="" />
+                                        <div class="form-group col-md-6">
+                                            <label>Trạng thái</label>
+                                            <select class="form-control" name="status">
+                                                @foreach( $teacher->statuses as $status => $lb_status )
+                                                <option @selected($teacher->status == $status)
+                                                    value="{{ $status }}">{{ $lb_status }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

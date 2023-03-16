@@ -9,12 +9,18 @@ class Teacher extends Authenticatable
 {
     use HasFactory;
     protected $table = 'teachers';
-      protected $fillable = [
+    protected $fillable = [
         'name',
         'email',
         'level',
         'password',
     ];
+
+    public $statuses = [
+        'hoat_dong' => 'Hoat động',
+        'khong_hoat_dong' => 'Không hoạt động',
+    ];
+
     public function events()
     {
         return $this->hasMany(Event::class);

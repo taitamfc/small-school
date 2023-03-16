@@ -63,9 +63,9 @@ class TeacherController extends Controller
     public function create()
     {
         $this->authorize('create', Teacher::class);
-        $teachers = Teacher::get();
+        $teacher = new Teacher();
         $param = [
-            'teachers' => $teachers,
+            'teacher' => $teacher,
         ];
         return view('admin.teachers.create', $param);
     }
