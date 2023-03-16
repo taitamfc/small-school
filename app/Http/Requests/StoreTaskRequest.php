@@ -30,6 +30,8 @@ class StoreTaskRequest extends FormRequest
             'end_time' => 'required',
             'teacher_id' => 'required',
             'fee' => 'required',
+            'student_ids' => 'required',
+
            ];
             return $rules;
     }
@@ -43,6 +45,8 @@ class StoreTaskRequest extends FormRequest
             'end_time.required' => 'Hãy Nhập Thời Gian Kết Thúc Sự Kiện',
             'teacher_id.required' => 'Hãy Chọn Giáo Viên',
             'fee.required' => 'Hãy Nhập Tiền Công',
+            'student_ids.required' => 'Hãy Chọn Học Viên',
+
             ];
             return $messages;
     }

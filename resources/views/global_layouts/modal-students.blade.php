@@ -102,6 +102,9 @@
     </div>
     <div>
         <input class="btn btn-info" id="btn_modal_students" type="button" value="Thêm học viên">
+        @error('student_ids')
+        <div class="invalid-feedback d-block">{{ $message }}</div>
+        @enderror
     </div>
 </div>
 
