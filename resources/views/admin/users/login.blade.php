@@ -17,7 +17,7 @@
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="#" class="h1"><b>Admin</b>School</a>
+      <a href="#" class="h1"><b>Quản Trị</b></a>
     </div>
     <div class="card-body">
       <p class="login-box-msg">Đăng nhập hệ thống để tiếp tục</p>
@@ -66,13 +66,13 @@
         <a href="{{ route('teachers.login') }}" class="btn btn-block btn-primary">
          Đăng nhập với tư cách Giáo viên
         </a>
-        <a href="{{ route('students.login') }}" class="btn btn-block btn-danger">
+        <!-- <a href="{{ route('students.login') }}" class="btn btn-block btn-danger">
           Đăng nhập với tư cách Học sinh
-        </a>
+        </a> -->
       </div>
-      <p class="mb-1">
+      <!-- <p class="mb-1">
         <a href="forgot-password.html">Quên mật khẩu</a>
-      </p>
+      </p> -->
     </div>
   </div>
 </div>

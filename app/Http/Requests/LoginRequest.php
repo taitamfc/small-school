@@ -24,15 +24,15 @@ class LoginRequest extends FormRequest
         $rules =[
             'email' => 'required|email',
             'password' => 'required',
-           ];
-            return $rules;
+        ];
+        return $rules;
     }
     public function messages(){
         $messages =[
             'email.required' => 'Hãy nhập email',
             'email.email' => 'Email không đúng định dạng',
-            'password.required' => 'Hãy mật khẩu',
-            ];
-            return $messages;
+            'password.required' => 'Hãy nhập mật khẩu',
+        ];
+        return $messages;
     }
 }
