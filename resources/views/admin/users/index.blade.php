@@ -134,9 +134,8 @@
                         <tr>
                           <th style="width: 10%">STT</th>
                           <th>Họ và tên</th>
-                          <th>Tên đăng nhập</th>
+                          <th>Số điện thoại</th>
                           <th>Email</th>
-                          <th>Ảnh</th>
                         @if(Auth::user()->hasPermission('User_update') || Auth::user()->hasPermission('User_delete'))
                           <th>Hành động</th>
                         @endif
@@ -147,9 +146,8 @@
                         <tr>
                           <td>{{ $key + 1 }}.</td>
                           <td width="20%">{{ $user->full_name }}</td>
-                          <td width="20%">{{ $user->user_name }}</td>
+                          <td width="20%">{{ $user->phone }}</td>
                           <td width="20%">{{ $user->email }}</td>
-                          <td width="10%"><img width="100%" style="border-radius: 50%" height="90px" src="{{ $user->avatar != '' ? asset($user->avatar) : 'https://vivureviews.com/wp-content/uploads/2022/08/avatar-vo-danh-10.png' }}" alt="" onerror="this.src='https://vivureviews.com/wp-content/uploads/2022/08/avatar-vo-danh-10.png'" ></td>
                             <td width="20%">
                                 <form action="{{ route('users.destroy',$user->id) }}" method="post">
                                 @csrf
