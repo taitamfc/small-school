@@ -28,6 +28,8 @@
   <link rel="stylesheet" href="{{asset('asset/plugins/summernote/summernote-bs4.min.css')}}">
   <!-- jQuery -->
   <script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
+  <script src="{{asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
   @yield('header_scripts')
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -61,7 +63,6 @@
 <script src="{{asset('asset/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <!-- Bootstrap 4 -->
-<script src="{{asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- ChartJS -->
 <!-- Sparkline -->
 <script src="{{asset('asset/plugins/sparklines/sparkline.js')}}"></script>

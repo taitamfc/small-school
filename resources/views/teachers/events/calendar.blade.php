@@ -1,18 +1,18 @@
 @extends('teachers.layouts.master')
 @section('content')
     <div class="content-wrapper">
-        <div class="container"><br>
-            <div style="margin-bottom: 10px;" class="row">
+        <div class="container">
+            <div class="row mb-2 mt-2">
                 <div class="col-lg-12">
                     <a class="btn btn-warning" href="{{ route("teachers.events.index") }}">
                         Danh sách sự kiện
                     </a>
+                    <a class="btn btn-info" href="{{ route("teachers.events.sync_gg") }}">
+                        Đồng bộ với Google Calendar
+                    </a>
                 </div>
             </div>
             <div class="card">
-                <div class="card-header">
-
-                </div>
                 <div class="card-body">
                     <div id='calendar'></div>
                 </div>

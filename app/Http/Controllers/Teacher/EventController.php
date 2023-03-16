@@ -85,7 +85,7 @@ class EventController extends Controller
             'status'     => $status,
             'show_calendar_button'     => false,
         ];
-        return view('teachers.events.index',$params);
+        return view('teachers.events.salary',$params);
     }
     public function calendar(Request $request)
     {

@@ -60,6 +60,9 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
     Route::resource('groups', GroupController::class);
     
     // Manage events
+    Route::prefix('events')->group(function(){
+        Route::get('/salary',[EventController::class,'salary'])->name('events.salary');
+    });
     Route::resource('events', EventController::class);
 
     // Manage calendars
@@ -84,6 +87,7 @@ Route::prefix('teachers')->middleware('auth.teacher')->group(function () {
     Route::put('/postProfile',[\App\Http\Controllers\Teacher\ProfileController::class, 'postProfile'])->name('teachers.postProfile');
     Route::get('/logout',[\App\Http\Controllers\Teacher\ProfileController::class, 'logout'])->name('teachers.logout');
     
+    Route::get('/events/sync_gg',[\App\Http\Controllers\Teacher\EventController::class, 'sync_gg'])->name('teachers.events.sync_gg');
     Route::get('/events/calendar',[\App\Http\Controllers\Teacher\EventController::class, 'calendar'])->name('teachers.events.calendar');
     Route::get('/events/histories',[\App\Http\Controllers\Teacher\EventController::class, 'histories'])->name('teachers.events.histories');
     Route::get('/events/salary',[\App\Http\Controllers\Teacher\EventController::class, 'salary'])->name('teachers.events.salary');

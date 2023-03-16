@@ -280,4 +280,53 @@ class EventController extends Controller
         Event::whereIn('id', request('ids'))->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
+    public function salary(Request $request)
+    {
+        $teacher_id       = $request->teacher_id ?? '';
+        $student_id       = $request->student_id ?? '';
+        $name             = $request->name ?? '';
+        // $room_name        = $request->room_name ?? '';
+        $orderby          = $request->orderby ?? '';
+        $status_search            = $request->status ?? '';
+        $start_time            = $request->start_time ?? '';
+        $end_time            = $request->end_time ?? '';
+        $teachers = Teacher::all();
+        $students = Student::all();
+        $status = new Event();
+        $query = Event::where('status','da_xac_nhan');
+        
+        // if (!empty($room_name)) {
+        //     $query->where('group_id',  $request->room_name);
+        // };
+        
+        if (!empty($student_id)) {
+            $query->leftJoin('event_students', 'events.id', '=', 'event_students.event_id')
+            ->where('event_students.student_id', $student_id);
+     
+        }
+        if (!empty($teacher_id)) {
+            $query->where('teacher_id',  $request->teacher_id);
+        };
+        if (!empty($orderby)) {
+            $query->orderBy('events.id', $orderby);
+        }
+        if (!empty($name)) {
+            $query->where('name', 'like', '%' . $name . '%');
+        }
+        if (!empty($start_time)) {
+            $query->where('start_time', 'like', '%' . $start_time . '%');
+        }
+        if (!empty($end_time)) {
+            $query->where('end_time', 'like', '%' . $end_time . '%');
+        }
+
+        $events = $query->paginate(31);
+        $params = [
+            'items'       => $events,
+            'teachers'     => $teachers,
+            'students'     => $students,
+            'status'     => $status,
+        ];
+        return view('admin.events.salary',$params);
+    }
 }
