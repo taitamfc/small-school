@@ -85,8 +85,10 @@ Route::prefix('teachers')->middleware('auth.teacher')->group(function () {
     Route::get('/logout',[\App\Http\Controllers\Teacher\ProfileController::class, 'logout'])->name('teachers.logout');
     
     Route::get('/events/calendar',[\App\Http\Controllers\Teacher\EventController::class, 'calendar'])->name('teachers.events.calendar');
-    Route::delete('/events/calendar/{id}',[\App\Http\Controllers\Teacher\EventController::class, 'calendar_detail'])->name('teachers.events.calendar_detail');
+    Route::get('/events/{id}',[\App\Http\Controllers\Teacher\EventController::class, 'show'])->name('teachers.events.show');
+    Route::put('/events/{id}',[\App\Http\Controllers\Teacher\EventController::class, 'update'])->name('teachers.events.update');
     Route::get('/events',[\App\Http\Controllers\Teacher\EventController::class, 'index'])->name('teachers.events.index');
+    
     
     Route::get('/students',[\App\Http\Controllers\Teacher\StudentController::class, 'index'])->name('teachers.students.index');
     Route::get('/students/{id}',[\App\Http\Controllers\Teacher\StudentController::class, 'show'])->name('teachers.students.show');
