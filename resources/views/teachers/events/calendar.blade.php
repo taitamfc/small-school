@@ -60,7 +60,7 @@
     */
 $(document).ready(function() {
     $('#md-cl-url-delete').remove();
-    $('#md-cl-url-edit').remove();
+    $('#md-cl-url-edit').text('Chi tiết');
 
     var calendarEl = document.getElementById('calendar');
     var Calendar = FullCalendar.Calendar;
