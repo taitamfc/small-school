@@ -17,10 +17,10 @@
 <div class="login-box">
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a href="#" class="h1"><b>Admin</b>School</a>
+      <a href="javascript:;" class="h1"><b>Giáo Viên</b></a>
     </div>
     <div class="card-body">
-      <p class="login-box-msg">Đăng nhập hệ thống để tiếp tục</p>
+      <p class="login-box-msg">Đăng nhập giáo viên</p>
       <form action="{{ route('teachers.checkLogin') }}" method="post">
         @csrf
         <div class="input-group mb-3">
@@ -66,12 +66,12 @@
         <a href="{{ route('users.login') }}" class="btn btn-block btn-danger">
           Đăng nhập với tư cách Quản trị viên
         </a>
-        <a href="{{ route('students.login') }}" class="btn btn-block btn-primary">
+        <!-- <a href="{{ route('students.login') }}" class="btn btn-block btn-primary">
          Đăng nhập với tư cách Học sinh
-        </a>
+        </a> -->
       </div>
       <p class="mb-1">
-        <a href="forgot-password.html">Quên mật khẩu</a>
+        <!-- <a href="forgot-password.html">Quên mật khẩu</a> -->
       </p>
     </div>
   </div>

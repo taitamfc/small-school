@@ -154,12 +154,7 @@
                                     <th>
                                         Tên sự kiện
                                     </th>
-                                    <th>
-                                        Bắt đầu
-                                    </th>
-                                    <th>
-                                        Kết thúc
-                                    </th>
+                                    <th>Thời gian</th>
                                     <th>
                                         Lặp lại
                                     </th>
@@ -173,19 +168,18 @@
                             </thead>
                             <tbody id="list-events">
                                 @foreach ($events as $key => $event)
-                                    <tr data-entry-id="{{ $event->event_id ?? $event->id}}">
+                                    <tr data-entry-id="{{ $event->id}}">
 
                                         <td>
-                                            {{ $event->event_id ?? $event->id }}
+                                            {{ $event->id  }}
                                         </td>
                                         <td>
                                             {{ $event->name ?? '' }}
                                         </td>
                                         <td>
-                                            {{ date_format(new DateTime($event->start_time), 'H:i:s - d/m/Y') ?? '' }}
-                                        </td>
-                                        <td>
-                                            {{ date_format(new DateTime($event->end_time), 'H:i:s - d/m/Y') ?? '' }}
+                                            {{ date('H:i',strtotime($event->start_time)) }}
+                                            đến {{ date('H:i',strtotime($event->end_time)) }}
+                                            - {{ date('d/m/Y',strtotime($event->end_time)) }}
                                         </td>
                                         <td>
                                             {{ $event->recurrence_days}}
@@ -196,20 +190,20 @@
                                         <td>
                                             {{-- @can('event_show') --}}
                                             <a class="btn btn-xs btn-primary"
-                                                href="{{ route('events.show', $event->event_id ?? $event->id) }}">
+                                                href="{{ route('events.show', $event->id) }}">
                                                 Xem
                                             </a>
                                             {{-- @endcan --}}
 
                                             {{-- @can('event_edit') --}}
-                                            <a class="btn btn-xs btn-info" href="{{ route('events.edit', $event->event_id ?? $event->id) }}">
+                                            <a class="btn btn-xs btn-info" href="{{ route('events.edit', $event->id) }}">
                                                 Sửa
                                             </a>
                                             {{-- @endcan --}}
 
                                             {{-- @can('event_delete') --}}
-                                            <form action="{{ route('events.destroy', $event->event_id ?? $event->id) }}" method="POST"
-                                                onsubmit="return confirm('{{ $event->event_id ?? $event->id == null ? 'Bạn cũng muốn xóa các sự kiện lặp lại trong tương lai' : 'Bạn có muốn xóa sự kiện này' }}');"
+                                            <form action="{{ route('events.destroy', $event->id) }}" method="POST"
+                                                onsubmit="return confirm('{{ $event->id == null ? 'Bạn cũng muốn xóa các sự kiện lặp lại trong tương lai' : 'Bạn có muốn xóa sự kiện này' }}');"
                                                 style="display: inline-block;">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">

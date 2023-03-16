@@ -31,7 +31,7 @@ class EventController extends Controller
         try {
             $startTime = Carbon::parse($request->start_time);
             $finishTime = Carbon::parse($request->end_time);
-            $durration = $finishTime->diffInSeconds($startTime);
+            $durration = $finishTime->diffInMinutes($startTime);
             
             $event = new Event();
             $event->name = $name;
@@ -123,7 +123,7 @@ class EventController extends Controller
                         
                         $startTime = Carbon::parse($start_time);
                         $finishTime = Carbon::parse($end_time);
-                        $durration = $finishTime->diffInSeconds($startTime);
+                        $durration = $finishTime->diffInMinutes($startTime);
                         
                         $child_event = [
                             'name' => $request->name,
