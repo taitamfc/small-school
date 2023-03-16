@@ -79,8 +79,8 @@ class StudentController extends Controller
     public function create()
     {   
         $this->authorize('create', Student::class);
-        $students = Student::all();
-        return view('admin.students.create',compact('students'));
+        $student = new Student();
+        return view('admin.students.create',compact('student'));
     }
 
 
@@ -93,7 +93,7 @@ class StudentController extends Controller
                 'phone' => $request->get('phone'),
                 'room_name' => $request->get('room_name'),
                 'email' => $request->get('email'),
-                'password' => bcrypt($request->get('password')),
+                // 'password' => bcrypt($request->get('password')),
                 'birthday' => $request->get('birthday'),
                 'status' => $request->get('status'),
             ];
@@ -139,7 +139,7 @@ class StudentController extends Controller
             'phone' => $request->get('phone'),
             'room_name' => $request->get('room_name'),
             'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password')),
+            // 'password' => bcrypt($request->get('password')),
             'birthday' => $request->get('birthday'),
             'status' => $request->get('status'),
         ];

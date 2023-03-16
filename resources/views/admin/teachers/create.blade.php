@@ -43,63 +43,74 @@
                                 @csrf
                                 <div class="card-body">
                                     <div class="row">
-
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Họ và Tên:</label>
-                                            <input type="text" class="form-control" name="name" value="{{old('name')}}" placeholder="Nhập họ và tên...">
+                                            <input type="text" class="form-control" name="name"
+                                                value="{{ old('name') }}" placeholder="Nhập họ và tên...">
                                             @error('name')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Email:</label>
-                                            <input type="email" class="form-control" name="email" value="{{old('email')}}" placeholder="Nhập email...">
+                                            <input type="email" class="form-control" name="email"
+                                                value="{{ old('email') }}" placeholder="Nhập email...">
                                             @error('email')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
-
-                                        <div class="form-group col-md-4">
+                                        <div class="form-group col-md-6">
                                             <label>Mật khẩu:</label>
-                                            <input type="password" class="form-control" name="password" value="{{old('password')}}" placeholder="Nhập email...">
+                                            <input type="password" autocomplete="off" class="form-control"
+                                                name="password" placeholder="Nhập mật khẩu...">
                                             @error('password')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                       
 
-                                        <div class="form-group col-md-4">
-                                            <label>Level</label>
-                                            <input type="text" class="form-control" name="level" value="{{old('level')}}" placeholder="Nhập level...">
+                                        <div class="form-group col-md-6">
+                                            <label>Số điện thoại:</label>
+                                            <input type="text" class="form-control" name="phone"
+                                                value="{{ old('phone') }}" placeholder="Nhập họ và tên...">
+                                            @error('phone')
+                                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <label>Trình độ</label>
+                                            <textarea class="form-control" name="level">{{ old('level') }}</textarea>
                                             @error('level')
-                                            <div><code>{{ $message }}</code></div>
+                                            <div>{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Trạng thái</label>
-                                            <input type="text" class="form-control" name="status" value="{{old('status')}}" placeholder="...">
-                                            @error('status')
-                                            <div><code>{{ $message }}</code></div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
+
+                                        <div class="form-group col-md-6">
                                             <label for="exampleInputFile">Ảnh đại diện</label>
-                                        <div class="input-group">
-                                          <div class="custom-file">
-                                            <label class="custom-file-label" for="exampleInputFile">Chọn ảnh</label>
-                                            <input type='file' class="custom-file-input" id="imgInp" name="inputFile" />
-                                          </div>
-                                          <div class="input-group-append">
-                                            <span class="input-group-text">Tải ảnh lên</span>
-                                          </div>
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    <label class="custom-file-label" for="exampleInputFile">Chọn
+                                                        ảnh</label>
+                                                    <input type='file' class="custom-file-input" id="imgInp"
+                                                        name="inputFile" />
+                                                </div>
+                                                <img type="hidden" style="float: right" width="100px" height="100px"
+                                                id="blah1"
+                                                src=""
+                                                alt="Hình ảnh" />
+                                            </div>
                                         </div>
-                                        </div>
-                                        <div  class="form-group col-md-12">
-                                            <img type="hidden" style="float: right" width="350px" height="280px" id="blah" src="{{ old('inputFile') ? old('inputFile') : request()->inputFile }}"  alt="" />
+                                        <div class="form-group col-md-6">
+                                            <label>Trạng thái</label>
+                                            <select class="form-control" name="status">
+                                                @foreach( $teacher->statuses as $status => $lb_status )
+                                                <option @selected( old('status')  == $status)
+                                                    value="{{ $status }}">{{ $lb_status }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
-                            
                                 </div>
                                 <div class="card-footer">
                                     <button type="submit" class="btn btn-warning">Thêm</button>

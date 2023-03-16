@@ -39,6 +39,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public $statuses = [
+        'hoat_dong' => 'Hoat động',
+        'khong_hoat_dong' => 'Không hoạt động',
+    ];
+
     /**
      * The attributes that should be cast.
      *

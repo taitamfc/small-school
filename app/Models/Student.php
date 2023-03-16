@@ -15,6 +15,11 @@ class Student extends Authenticatable
     const DIR = 'storage';
     const FOLDER = 'student';
 
+    public $statuses = [
+        'hoat_dong' => 'Hoat động',
+        'khong_hoat_dong' => 'Không hoạt động',
+    ];
+
     public static function except(string $string)
     {
     }
