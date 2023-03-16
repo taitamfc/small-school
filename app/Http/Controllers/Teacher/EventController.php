@@ -49,12 +49,43 @@ class EventController extends Controller
         $params = [
             'items'       => $items,
             'status'     => $status,
+            'show_calendar_button'     => true,
         ];
         return view('teachers.events.index',$params);
     }
     public function histories(Request $request)
     {
-        return view('teachers.events.index');
+        $teacher_id = Auth::guard('teachers')->user()->id;
+        $status = new Event();
+        $query = Event::query(true);
+        $query->where('teacher_id',  $teacher_id);
+        $query->whereIn('status',['da_thuc_hien','da_xac_nhan','da_tu_choi']);
+
+        $query->orderBy('id','DESC');
+        $items = $query->paginate(10);
+        $params = [
+            'items'       => $items,
+            'status'     => $status,
+            'show_calendar_button'     => false,
+        ];
+        return view('teachers.events.index',$params);
+    }
+    public function salary(Request $request)
+    {
+        $teacher_id = Auth::guard('teachers')->user()->id;
+        $status = new Event();
+        $query = Event::query(true);
+        $query->where('teacher_id',  $teacher_id);
+        $query->whereIn('status',['da_xac_nhan']);
+
+        $query->orderBy('id','DESC');
+        $items = $query->paginate(10);
+        $params = [
+            'items'       => $items,
+            'status'     => $status,
+            'show_calendar_button'     => false,
+        ];
+        return view('teachers.events.index',$params);
     }
     public function calendar(Request $request)
     {

@@ -24,19 +24,19 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('teachers.events.calendar') }}" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                        <i class="nav-icon fas fa-calendar"></i>
                         <p> Thời khóa biểu </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('teachers.events.calendar') }}" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                    <a href="{{ route('teachers.events.histories') }}" class="nav-link">
+                        <i class="nav-icon fas fa-clock"></i>
                         <p> Lịch sử giảng dạy </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('teachers.events.calendar') }}" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                    <a href="{{ route('teachers.events.salary') }}" class="nav-link">
+                        <i class="nav-icon fas fa-dollar-sign"></i>
                         <p> Thống kê tiền lương </p>
                     </a>
                 </li>
@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('teachers.profile') }}" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                        <i class="nav-icon fas fa-user"></i>
                         <p> Cập nhật tài khoản </p>
                     </a>
                 </li>

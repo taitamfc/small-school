@@ -61,7 +61,8 @@ class Event extends Model
         'end_loop',
         'fee',
         'recurrence_days',
-        'status'
+        'status',
+        'proof',
     ];
 
     public $statuses = [

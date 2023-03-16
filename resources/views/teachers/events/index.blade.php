@@ -4,9 +4,11 @@
     <div class="container">
         <div class="row mt-2">
             <div class="col-lg-12">
+                @if( $show_calendar_button )
                 <a class="btn btn-warning" href="{{ route('teachers.events.calendar') }}">
                     Trang lịch
                 </a>
+                @endif
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Tìm kiếm chi tiết
