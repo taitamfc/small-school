@@ -41,6 +41,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ route('teachers.tasks.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p> Quản lý yêu cầu </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('teachers.profile') }}" class="nav-link">
                         <i class="nav-icon fas fa-copy"></i>
                         <p> Cập nhật tài khoản </p>

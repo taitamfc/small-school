@@ -35,7 +35,6 @@ class EventController extends Controller
                         'item'    => $the_event->toArray(),
                         'url'     => route('events.edit',$the_event->id),
                         'teacher' => $the_event->teacher->name ?? $the_event->event->teacher->name,
-                        'student' => $the_event->student->name ?? $the_event->event->student->name,
                         'start_format' => date('d/m/Y H:s', strtotime($the_event->start_time) ),
                         'end_format' => date('d/m/Y H:s', strtotime($the_event->end_time) )
                     ],
