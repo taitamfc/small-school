@@ -26,6 +26,7 @@ class StoreEventRequest extends FormRequest
             'start_time' => 'required',
             'end_time' => 'required',
             'teacher_id' => 'required',
+            'student_ids' => 'required',
            ];
             return $rules;
     }
@@ -35,6 +36,7 @@ class StoreEventRequest extends FormRequest
             'start_time.required' => 'Hãy Nhập Thời Gian Bắt Đầu Sự Kiện',
             'end_time.required' => 'Hãy Nhập Thời Gian Kết Thúc Sự Kiện',
             'teacher_id.required' => 'Hãy Chọn Giáo Viên',
+            'student_ids.required' => 'Hãy Chọn Học Viên',
             ];
             return $messages;
     }

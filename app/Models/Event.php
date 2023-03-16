@@ -67,7 +67,7 @@ class Event extends Model
     public $statuses = [
         'cho_thuc_hien' => 'Chờ thực hiện',
         'da_thuc_hien' => 'Đã thực hiện',
-        'da_xac_nha' => 'Đã xác nhận',
+        'da_xac_nhan' => 'Đã xác nhận',
         'da_tu_choi' => 'Đã từ chối',
     ];
 
