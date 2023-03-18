@@ -1,5 +1,5 @@
 @if(Auth::user()->hasPermission('Teacher_import'))
-@extends('admin.layouts.master')
+@extends('admin.layouts.app')
 @section('content')
   <div class="content-wrapper">
     <div class="container">
