@@ -24,11 +24,8 @@ class UpdateStudentRequest extends FormRequest
         $rules =[
             'name' => 'required',
             'phone' => 'required',
-            'room_name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:students,email,'.$this->student,
             'birthday' => 'required',
-            'image' => 'required',
-            'status' => 'required',
         ];
         return $rules;
     }

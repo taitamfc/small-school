@@ -1,132 +1,24 @@
 @if(Auth::user()->hasPermission('Student_create'))
 @extends('admin.layouts.master')
 @section('content')
-<div class="content-wrapper">
-    <div class="container">
-
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Quản lý học viên</h1><br>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('users.login') }}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Quản lý tài khoản</li>
-                        </ol>
-                    </div>
+<div class="row">
+    <div class="col-sm-12">
+        <h1 class="mb-2 text-uppercase">Thêm học viên </h1>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            @include('global_layouts.alert')
+            <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="card-body">
+                    @include('admin.students.form')
                 </div>
-            </div>
-        </section>
-
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-primary">
-                            @if (session('error'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('error') }}
-                            </div>
-                            @endif
-
-                            @if (session('success'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            <div class="card-header">
-
-                                <h3 class="card-title">Thêm học viên</h3><br>
-                            </div>
-                            <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="form-group col-md-4">
-                                            <label>Họ và tên</label>
-                                            <input type="text" class="form-control" name="name"
-                                                value="{{ old('name') ? old('name') : request()->name }}"
-                                                placeholder="Nhập họ và tên">
-                                            @error('name')
-                                            <div><code>{{ $message }}</code></div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label>Số điện thoại</label>
-                                            <input type="text" class="form-control" name="phone"
-                                                value="{{ old('phone') ? old('phone') : request()->phone }}"
-                                                placeholder="Nhập số điện thoại">
-                                            @error('phone')
-                                            <div><code>{{ $message }}</code></div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label>E-mail</label>
-                                            <input type="text" class="form-control" name="email"
-                                                value="{{ old('email') ? old('email') : request()->email }}"
-                                                placeholder="Nhập E-mail">
-                                            @error('email')
-                                            <div><code>{{ $message }}</code></div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>Ngày sinh</label>
-                                            <input type="date" class="form-control" name="birthday"
-                                                value="{{ old('birthday') ? old('birthday') : request()->birthday }}"
-                                                placeholder="Nhập ngày sinh nhật">
-                                            @error('birthday')
-                                            <div><code>{{ $message }}</code></div>
-                                            @enderror
-                                        </div>
-
-                                        
-
-                                        <div class="form-group col-md-4">
-                                            <label>Trạng thái</label>
-                                            <select class="form-control" name="status">
-                                                @foreach( $student->statuses as $status => $lb_status )
-                                                <option @selected($student->status == $status)
-                                                    value="{{ $status }}">{{ $lb_status }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-										<div class="form-group col-md-4">
-                                            <label for="exampleInputFile">Ảnh đại diện</label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <label class="custom-file-label" for="exampleInputFile">Chọn
-                                                        ảnh</label>
-                                                    <input type='file' class="custom-file-input" id="imgInp"
-                                                        name="image" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group col-md-4">
-
-                                        <img type="hidden" width="300px" height="280px" id="blah" src="" alt="" />
-
-                                    </div>
-
-                                </div>
-
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Thêm</button>
-                                    <a class="btn btn-danger" href="{{ route('students.index') }}">Trở về</a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <a class="btn btn-danger" href="{{ route('students.index') }}">Trở về</a>
                 </div>
-            </div>
-        </section>
+            </form>
+        </div>
     </div>
 </div>
 @endsection
