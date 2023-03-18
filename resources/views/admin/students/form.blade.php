@@ -1,7 +1,7 @@
 <div class="row">
     <div class="form-group col-lg-4">
         <label>Họ và tên *</label>
-        <input class="form-control" name="name" value="{{ old('name') ?? $item->name  }}">
+        <input class="form-control" name="name" value="{{ old('name') ?? $item->name }}">
         @error('name') @include('global_layouts.error') @enderror
     </div>
     <div class="form-group col-lg-4">
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group col-lg-4">
         <label>Lớp</label>
-        <select class="form-control" name="room_id">
+        <select class="form-control select2" name="room_id">
             @foreach( $rooms as $key => $val )
             <option @selected($item->room_id == $val->id)
                 value="{{ $val->id }}">{{ $val->name }}</option>
@@ -61,7 +61,7 @@
     </div>
     <div class="form-group col-lg-4">
         <label>Tên Saler</label>
-        <select class="form-control" name="saler_id">
+        <select class="form-control select2" name="saler_id">
             @foreach( $salers as $key => $value )
             <option @selected($item->saler_id == $value->id)
                 value="{{ $value->id }}">{{ $value->full_name }}</option>

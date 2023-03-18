@@ -1,11 +1,4 @@
-@if(Auth::user()->hasPermission('Student_viewAny'))
-@extends('admin.layouts.master')
-@section('header_scripts')
-<link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
-</script>
-@endsection
+@extends('admin.layouts.app')
 @section('content')
 <div class="row mb-2">
     <div class="col-sm-12">
@@ -19,8 +12,8 @@
         @if(Auth::user()->hasPermission('Student_import'))
         <a class="btn btn-primary" href="{{ route('students.viewImport') }}">Nhập Excel</a>
         @endif
-        <button class="btn btn-success" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        <button class="btn btn-primary" data-toggle="collapse"
+            data-target="#collapseExample" >
             Tìm kiếm chi tiết
         </button>
     </div>
@@ -76,12 +69,3 @@
     </div>
 </div>
 @endsection
-@section('footer_scripts')
-<script src="{{asset('asset/plugins/select2/js/select2.full.min.js')}}"></script>
-<script>
-$(function() {
-    $('.select2').select2()
-});
-</script>
-@endsection
-@endif

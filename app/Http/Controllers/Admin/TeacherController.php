@@ -26,8 +26,9 @@ class TeacherController extends Controller
         $name         = $request->name ?? '';
         $search       = $request->key ?? '';
         $email        = $request->email ?? '';
-        $level        = $request->level ?? '';
+        $phone        = $request->phone ?? '';
         $query = Teacher::query(true);
+        $query->orderBy('id','DESC');
     
         if (!empty($name)) {
             $query->where('name', 'like', '%' . $search .$name. '%');
@@ -35,22 +36,21 @@ class TeacherController extends Controller
         if (!empty($search)) {
                 $query->where(function($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%')
-                    ->orWhere('level', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
         if (!empty($email)) {
-            $query->where('email', 'like', '%' . $search .$email. '%');
+            $query->where('email', 'like', '%' . $email. '%');
            
         }
-        if (!empty($level)) {
-            $query->where('level', 'like', '%' . $search .$level. '%');
+        if (!empty($phone)) {
+            $query->where('phone', 'like', '%' . $phone. '%');
         }
        
         
-        $teachers = $query->paginate(5);
+        $items = $query->paginate(20);
         $params = [
-            'teachers'        => $teachers,
+            'items'        => $items,
         ];
         return view('admin.teachers.index',$params);
     
@@ -63,9 +63,9 @@ class TeacherController extends Controller
     public function create()
     {
         $this->authorize('create', Teacher::class);
-        $teacher = new Teacher();
+        $item = new Teacher();
         $param = [
-            'teacher' => $teacher,
+            'item' => $item,
         ];
         return view('admin.teachers.create', $param);
     }
@@ -77,12 +77,12 @@ class TeacherController extends Controller
     {
         $this->authorize('create', Teacher::class);
        try {
-        $teacher = new Teacher();
-        $teacher->name = $request->name;
-        $teacher->email = $request->email;
-        $teacher->password = bcrypt($request->password);
-        $teacher->level = $request->level;
-        $teacher->status = $request->status;
+        $item = new Teacher();
+        $item->name = $request->name;
+        $item->email = $request->email;
+        $item->password = bcrypt($request->password);
+        $item->level = $request->level;
+        $item->status = $request->status;
         $fieldName = 'inputFile';
         if ($request->hasFile($fieldName)) {
             $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
@@ -91,9 +91,9 @@ class TeacherController extends Controller
             $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
             $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
             $path = str_replace('public/', '', $path);
-            $teacher->image = $path;
+            $item->image = $path;
         }
-        $teacher->save();
+        $item->save();
         return redirect()->route('teachers.index')->with('success', 'Cập nhật thành công.');
        } catch (\Exception $e) { 
         if(isset($path)){
@@ -119,9 +119,9 @@ class TeacherController extends Controller
     public function edit(string $id)
     {
         $this->authorize('update', Teacher::class);
-        $teacher = Teacher::find($id);
+        $item = Teacher::find($id);
         $param = [
-            'teacher' => $teacher,
+            'item' => $item,
         ];
         return view('admin.teachers.edit', $param);
     }
@@ -133,14 +133,14 @@ class TeacherController extends Controller
     {
         $this->authorize('update', Teacher::class);
         try {
-        $teacher = Teacher::find($id);
-        $teacher->name = $request->name;
-        $teacher->email = $request->email;
+        $item = Teacher::find($id);
+        $item->name = $request->name;
+        $item->email = $request->email;
         if(isset($request->password) && !empty($request->password)){
-            $teacher->password = bcrypt($request->password);
+            $item->password = bcrypt($request->password);
         }
-        $teacher->level = $request->level;
-        $teacher->status = $request->status;
+        $item->level = $request->level;
+        $item->status = $request->status;
         $fieldName = 'inputFile';
         if ($request->hasFile($fieldName)) {
             $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
@@ -149,9 +149,9 @@ class TeacherController extends Controller
             $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
             $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
             $path = str_replace('public/', '', $path);
-            $teacher->image = $path;
+            $item->image = $path;
         }
-        $teacher->save();
+        $item->save();
             return redirect()->route('teachers.index')->with('success', 'Cập nhật thành công.');
         } catch (\Exception $e) {
             if(isset($path)){
@@ -169,8 +169,8 @@ class TeacherController extends Controller
     {
         $this->authorize('delete', Teacher::class);
         try {
-            $teacher = Teacher::find($id);
-            $teacher->delete();
+            $item = Teacher::find($id);
+            $item->delete();
                 return redirect()->route('teachers.index')->with('success', 'Xoá thành công.');
             } catch (\Exception $e) {
                 Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
@@ -211,19 +211,19 @@ class TeacherController extends Controller
 
         public function profile(){
             if(isset(Auth::guard('teachers')->user()->name)){
-                $teacher = Auth::guard('teachers')->user();
+                $item = Auth::guard('teachers')->user();
                 return view('admin.teachers.profile', compact('teacher'));
             }
         }
         public function updateProfile(UpdateProfileTeacherRequest $request, string $id){
             try {
-                $teacher = Teacher::find($id);
-                $teacher->name = $request->name;
-                $teacher->email = $request->email;
+                $item = Teacher::find($id);
+                $item->name = $request->name;
+                $item->email = $request->email;
                 if(isset($request->password) && !empty($request->password)){
-                    $teacher->password = bcrypt($request->password);
+                    $item->password = bcrypt($request->password);
                 }
-                $images = str_replace('storage', 'public', $teacher->avatar);
+                $images = str_replace('storage', 'public', $item->avatar);
                 $fieldName = 'inputFile';
                 if ($request->hasFile($fieldName)) {
                     $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
@@ -232,9 +232,9 @@ class TeacherController extends Controller
                     $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
                     $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
                     $path = str_replace('public/', '', $path);
-                    $teacher->image = $path;
+                    $item->image = $path;
                 }
-                $teacher->save();
+                $item->save();
                     if (isset($path) && isset($images)) {
                         Storage::delete($images);
                     }

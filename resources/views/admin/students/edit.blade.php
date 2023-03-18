@@ -1,5 +1,4 @@
-@if(Auth::user()->hasPermission('Student_update'))
-@extends('admin.layouts.master')
+@extends('admin.layouts.app')
 @section('content')
 <div class="row">
     <div class="col-sm-12">
@@ -24,4 +23,3 @@
     </div>
 </div>
 @endsection
-@endif
