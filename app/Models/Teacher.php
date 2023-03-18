@@ -12,9 +12,23 @@ class Teacher extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'level',
+        'phone',
+        'birthday',
         'password',
+        'cmnd',
+        'ho_khau',
+        'address',
+        'level',
+        'bank_user_name',
+        'bank_number',
+        'bank_branch_name',
+        'recurrence_days',
+        'image',
+        'status'
     ];
+
+    const DIR = 'storage';
+    const FOLDER = 'teacher';
 
     public $statuses = [
         'hoat_dong' => 'Hoat động',

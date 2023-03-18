@@ -14,9 +14,11 @@ use App\Exports\TeacherExport;
 use App\Imports\TeacherImport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\UploadFileTrait;
 
 class TeacherController extends Controller
 {
+    use UploadFileTrait;
     /**
      * Display a listing of the resource.
      */
@@ -76,33 +78,22 @@ class TeacherController extends Controller
     public function store(StoreTeacherRequest $request)
     {
         $this->authorize('create', Teacher::class);
-       try {
-        $item = new Teacher();
-        $item->name = $request->name;
-        $item->email = $request->email;
-        $item->password = bcrypt($request->password);
-        $item->level = $request->level;
-        $item->status = $request->status;
-        $fieldName = 'inputFile';
-        if ($request->hasFile($fieldName)) {
-            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-            $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
-            $path = str_replace('public/', '', $path);
-            $item->image = $path;
+        $data = $request->except(['_token','_method']);
+        if( isset($data['password']) ){
+            $data['password'] = bcrypt($data['password']);
         }
-        $item->save();
-        return redirect()->route('teachers.index')->with('success', 'Cập nhật thành công.');
-       } catch (\Exception $e) { 
-        if(isset($path)){
-            $images = str_replace('storage', 'public', $path);
-            Storage::delete($images); }
-        Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-        return redirect()->route('teachers.create')->with('error', 'Thêm giáo viên thất bại.');
-       }      
-       return redirect()->route('teachers.index');
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $pathInfor = $this->uploadFile($image, Teacher::FOLDER);
+            $data['image'] = Teacher::DIR.'/'.$pathInfor;
+        }
+        try {
+            Teacher::create($data);
+            return redirect()->route('teachers.index')->with('success', 'Thêm thành công.');
+        } catch (\Exception $e) {
+            Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+            return back()->withInput()->with('error', 'Thêm không thành công!.');
+        }
     }
 
     /**
@@ -120,6 +111,9 @@ class TeacherController extends Controller
     {
         $this->authorize('update', Teacher::class);
         $item = Teacher::find($id);
+        if( isset($item['recurrence_days']) ){
+            $item['recurrence_days'] = explode(',',$item['recurrence_days']);
+        }
         $param = [
             'item' => $item,
         ];
@@ -132,33 +126,26 @@ class TeacherController extends Controller
     public function update(UpdateTeacherRequest $request, string $id)
     {
         $this->authorize('update', Teacher::class);
+        $data = $request->except(['_token','_method']);
+        if( isset($data['password']) && $data['password'] ){
+            $data['password'] = bcrypt($data['password']);
+        }else{
+            unset($data['password']);
+        }
+        if( isset($data['recurrence_days']) ){
+            $data['recurrence_days'] = implode(',',$data['recurrence_days']);
+        }
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $pathInfor = $this->uploadFile($image, Teacher::FOLDER);
+            $data['image'] = Teacher::DIR.'/'.$pathInfor;
+        }
         try {
-        $item = Teacher::find($id);
-        $item->name = $request->name;
-        $item->email = $request->email;
-        if(isset($request->password) && !empty($request->password)){
-            $item->password = bcrypt($request->password);
-        }
-        $item->level = $request->level;
-        $item->status = $request->status;
-        $fieldName = 'inputFile';
-        if ($request->hasFile($fieldName)) {
-            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-            $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/teachers', $fileName);
-            $path = str_replace('public/', '', $path);
-            $item->image = $path;
-        }
-        $item->save();
-            return redirect()->route('teachers.index')->with('success', 'Cập nhật thành công.');
+            Teacher::find($id)->update($data);
+            return redirect()->route('teachers.index')->with('success', 'Thêm thành công.');
         } catch (\Exception $e) {
-            if(isset($path)){
-                $images = str_replace('storage', 'public', $path);
-                Storage::delete($images); }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return redirect()->route('teachers.index')->with('error', 'Cập nhật không thành công.');
+            return back()->withInput()->with('error', 'Thêm không thành công!.');
         }
     }
 
