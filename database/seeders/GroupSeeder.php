@@ -21,11 +21,15 @@ class GroupSeeder extends Seeder
         $group->save();
 
         $group = new Group();
-        $group->name = 'Giáo viên';
+        $group->name = 'Quản lý';
         $group->save();
 
         $group = new Group();
-        $group->name = 'Sinh viên';
+        $group->name = 'Chăm sóc học viên';
+        $group->save();
+
+        $group = new Group();
+        $group->name = 'Bán hàng';
         $group->save();
     }
 }

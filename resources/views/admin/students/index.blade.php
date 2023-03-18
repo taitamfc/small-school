@@ -7,162 +7,72 @@
 </script>
 @endsection
 @section('content')
-<div class="content-wrapper">
-    <div class="container">
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-12">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('users.login') }}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Quản lý học viên</li>
-                        </ol>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-12">
-                        <h1>Quản lý học viên</h1><br>
-                        @if(Auth::user()->hasPermission('Student_create'))
-                        <a class="btn btn-warning" href="{{ route('students.create') }}">Thêm học viên </a>
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h1 class="mb-2 text-uppercase">Quản lý học viên</h1>
+        @if(Auth::user()->hasPermission('Student_create'))
+        <a class="btn btn-warning" href="{{ route('students.create') }}">Thêm học viên </a>
+        @endif
+        @if(Auth::user()->hasPermission('Student_export'))
+        <a class="btn btn-info" href="{{ route('students.export') }}">Xuất Excel</a>
+        @endif
+        @if(Auth::user()->hasPermission('Student_import'))
+        <a class="btn btn-primary" href="{{ route('students.viewImport') }}">Nhập Excel</a>
+        @endif
+        <button class="btn btn-success" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Tìm kiếm chi tiết
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        @include('global_layouts.alert')
+        <div class="collapse" id="collapseExample">
+        @include('admin.students.form-search')
+        </div>
+        <div class="card">
+            <div class="card-body p-0">
+                <table class="table" style="text-align: center">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%">STT</th>
+                            <th>Họ và tên</th>
+                            <th>Số điện thoại</th>
+                            <th>Email</th>
+                            <th>Trạng thái</th>
+                            <th>Hành động </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if( count($items) )
+                        @foreach($items as $key => $item)
+                        <tr>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->name }}</td>
+                            <td>{{ $item->phone }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->statuses[$item->status] }}</td>
+                            <td>
+                                <form action="{{route('students.destroy',$item->id)}}" method="post">
+                                    @method('DELETE')
+                                    @csrf
+                                    <a class="btn btn-warning"
+                                        href="{{route('students.edit', $item->id)}}">Sửa</a>
+                                    <button class="btn btn-danger" type="submit"
+                                        onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
                         @endif
-                        @if(Auth::user()->hasPermission('Student_export'))
-                        <a class="btn btn-info" href="{{ route('students.export') }}">Xuất Excel</a>
-                        @endif
-                        @if(Auth::user()->hasPermission('Student_import'))
-                        <a class="btn btn-primary" href="{{ route('students.viewImport') }}">Nhập Excel</a>
-                        @endif
-                        <button class="btn btn-success" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                            Tìm kiếm chi tiết
-                        </button>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
-        </section>
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-
-                    <div class="col-md-12">
-                        @if (session('error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ session('error') }}
-                        </div>
-                        @endif
-
-                        @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                        @endif
-                        <div class="collapse" id="collapseExample">
-                            <div class="col-12">
-                                <section class="content">
-                                    <div class="container-fluid">
-                                        <form action="{{ route('students.index') }}" method="GET" id="form-search">
-                                            @csrf
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="row">
-                                                        <div class="col-4">
-                                                            <div class="form-group">
-                                                                <label>Họ và tên</label>
-                                                                <input type="text" name="name" class="form-control"
-                                                                    placeholder="Tìm theo họ và tên"
-                                                                    value="{{ request()->name }}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="form-group">
-                                                                <label>Số điện thoại</label>
-                                                                <input type="text" name="phone" class="form-control"
-                                                                    placeholder="Tìm theo số điện thoại"
-                                                                    value="{{ request()->phone }}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <div class="form-group">
-                                                                <label>Sinh nhật</label>
-                                                                <input type="date" name="birthday" class="form-control"
-                                                                    placeholder="Tìm theo ngày sinh"
-                                                                    value="{{ request()->birthday }}">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="input-group">
-                                                            <input type="text" name="email" class="form-control"
-                                                                placeholder="Tìm theo Email"
-                                                                value="{{ request()->email }}">
-                                                            <div class="input-group-append">
-                                                                <button type="submit" class="btn btn-default">
-                                                                    Xác nhận
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </section>
-                            </div>
-                        </div>
-
-
-                        <div class="card card card-primary">
-                            <div class="card-header">
-
-                                <h3 class="card-title">Danh sách học viên</h3>
-
-                                <div class="card-tools">
-                                    <ul class="pagination pagination-sm float-right">
-                                        {{--                        {{ $students->appends(request()->all())->links() }}--}}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-body p-0">
-                                <table class="table" style="text-align: center">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 10%">STT</th>
-                                            <th>Họ và tên</th>
-                                            <th>Số điện thoại</th>
-                                            <th>Email</th>
-                                            <th>Trạng thái</th>
-                                            <th>Hành động </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(!empty($students))
-                                        @foreach($students as $key => $student)
-                                        <tr>
-                                            <td>{{ $key + 1 }}.</td>
-                                            <td>{{ $student->name }}</td>
-                                            <td>{{ $student->phone }}</td>
-                                            <td>{{ $student->email }}</td>
-                                            <td>{{ $student->statuses[$student->status] }}</td>
-                                            <td>
-                                                <form action="{{route('students.destroy',$student->id)}}" method="post">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <a class="btn btn-warning"
-                                                        href="{{route('students.edit', $student->id)}}">Sửa</a>
-                                                    <button class="btn btn-danger" type="submit"
-                                                        onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-footer">
+                @include('global_layouts.pagination')
             </div>
-        </section>
+        </div>
     </div>
 </div>
 @endsection

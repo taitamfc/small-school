@@ -12,6 +12,9 @@ use App\Traits\UploadFileTrait;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Student;
+use App\Models\User;
+use App\Models\Teacher;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -40,7 +43,7 @@ class StudentController extends Controller
         $birthday        = $request->birthday ?? '';
 
         $query = Student::query(true);
-
+        $query->orderBy('id', 'DESC');
         if (!empty($orderby)) {
             $query->orderBy('id', $orderby);
         }
@@ -68,9 +71,9 @@ class StudentController extends Controller
 
             });
         }
-        $students = $query->paginate(5);
+        $items = $query->paginate(20);
         $params = [
-            'students'        => $students,
+            'items'        => $items,
         ];
         return view('admin.students.index',$params);
     }
@@ -79,35 +82,38 @@ class StudentController extends Controller
     public function create()
     {   
         $this->authorize('create', Student::class);
-        $student = new Student();
-        return view('admin.students.create',compact('student'));
+        $item = new Student();
+        $teachers = Teacher::all();
+        $rooms = Room::all();
+        $student_carers = User::where('group_id',env('STUDENT_CARE_GI',3))->get();
+        $salers = User::where('group_id',env('SALER_GI',4))->get();
+        $params = [
+            'item'              => $item,
+            'teachers'          => $teachers,
+            'rooms'          => $rooms,
+            'salers'            => $salers,
+            'student_carers'    => $student_carers,
+        ];
+        return view('admin.students.create',$params);
     }
 
 
     public function store(StoreStudentRequest $request)
     {
-            $this->authorize('create', Student::class);
+        $this->authorize('create', Student::class);
+        $data = $request->except(['_token','_method']);
+        if( isset($data['password']) ){
+            $data['password'] = bcrypt($data['password']);
+        }
+        if($request->hasFile('image')){
             $image = $request->file('image');
-            $dataRequest = [
-                'name' => $request->get('name'),
-                'phone' => $request->get('phone'),
-                'room_name' => $request->get('room_name'),
-                'email' => $request->get('email'),
-                // 'password' => bcrypt($request->get('password')),
-                'birthday' => $request->get('birthday'),
-                'status' => $request->get('status'),
-            ];
-            if($request->hasFile('image')){
-                $pathInfor = $this->uploadFile($image, Student::FOLDER);
-                $dataRequest['image'] = Student::DIR.'/'.$pathInfor;
-            }
+            $pathInfor = $this->uploadFile($image, Student::FOLDER);
+            $data['image'] = Student::DIR.'/'.$pathInfor;
+        }
         try {
-            Student::create($dataRequest);
-            return redirect()->route('student.index')->with('success', 'Thêm học sinh thành công.');
+            Student::create($data);
+            return redirect()->route('students.index')->with('success', 'Thêm học sinh thành công.');
         } catch (\Exception $e) {
-            if(!file_exists($pathInfor)){
-               $this->deleteFile($pathInfor);
-            }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
             return back()->withInput()->with('error', 'Thêm học sinh không thành công!.');
         }
@@ -123,9 +129,18 @@ class StudentController extends Controller
     public function edit($id)
     {
         $this->authorize('update', Student::class);
-        $student = Student::find($id);
+        $item = Student::find($id);
+        $teachers = Teacher::all();
+        $salers = Teacher::all();
+        $rooms = Room::all();
+        $student_carers = User::where('group_id',env('STUDENT_CARE_GI',3))->get();
+        $salers = User::where('group_id',env('SALER_GI',4))->get();
         $params = [
-            'student' => $student
+            'item'              => $item,
+            'teachers'          => $teachers,
+            'rooms'          => $rooms,
+            'salers'            => $salers,
+            'student_carers'    => $student_carers,
         ];
         return view('admin.students.edit', $params);
     }
@@ -133,35 +148,19 @@ class StudentController extends Controller
     public function update(UpdateStudentRequest $request, $id)
     {
         $this->authorize('update', Student::class);
-        $image = $request->file('image');
-        $dataRequest = [
-            'name' => $request->get('name'),
-            'phone' => $request->get('phone'),
-            'room_name' => $request->get('room_name'),
-            'email' => $request->get('email'),
-            // 'password' => bcrypt($request->get('password')),
-            'birthday' => $request->get('birthday'),
-            'status' => $request->get('status'),
-        ];
+        $data = $request->except(['_token','_method']);
+        if( isset($data['password']) ){
+            $data['password'] = bcrypt($data['password']);
+        }
         if($request->hasFile('image')){
+            $image = $request->file('image');
             $pathInfor = $this->uploadFile($image, Student::FOLDER);
-            $dataRequest['image'] = Student::DIR.'/'.$pathInfor;
+            $data['image'] = Student::DIR.'/'.$pathInfor;
         }
         try {
-            $student = Student::find($id);
-            if($student){
-                $image = $student->image;
-                $checkImage = Student::FOLDER.'/'.pathinfo($image)['basename'];
-                if($checkImage && $image != null){
-                    $this->deleteFile($checkImage);
-                }
-            }
-            Student::findOrFail($id)->update($dataRequest);
-            return redirect()->route('student.index')->with('success', 'Thêm học sinh thành công.');
+            Student::find($id)->update($data);
+            return redirect()->route('students.index')->with('success', 'Thêm học sinh thành công.');
         } catch (\Exception $e) {
-            if(isset($pathInfor)){
-                $this->deleteFile($pathInfor);
-            }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
             return back()->withInput()->with('error', 'Thêm học sinh không thành công!.');
         }
@@ -171,9 +170,9 @@ class StudentController extends Controller
     {
         $this->authorize('delete', Student::class);
         try {
-            $student = Student::find($id);
-            $image = $student->image;
-            $student->delete();
+            $item = Student::find($id);
+            $image = $item->image;
+            $item->delete();
                 $checkImage = Student::FOLDER.'/'.pathinfo($image)['basename'];
                 if($checkImage && $image != null){
                     $this->deleteFile($checkImage);
@@ -229,7 +228,7 @@ class StudentController extends Controller
     }
     public function profile(){
         if(isset(Auth::guard('students')->user()->name)){
-            $student = Auth::guard('students')->user();
+            $item = Auth::guard('students')->user();
             return view('admin.students.profile', compact('student'));
         }
     }
@@ -248,9 +247,9 @@ class StudentController extends Controller
                 $pathInfor = $this->uploadFile($image, Student::FOLDER);
                 $teacher->image = Student::DIR.'/'.$pathInfor;
             }
-            $student = Student::find($id);
-            if($student){
-                $image = $student->image;
+            $item = Student::find($id);
+            if($item){
+                $image = $item->image;
                 $checkImage = Student::FOLDER.'/'.pathinfo($image)['basename'];
                 if($checkImage && $image != null){
                     $this->deleteFile($checkImage);

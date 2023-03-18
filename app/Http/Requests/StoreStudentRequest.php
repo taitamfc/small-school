@@ -24,12 +24,8 @@ class StoreStudentRequest extends FormRequest
         $rules =[
             'name' => 'required',
             'phone' => 'required',
-            'room_name' => 'required',
             'email' => 'required|email|unique:students',
-            'password' => 'required',
-            'image' => 'required',
             'birthday' => 'required',
-            'status' => 'required',
         ];
         return $rules;
     }
