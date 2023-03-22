@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use App\Observers\RecurrenceObserver;
+use App\Models\Event;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        Paginator::useBootstrapFive();
+        Paginator::useBootstrapFour();
+        // Event::observe(RecurrenceObserver::class);
     }
 }
