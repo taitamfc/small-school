@@ -27,8 +27,10 @@
     
     <div class="form-group col-lg-4">
         <label>Khóa học</label>
-        <select class="form-control" name="course_id">
-            <option value="0">0</option>
+        <select class="form-control select2" name="course_id">
+            @foreach( $courses as $course )
+            <option @selected($item->course_id == $course->id) value="{{ $course->id }}">{{ $course->name }}</option>
+            @endforeach
         </select>
     </div>
     <div class="form-group col-lg-4">

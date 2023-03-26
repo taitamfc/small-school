@@ -1,28 +1,22 @@
-@extends('admin.layouts.master')
+@extends('admin.layouts.app')
 @section('content')
-    <div class="content-wrapper">
-        <div class="container"><br>
-            <div style="margin-bottom: 10px;" class="row">
-                <div class="col-lg-12">
-                    <a class="btn btn-success" href="{{ route("events.create") }}">
-                        Thêm
-                    </a>
-                    <a class="btn btn-warning" href="{{ route("events.index") }}">
-                        Danh sách sự kiện
-                    </a>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-
-                </div>
-                <div class="card-body">
-                    <div id='calendar'></div>
-                </div>
-            </div>
-        </div>
+<div class="row mb-2">
+    <div class="col-lg-12">
+        <a class="btn btn-success" href="{{ route("events.create") }}">
+            Thêm
+        </a>
+        <a class="btn btn-warning" href="{{ route("events.index") }}">
+            Danh sách sự kiện
+        </a>
     </div>
-    @include('admin.calendars.modal-info')
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div id='calendar'></div>
+    </div>
+</div>
+@include('admin.calendars.modal-info')
 @endsection
 @section('footer_scripts')
 <link rel="stylesheet" href="{{asset('asset/plugins/fullcalendar/main.css')}}">

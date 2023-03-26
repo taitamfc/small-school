@@ -15,6 +15,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Models\Teacher;
 use App\Models\Room;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -85,6 +86,7 @@ class StudentController extends Controller
         $item = new Student();
         $teachers = Teacher::all();
         $rooms = Room::all();
+        $courses = Course::all();
         $student_carers = User::where('group_id',env('STUDENT_CARE_GI',3))->get();
         $salers = User::where('group_id',env('SALER_GI',4))->get();
         $params = [
@@ -92,6 +94,7 @@ class StudentController extends Controller
             'teachers'          => $teachers,
             'rooms'          => $rooms,
             'salers'            => $salers,
+            'courses'            => $courses,
             'student_carers'    => $student_carers,
         ];
         return view('admin.students.create',$params);
@@ -133,6 +136,7 @@ class StudentController extends Controller
         $teachers = Teacher::all();
         $salers = Teacher::all();
         $rooms = Room::all();
+        $courses = Course::all();
         $student_carers = User::where('group_id',env('STUDENT_CARE_GI',3))->get();
         $salers = User::where('group_id',env('SALER_GI',4))->get();
         $params = [
@@ -141,6 +145,7 @@ class StudentController extends Controller
             'rooms'          => $rooms,
             'salers'            => $salers,
             'student_carers'    => $student_carers,
+            'courses'    => $courses,
         ];
         return view('admin.students.edit', $params);
     }
@@ -166,7 +171,7 @@ class StudentController extends Controller
         }
     }
 
-        public function destroy( $id)
+    public function destroy( $id)
     {
         $this->authorize('delete', Student::class);
         try {
