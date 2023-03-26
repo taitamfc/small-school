@@ -19,6 +19,10 @@ class AuthServiceProvider extends ServiceProvider
         Teacher::class => TeacherPolicy::class,
         Student::class => StudentPolicy::class,
         Group::class => GroupPolicy::class,
+        Room::class => RoomPolicy::class,
+        Course::class => CoursePolicy::class,
+
+
     ];
 
     /**

@@ -153,7 +153,7 @@ class EventController extends Controller
         
         return redirect()->route('systemCalendar');
     }
-    public function index(Request $request)
+    public function index(Request $request , $status = '')
     {
         $this->authorize('viewAny', Event::class);
 
