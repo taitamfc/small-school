@@ -23,13 +23,13 @@ class UpdateGroupRequest extends FormRequest
     {
         $rules =[
             'name' => 'required',
-           ];
-            return $rules;
+        ];
+        return $rules;
     }
     public function messages(){
-        $messages =[
+        $messages = [
             'name.required' => 'Hãy Nhập Tên Chức Vụ',
-            ];
-            return $messages;
+        ];
+        return $messages;
     }
 }
