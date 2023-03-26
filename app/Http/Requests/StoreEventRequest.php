@@ -21,23 +21,21 @@ class StoreEventRequest extends FormRequest
      */
     public function rules()
     {
-        $rules =[
-            'name' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'teacher_id' => 'required',
-            'student_ids' => 'required',
-           ];
-            return $rules;
+        $rules = [
+            'name'          => 'required',
+            'start_time'    => 'required',
+            'end_time'      => 'required',
+            'teacher_id'    => 'required'
+        ];
+        if( $this->request->get('recurrence') == 'yes' || $this->request->get('recurrence') == 1 ){
+            $rules['end_loop'] = 'required';
+        }
+        return $rules;
     }
     public function messages(){
         $messages =[
-            'name.required' => 'Hãy Nhập Tên Sự Kiện',
-            'start_time.required' => 'Hãy Nhập Thời Gian Bắt Đầu Sự Kiện',
-            'end_time.required' => 'Hãy Nhập Thời Gian Kết Thúc Sự Kiện',
-            'teacher_id.required' => 'Hãy Chọn Giáo Viên',
-            'student_ids.required' => 'Hãy Chọn Học Viên',
-            ];
-            return $messages;
+            'required' => 'Trường yêu cầu',
+        ];
+        return $messages;
     }
 }

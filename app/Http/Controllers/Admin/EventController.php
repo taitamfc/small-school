@@ -80,7 +80,7 @@ class EventController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreEventRequest $request, $id)
     {
         $this->authorize('update', Event::class);
         $data = $request->except(['_token','_method']);

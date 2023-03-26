@@ -9,6 +9,8 @@ use App\Models\Teacher;
 use App\Models\Student;
 use App\Models\Event;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreEventRequest;
+
 
 
 class TaskController extends Controller
@@ -81,7 +83,7 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEventRequest $request)
     {
         
         $teacher_id = Auth::guard('teachers')->user()->id;
