@@ -13,21 +13,22 @@ use Illuminate\Support\Facades\Storage;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\UploadFileTrait;
 
 class UserController extends Controller
 {   
-
+    use UploadFileTrait;
     public function index(Request $request)
     {   $this->authorize('viewAny', User::class);
         $group_id         = $request->group_id ?? '';
         $search           = $request->key ?? '';
         $full_name        = $request->full_name ?? '';
-        $user_name        = $request->user_name ?? '';
+        $item_name        = $request->user_name ?? '';
         $orderby          = $request->orderby ?? '';
         $email            = $request->email ?? '';
         $groups = Group::all();
         $query = User::query(true);
-    
+        $query->orderBy('id', 'DESC');
         if (!empty($group_id)) {
             $query->where('group_id',  $request->group_id);
         };
@@ -37,8 +38,8 @@ class UserController extends Controller
         if (!empty($full_name)) {
             $query->where('full_name', 'like', '%' . $full_name . '%');
         }
-        if (!empty($user_name)) {
-            $query->where('user_name', 'like', '%' . $user_name . '%');
+        if (!empty($item_name)) {
+            $query->where('user_name', 'like', '%' . $item_name . '%');
         }
         if (!empty($email)) {
             $query->where('email', 'like', '%' . $email . '%');
@@ -50,9 +51,9 @@ class UserController extends Controller
                     ->orWhere('full_name', 'like', '%' . $search . '%');
             });
         }
-        $users = $query->paginate(5);
+        $items = $query->paginate(5);
         $params = [
-            'users'        => $users,
+            'items'        => $items,
             'groups'     => $groups,
         ];
         return view('admin.users.index',$params);
@@ -63,38 +64,32 @@ class UserController extends Controller
     {   
         $this->authorize('create', User::class);
         $groups = Group::all();
-        return view('admin.users.create',compact('groups'));
+        $params = [
+            'item'      => new User(),
+            'groups'    => $groups,
+        ];
+        return view('admin.users.create',$params);
     }
 
  
     public function store(StoreUserRequest $request)
     {
         $this->authorize('create', User::class);
-        try {
-        $user = new User();
-        $user->user_name = $request->user_name;
-        $user->full_name = $request->full_name;
-        $user->email = $request->email;
-        $user->group_id = $request->group_id;
-        $user->password = bcrypt($request->password);
-        $fieldName = 'inputFile';
-        if ($request->hasFile($fieldName)) {
-            $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-            $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-            $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-            $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-            $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/users', $fileName);
-            $path = str_replace('public/', '', $path);
-            $user->avatar = $path;
+        $data = $request->except(['_token','_method']);
+        if( isset($data['password']) ){
+            $data['password'] = bcrypt($data['password']);
         }
-            $user->save();
-            return redirect()->route('users.index')->with('success', 'Thêm tài khoản thành công.');
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $pathInfor = $this->uploadFile($image, User::FOLDER);
+            $data['image'] = User::DIR.'/'.$pathInfor;
+        }
+        try {
+            User::create($data);
+            return redirect()->route('users.index')->with('success', 'Thêm thành công.');
         } catch (\Exception $e) {
-            if(isset($path)){
-            $images = str_replace('storage', 'public', $path);
-            Storage::delete($images); }
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Thêm tài khoản không thành công!.');
+            return back()->withInput()->with('error', 'Thêm không thành công!.');
         }
     }
 
@@ -109,10 +104,10 @@ class UserController extends Controller
     {   
         $this->authorize('update', User::class);
         $groups = Group::all();
-        $user = User::find($id);
+        $item = User::find($id);
         $params = [
             'groups' => $groups,
-            'user' => $user
+            'item' => $item
         ];
         return view('admin.users.edit', $params);
     }
@@ -120,36 +115,27 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, $id)
     {
         $this->authorize('update', User::class);
+        $data = $request->except(['_token','_method']);
+        if( isset($data['password']) && $data['password'] ){
+            $data['password'] = bcrypt($data['password']);
+        }else{
+            unset($data['password']);
+        }
+        if( isset($data['recurrence_days']) ){
+            $data['recurrence_days'] = implode(',',$data['recurrence_days']);
+        }
+        if($request->hasFile('image')){
+            $image = $request->file('image');
+            $pathInfor = $this->uploadFile($image, User::FOLDER);
+            $data['image'] = User::DIR.'/'.$pathInfor;
+        }
         try {
-            $user = User::find($id);
-            $user->user_name = $request->user_name;
-            $user->full_name = $request->full_name;
-            $user->email = $request->email;
-            $user->group_id = $request->group_id;
-            $images = str_replace('storage', 'public', $user->avatar);
-            if(isset($request->password) && !empty($request->password)){$user->password = bcrypt($request->password);}
-            $fieldName = 'inputFile';
-            if ($request->hasFile($fieldName)) {
-                $fullFileNameOrigin = $request->file($fieldName)->getClientOriginalName();
-                $fileNameOrigin = pathinfo($fullFileNameOrigin, PATHINFO_FILENAME);
-                $extenshion = $request->file($fieldName)->getClientOriginalExtension();
-                $fileName = $fileNameOrigin . '-' . rand() . '_' . time() . '.' . $extenshion;
-                $path = 'storage/' . $request->file($fieldName)->storeAs('public/images/users', $fileName);
-                $path = str_replace('public/', '', $path);
-                $user->avatar = $path;
-            }
-                $user->save();
-                if (isset($path) && isset($images)) {
-                    Storage::delete($images);
-                }
-                return redirect()->route('users.index')->with('success', 'Cập nhật tài khoản thành công.');
-            } catch (\Exception $e) {
-                if(isset($path)){
-                $images = str_replace('storage', 'public', $path);
-                Storage::delete($images); }
-                Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-                return back()->withInput()->with('error', 'Cập nhật tài khoản không thành công!.');
-            }
+            User::find($id)->update($data);
+            return redirect()->route('users.index')->with('success', 'Thêm thành công.');
+        } catch (\Exception $e) {
+            Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+            return back()->withInput()->with('error', 'Thêm không thành công!.');
+        }
 
     }
 
@@ -158,11 +144,11 @@ class UserController extends Controller
     {   
         $this->authorize('delete', User::class);
         try {
-            $user = User::find($id);
-            $image = $user->avatar;
-            $user->delete();
+            $item = User::find($id);
+            $image = $item->avatar;
+            $item->delete();
             $images = str_replace('storage', 'public', $image);
-                Storage::delete($images);
+            Storage::delete($images);
 
             return back()->with('success', 'Xóa tài khoản thành công!.');
         } catch (\Exception $e) {

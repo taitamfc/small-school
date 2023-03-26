@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\RoomController;
 use App\Http\Controllers\Admin\TaskController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,7 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
     
     // Manage events
     Route::prefix('events')->group(function(){
+        Route::get('/{?status}',[EventController::class,'index'])->name('events.index');
         Route::get('/salary',[EventController::class,'salary'])->name('events.salary');
     });
     Route::resource('events', EventController::class);
@@ -75,6 +77,9 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
 
     // Manage rooms
     Route::resource('rooms', RoomController::class);
+
+    // Manage courses
+    Route::resource('courses', CourseController::class);
 
 });
 

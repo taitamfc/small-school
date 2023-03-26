@@ -150,7 +150,22 @@
                             @if (Auth::user()->hasPermission('Event_viewAny'))
                             <li class="nav-item">
                                 <a href="{{ route('events.index') }}" class="nav-link">
-                                    <p>Danh sách sự kiện</p>
+                                    <p>Tất cả</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('events.index',['status'=>'da_thuc_hien']) }}" class="nav-link">
+                                    <p>Chờ xác nhận</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('events.index',['status'=>'da_xac_nhan']) }}" class="nav-link">
+                                    <p>Đã xác nhận</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('events.index',['status'=>'da_tu_choi']) }}" class="nav-link">
+                                    <p>Đã từ chối</p>
                                 </a>
                             </li>
                             @endif
@@ -198,7 +213,7 @@
                     </ul>
                 </li>
                 @endif
-                @if (Auth::user()->hasPermission('Task_viewAny') || Auth::user()->hasPermission('Task_create'))
+                @if (Auth::user()->hasPermission('Room_viewAny') || Auth::user()->hasPermission('Room_create'))
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-columns"></i>
@@ -208,17 +223,44 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if (Auth::user()->hasPermission('Task_viewAny'))
+                        @if (Auth::user()->hasPermission('Room_viewAny'))
                         <li class="nav-item">
                             <a href="{{ route('rooms.index') }}" class="nav-link">
                                 <p>Danh sách lớp học</p>
                             </a>
                         </li>
                         @endif
-                        @if (Auth::user()->hasPermission('Task_create'))
+                        @if (Auth::user()->hasPermission('Room_create'))
                         <li class="nav-item">
                             <a href="{{ route('rooms.create') }}" class="nav-link">
                                 <p>Thêm lớp học</p>
+                            </a>
+                        </li>
+                        @endif
+                    </ul>
+                </li>
+                @endif
+                @if (Auth::user()->hasPermission('Course_viewAny') || Auth::user()->hasPermission('Course_create'))
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            Quản lý khóa học
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @if (Auth::user()->hasPermission('Course_viewAny'))
+                        <li class="nav-item">
+                            <a href="{{ route('courses.index') }}" class="nav-link">
+                                <p>Danh sách khóa học</p>
+                            </a>
+                        </li>
+                        @endif
+                        @if (Auth::user()->hasPermission('Task_create'))
+                        <li class="nav-item">
+                            <a href="{{ route('courses.create') }}" class="nav-link">
+                                <p>Thêm khóa học</p>
                             </a>
                         </li>
                         @endif
