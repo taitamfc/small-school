@@ -63,5 +63,6 @@ class User extends Authenticatable
         return $this->belongsTo(Group::class,'group_id','id');
     }
 
-   
+    const DIR = 'storage';
+    const FOLDER = 'user';
 }
