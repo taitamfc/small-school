@@ -158,12 +158,12 @@ class TeacherController extends Controller
         try {
             $item = Teacher::find($id);
             $item->delete();
-                return redirect()->route('teachers.index')->with('success', 'Xoá thành công.');
-            } catch (\Exception $e) {
-                Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-                return redirect()->route('teachers.index')->with('error', 'Xoá thất bại.');
-            }
+            return redirect()->route('teachers.index')->with('success', 'Xoá thành công.');
+        } catch (\Exception $e) {
+            Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
+            return redirect()->route('teachers.index')->with('error', 'Xoá thất bại.');
         }
+    }
 
         public function export() 
         {   
