@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class StoreEventRequest extends FormRequest
 {
@@ -21,14 +22,23 @@ class StoreEventRequest extends FormRequest
      */
     public function rules()
     {
-        $rules =[
+        $start_time = $this->request->get('start_time');
+        $end_time = $this->request->get('end_time');
+        $date1 = Carbon::parse($start_time);
+        $date2 = Carbon::parse($end_time);
+        $result = $date2->gt($date1);
+
+        $rules = [
             'name' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
             'teacher_id' => 'required',
-            'student_ids' => 'required',
-           ];
-            return $rules;
+            // 'student_ids' => 'required',
+        ];
+        if( !$result ){
+            $rules['end_time_not_right'] = 'required';
+        }
+        return $rules;
     }
     public function messages(){
         $messages =[
@@ -37,7 +47,8 @@ class StoreEventRequest extends FormRequest
             'end_time.required' => 'Hãy Nhập Thời Gian Kết Thúc Sự Kiện',
             'teacher_id.required' => 'Hãy Chọn Giáo Viên',
             'student_ids.required' => 'Hãy Chọn Học Viên',
-            ];
-            return $messages;
+            'end_time_not_right.required' => 'Thời gian kết thúc không hợp lệ',
+        ];
+        return $messages;
     }
 }
