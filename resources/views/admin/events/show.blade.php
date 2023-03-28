@@ -10,10 +10,10 @@
 
     <div class="card-body">
         <div class="mb-2">
-            <form action="{{ route("events.update", [$event->id]) }}" 
+            <form action="{{ route("events.update", [$item->id]) }}" 
                 method="POST" 
                 enctype="multipart/form-data" 
-                @if($event->events_count || $event->event) onsubmit="return confirm('Bạn chắc chắn cập nhật?');" @endif
+                @if($item->events_count || $item->event) onsubmit="return confirm('Bạn chắc chắn cập nhật?');" @endif
             >
             @csrf
             @method('PUT')
@@ -24,31 +24,31 @@
                             ID
                         </th>
                         <td>
-                            {{ $event->id }}
+                            {{ $item->id }}
                         </td>
                     </tr>
                     <tr>
                         <th> Tên sự kiện </th>
-                        <td> {{ $event->name }} </td>
+                        <td> {{ $item->name }} </td>
                     </tr>
                     <tr>
                         <th> Thời lượng </th>
-                        <td> {{ $event->durration }} </td>
+                        <td> {{ $item->durration }} </td>
                     </tr>
                     <tr>
                         <th> Tiền công/giờ </th>
-                        <td> {{ $event->fee }} </td>
+                        <td> {{ $item->fee }} </td>
                     </tr>
                     <tr>
                         <th> Trạng thái </th>
-                        <td> {{ $event->statuses[$event->status] }} </td>
+                        <td> {{ $item->statuses[$item->status] }} </td>
                     </tr>
                     <tr>
                         <th>
                             Giáo viên
                         </th>
                         <td>
-                            {{ $event->teacher->name ?? $event->event->teacher->name}}
+                            {{ $item->teacher->name ?? $item->event->teacher->name}}
                         </td>
                     </tr>
                     <tr>
@@ -56,7 +56,7 @@
                            Bắt đầu
                         </th>
                         <td>
-                            <?php $datetime = new DateTime($event->start_time) ;echo date_format($datetime, "H:i:s - d/m/Y") ?? '' ?>
+                            <?php $datetime = new DateTime($item->start_time) ;echo date_format($datetime, "H:i:s - d/m/Y") ?? '' ?>
                         </td>
                     </tr>
                     <tr>
@@ -64,7 +64,7 @@
                             Kết thúc
                         </th>
                         <td>
-                            <?php $datetime = new DateTime($event->end_time) ;echo date_format($datetime, "H:i:s - d/m/Y") ?? '' ?>
+                            <?php $datetime = new DateTime($item->end_time) ;echo date_format($datetime, "H:i:s - d/m/Y") ?? '' ?>
                         </td>
                     </tr>
                     <tr>
@@ -83,8 +83,8 @@
                                     </tr>
                                 </thead>
                                 <tbody id="student_tb">
-                                    @if( isset($event->students) && count($event->students) )
-                                        @foreach( $event->students as $key => $student )
+                                    @if( isset($item->students) && count($item->students) )
+                                        @foreach( $item->students as $key => $student )
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $student->id }}</td>
@@ -103,7 +103,7 @@
                             Bằng chứng thực hiện
                         </th>
                         <td>
-                            {{ $event->proof }}
+                            {{ $item->proof }}
                         </td>
                     </tr>
                     <tr>
@@ -112,9 +112,9 @@
                         </th>
                         <td>
                             <select name="status" class="form-control">
-                                @foreach( $event->statuses as $status => $lb_status )
+                                @foreach( $item->statuses as $status => $lb_status )
                                 <option 
-                                    @selected( $status == $event->status )
+                                    @selected( $status == $item->status )
                                     value="{{ $status }}"
                                 >{{ $lb_status }}</option>
                                 @endforeach

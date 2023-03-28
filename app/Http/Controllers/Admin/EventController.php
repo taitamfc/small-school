@@ -239,11 +239,12 @@ class EventController extends Controller
         return view('admin.events.edit', $params);
     }
 
-    public function show(Event $item)
+    public function show($id)
     {
+        $item = Event::find($id);
         // Nếu ko có danh sách học viên riêng thì lấy danh sách cha
         if( !count($item->students) ){
-            $item->students = $item->event->students;
+            $item->students = $item->event ?  $item->event->students : [];
         }
         $this->authorize('view', Event::class);
         return view('admin.events.show', compact('item'));
