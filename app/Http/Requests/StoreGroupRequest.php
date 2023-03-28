@@ -23,10 +23,8 @@ class StoreGroupRequest extends FormRequest
     {
         $rules =[
             'name' => 'required',
-            'email' => 'required',
-            'name' => 'required',
-           ];
-            return $rules;
+        ];
+        return $rules;
     }
     public function messages(){
         $messages =[
