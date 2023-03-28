@@ -33,20 +33,20 @@ class EventController extends Controller
             $finishTime = Carbon::parse($request->end_time);
             $durration = $finishTime->diffInMinutes($startTime);
             
-            $event = new Event();
-            $event->name = $name;
-            $event->start_time = date('Y-m-d H:i:s', strtotime($start_time) );
-            $event->end_time = date('Y-m-d H:i:s', strtotime($end_time) );
-            $event->end_loop = date('Y-m-d', strtotime($end_loop) );
-            $event->teacher_id = $teacher_id;
-            $event->recurrence = $recurrence;
-            $event->durration = $durration;
-            $event->fee = $fee;
-            $event->recurrence_days = implode(',',$recurrence_days);
-            $event->save();
-            $event->students()->attach($request->student_ids);
+            $item = new Event();
+            $item->name = $name;
+            $item->start_time = date('Y-m-d H:i:s', strtotime($start_time) );
+            $item->end_time = date('Y-m-d H:i:s', strtotime($end_time) );
+            $item->end_loop = date('Y-m-d', strtotime($end_loop) );
+            $item->teacher_id = $teacher_id;
+            $item->recurrence = $recurrence;
+            $item->durration = $durration;
+            $item->fee = $fee;
+            $item->recurrence_days = implode(',',$recurrence_days);
+            $item->save();
+            $item->students()->attach($request->student_ids);
 
-            if( $event && $recurrence == 'yes' ){
+            if( $item && $recurrence == 'yes' ){
                 $start_loop = date('Y-m-d', strtotime($start_time) );
                 $end_loop   = date('Y-m-d', strtotime($end_loop) );
                 $periods = CarbonPeriod::create($start_loop, $end_loop);
@@ -58,13 +58,13 @@ class EventController extends Controller
                         $week_day_name = date('l',strtotime($date->format('Y-m-d')));
                         if( in_array($week_day_name,$recurrence_days) ){
                             $child_events = [
-                                'name' => $event->name,
+                                'name' => $item->name,
                                 'durration' => $durration,
-                                'event_id' => $event->id,
+                                'event_id' => $item->id,
                                 'teacher_id' => $teacher_id,
                                 'fee' => $fee,
-                                'start_time' => $date->format('Y-m-d').' '.date('H:i:s' , strtotime($event->start_time) ),
-                                'end_time' => $date->format('Y-m-d').' '.date('H:i:s' , strtotime($event->end_time) ),
+                                'start_time' => $date->format('Y-m-d').' '.date('H:i:s' , strtotime($item->start_time) ),
+                                'end_time' => $date->format('Y-m-d').' '.date('H:i:s' , strtotime($item->end_time) ),
                             ];
                             Event::create($child_events);
                         }
@@ -170,10 +170,7 @@ class EventController extends Controller
         $students = Student::all();
         $status = new Event();
         $query = Event::query(true);
-        
-        // if (!empty($room_name)) {
-        //     $query->where('group_id',  $request->room_name);
-        // };
+        $query->orderBy('events.id', 'DESC');
         
         if (!empty($student_id)) {
             $query->leftJoin('event_students', 'events.id', '=', 'event_students.event_id')
@@ -199,9 +196,9 @@ class EventController extends Controller
             $query->where('end_time', 'like', '%' . $end_time . '%');
         }
 
-        $events = $query->paginate(10);
+        $items = $query->paginate(10);
         $params = [
-            'events'       => $events,
+            'events'       => $items,
             'teachers'     => $teachers,
             'students'     => $students,
             'status'     => $status,
@@ -213,41 +210,43 @@ class EventController extends Controller
     {   
         $this->authorize('create', Event::class);
         $teachers = Teacher::all();
-        $event = new Event();
+        $item = new Event();
+        $item->recurrence_days = [];
         $params = [
             'teachers' => $teachers,
-            'event' => $event
+            'item' => $item
         ];
         return view('admin.events.create',$params);
     }
 
-    public function edit(Event $event)
+    public function edit($id)
     {   
         $this->authorize('update', Event::class);
+        $item = Event::find($id);
         // Nếu ko có danh sách học viên riêng thì lấy danh sách cha
-        if( !count($event->students) ){
-            $event->students = $event->event->students;
+        if( !count($item->students) ){
+            $item->students = $item->event->students;
         }
-        $event->recurrence_days = explode(',',$event->recurrence_days);
-        $event->student_ids = $event->students ? implode(',',$event->students->pluck('id')->toArray()) : '';
+        $item->recurrence_days = explode(',',$item->recurrence_days);
+        $item->student_ids = $item->students ? implode(',',$item->students->pluck('id')->toArray()) : '';
         $teachers = Teacher::all();
         $students = Student::all();
         $params = [
             'teachers' => $teachers,
             'students' => $students,
-            'event' => $event
+            'item' => $item
         ];
         return view('admin.events.edit', $params);
     }
 
-    public function show(Event $event)
+    public function show(Event $item)
     {
         // Nếu ko có danh sách học viên riêng thì lấy danh sách cha
-        if( !count($event->students) ){
-            $event->students = $event->event->students;
+        if( !count($item->students) ){
+            $item->students = $item->event->students;
         }
         $this->authorize('view', Event::class);
-        return view('admin.events.show', compact('event'));
+        return view('admin.events.show', compact('item'));
     }
 
     public function destroy($id)
@@ -320,9 +319,9 @@ class EventController extends Controller
             $query->where('end_time', 'like', '%' . $end_time . '%');
         }
 
-        $events = $query->paginate(31);
+        $items = $query->paginate(31);
         $params = [
-            'items'       => $events,
+            'items'       => $items,
             'teachers'     => $teachers,
             'students'     => $students,
             'status'     => $status,
