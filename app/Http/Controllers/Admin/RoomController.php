@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Log;
 class RoomController extends Controller
 {
     public function index(Request $request)
-    {$this->authorize('viewAny', Room::class);
+    {
+        $this->authorize('viewAny', Room::class);
         $search = $request->key ?? '';
         $name = $request->name ?? '';
         $id = $request->id ?? '';
@@ -58,6 +59,12 @@ class RoomController extends Controller
             $item->name = $request->name;
             $item->description = $request->description;
             $item->save();
+            if($request->student_ids){
+                $item->students()->attach($request->student_ids);
+            }
+            if($request->teacher_ids){
+                $item->teachers()->attach($request->teacher_ids);
+            }
             return redirect()->route('rooms.index')->with('success', 'Thêm tài lớp học thành công.');
         } catch (\Exception $e) {
             if (isset($path)) {
@@ -76,6 +83,8 @@ class RoomController extends Controller
     {
         $this->authorize('update', Room::class);
         $item = Room::find($id);
+        $item->student_ids = $item->students ? implode(',',$item->students->pluck('id')->toArray()) : '';
+        $item->teacher_ids = $item->teachers ? implode(',',$item->teachers->pluck('id')->toArray()) : '';
         $params = [
             'item' => $item,
         ];
@@ -86,10 +95,24 @@ class RoomController extends Controller
     {
         $this->authorize('update', Room::class);
         try {
-            $Room = Room::find($id);
-            $Room->name = $request->name;
-            $Room->description = $request->description;
-            $Room->save();
+            $item = Room::find($id);
+            $item->name = $request->name;
+            $item->description = $request->description;
+            $item->save();
+            if($request->student_ids){
+                if( $item->students->count() ){
+                    $item->students()->sync($request->student_ids);
+                }else{
+                    $item->students()->attach($request->student_ids);
+                }
+            }
+            if($request->teacher_ids){
+                if( $item->teachers->count() ){
+                    $item->teachers()->sync($request->teacher_ids);
+                }else{
+                    $item->teachers()->attach($request->teacher_ids);
+                }
+            }
             return redirect()->route('rooms.index')->with('success', 'Cập nhật lớp học thành công.');
         } catch (\Exception$e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());

@@ -127,4 +127,11 @@
         <input type="file" class="form-control" name="image">
         @error('image') @include('global_layouts.error') @enderror
     </div>
+
+
+    <div class="form-group col-lg-12">
+        <hr/>
+        <label>Lịch học hiện tại</label>
+        
+    </div>
 </div>

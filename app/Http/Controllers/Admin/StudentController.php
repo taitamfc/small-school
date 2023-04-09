@@ -133,6 +133,7 @@ class StudentController extends Controller
     {
         $this->authorize('update', Student::class);
         $item = Student::find($id);
+        // dd($item->events);
         $teachers = Teacher::all();
         $salers = Teacher::all();
         $rooms = Room::all();

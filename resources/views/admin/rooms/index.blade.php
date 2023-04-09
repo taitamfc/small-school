@@ -24,6 +24,7 @@
                     <tr>
                         <th style="width: 10%">ID</th>
                         <th>Tên lớp</th>
+                        <th>Số học viên</th>
                         @if (Auth::user()->hasPermission('Room_update') || Auth::user()->hasPermission('Room_delete'))
                         <th>Hành động</th>
                         @endif
@@ -34,6 +35,7 @@
                         <tr>
                             <td>{{ $item->id }}</td>
                             <td>{{ $item->name }}</td>
+                            <td>{{ $item->students->count() }}</td>
                             <td>
                                 <form action="{{ route('rooms.destroy', $item->id) }}" method="post">
                                     @csrf
