@@ -225,7 +225,7 @@ class EventController extends Controller
         $item = Event::find($id);
         // Nếu ko có danh sách học viên riêng thì lấy danh sách cha
         if( !count($item->students) ){
-            $item->students = $item->event->students;
+            $item->students = $item->event->students ?? null;
         }
         $item->recurrence_days = explode(',',$item->recurrence_days);
         $item->student_ids = $item->students ? implode(',',$item->students->pluck('id')->toArray()) : '';
