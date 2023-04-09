@@ -23,7 +23,12 @@
                         </div>
                         <div class="col">
                             <select id="dt_f_room_id" class="form-control">
-                                <option value="">Tất cả nhóm</option>
+                            @if( isset($rooms) && count($rooms) )
+                                <option value="">Tất cả</option>
+                                @foreach( $rooms as $key => $froom )
+                                <option value="{{ $froom->id }}">{{ $froom->name }}</option>
+                                @endforeach
+                            @endif
                             </select>
                         </div>
                         <div class="col-lg-1">

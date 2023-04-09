@@ -8,6 +8,7 @@ use App\Models\Event;
 use App\Models\EventStudent;
 use App\Models\Teacher;
 use App\Models\Student;
+use App\Models\Room;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreEventRequest;
 use Carbon\Carbon;
@@ -210,10 +211,12 @@ class EventController extends Controller
     {   
         $this->authorize('create', Event::class);
         $teachers = Teacher::all();
+        $rooms = Room::all();
         $item = new Event();
         $item->recurrence_days = [];
         $params = [
             'teachers' => $teachers,
+            'rooms' => $rooms,
             'item' => $item
         ];
         return view('admin.events.create',$params);
@@ -230,10 +233,10 @@ class EventController extends Controller
         $item->recurrence_days = explode(',',$item->recurrence_days);
         $item->student_ids = $item->students ? implode(',',$item->students->pluck('id')->toArray()) : '';
         $teachers = Teacher::all();
-        $students = Student::all();
+        $rooms = Room::all();
         $params = [
             'teachers' => $teachers,
-            'students' => $students,
+            'rooms' => $rooms,
             'item' => $item
         ];
         return view('admin.events.edit', $params);
