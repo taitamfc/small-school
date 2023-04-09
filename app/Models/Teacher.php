@@ -31,7 +31,7 @@ class Teacher extends Authenticatable
     const FOLDER = 'teacher';
 
     public $statuses = [
-        'hoat_dong' => 'Hoat động',
+        'hoat_dong' => 'Hoạt động',
         'khong_hoat_dong' => 'Không hoạt động',
     ];
 

@@ -20,7 +20,7 @@
         </div>
         <div class="card">
             <div class="card-body p-0">
-                <table class="table" style="text-align: center">
+                <table class="table" >
                     <thead>
                         <tr>
                             <th style="width: 10%">STT</th>
