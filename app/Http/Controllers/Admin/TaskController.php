@@ -72,9 +72,11 @@ class TaskController extends Controller
      */
     public function create()
     {   
+        $item = new Task();
+        $item->recurrence_days = [];
         $params = [
             'teachers' => Teacher::all(),
-            'item' => new Task()
+            'item' => $item
         ];
         return view('admin.tasks.create',$params);
     }
@@ -85,25 +87,25 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         
-        $task = new Task();
-        $task->name = $request->name;
-        $task->start_time = $request->start_time;
-        $task->end_time = $request->end_time;
-        $task->teacher_id = $request->teacher_id;
-        $task->description = $request->description;
-        $task->status = $request->status;
-        $task->event_name = $request->event_name;
-        $task->fee = $request->fee;
-        $task->end_loop = $request->end_loop;
-        $task->recurrence = $request->recurrence;
+        $item = new Task();
+        $item->name = $request->name;
+        $item->start_time = $request->start_time;
+        $item->end_time = $request->end_time;
+        $item->teacher_id = $request->teacher_id;
+        $item->description = $request->description;
+        $item->status = $request->status;
+        $item->event_name = $request->event_name;
+        $item->fee = $request->fee;
+        $item->end_loop = $request->end_loop;
+        $item->recurrence = $request->recurrence;
         if($request->recurrence_days && count($request->recurrence_days)){
-            $task->recurrence_days = implode(',',$request->recurrence_days);
+            $item->recurrence_days = implode(',',$request->recurrence_days);
         }
         if($request->student_ids && count($request->student_ids)){
-            $task->student_ids = implode(',',$request->student_ids);
+            $item->student_ids = implode(',',$request->student_ids);
         }
         try {
-            $task->save();
+            $item->save();
             return redirect()->route('tasks.index')->with('success', 'Lưu thành công.');
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -115,7 +117,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(Task $item)
     {
         //
     }
@@ -123,18 +125,18 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(Task $item)
     {
-        // dd($task);
-        $task->recurrence_days = ($task->recurrence_days) ? explode(',',$task->recurrence_days) : []; 
+        // dd($item);
+        $item->recurrence_days = ($item->recurrence_days) ? explode(',',$item->recurrence_days) : []; 
         $event = new Event();
-        $student_ids = ($task->student_ids) ? explode(',',$task->student_ids) : []; 
+        $student_ids = ($item->student_ids) ? explode(',',$item->student_ids) : []; 
         if( count($student_ids) ){
             $event->students = Student::whereIn('id',$student_ids)->get();;
         }
         $params = [
             'teachers' => Teacher::all(),
-            'item' => $task,
+            'item' => $item,
             'event' => $event
         ];
         return view('admin.tasks.edit',$params);
@@ -143,30 +145,30 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTaskRequest $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $item)
     {
-        $task = Task::find($task->id);
-        $task->name = $request->name;
-        $task->start_time = $request->start_time;
-        $task->end_time = $request->end_time;   
-        $task->teacher_id = $request->teacher_id;
-        $task->description = $request->description;
-        $task->status = $request->status;
-        $task->event_name = $request->event_name;
-        $task->fee = $request->fee;
-        $task->end_loop = $request->end_loop;
-        $task->recurrence = $request->recurrence;
+        $item = Task::find($item->id);
+        $item->name = $request->name;
+        $item->start_time = $request->start_time;
+        $item->end_time = $request->end_time;   
+        $item->teacher_id = $request->teacher_id;
+        $item->description = $request->description;
+        $item->status = $request->status;
+        $item->event_name = $request->event_name;
+        $item->fee = $request->fee;
+        $item->end_loop = $request->end_loop;
+        $item->recurrence = $request->recurrence;
         if($request->recurrence_days && count($request->recurrence_days)){
-            $task->recurrence_days = implode(',',$request->recurrence_days);
+            $item->recurrence_days = implode(',',$request->recurrence_days);
         }
         if($request->student_ids && count($request->student_ids)){
-            $task->student_ids = implode(',',$request->student_ids);
+            $item->student_ids = implode(',',$request->student_ids);
         }
         try {
-            $task->save();
+            $item->save();
             return redirect()->route('tasks.index')->with('success', 'Lưu thành công.');
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            // dd($e->getMessage());
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
             return back()->withInput()->with('error', 'Lưu không thành công!.');
         }
@@ -175,11 +177,11 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy(Task $item)
     {
         try {
-            $task = Task::find($task->id);
-            $task->delete();
+            $item = Task::find($item->id);
+            $item->delete();
             return redirect()->route('tasks.index')->with('success', 'Xóa thành công.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());

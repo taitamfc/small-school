@@ -51,11 +51,11 @@
                                     @csrf
                                     @method('DELETE')
                                     @if(Auth::user()->hasPermission('Teacher_update'))
-                                    <a class="btn btn-info"
+                                    <a class="btn btn-xs btn-info"
                                         href="{{ route('teachers.edit',$teacher->id) }}">Sửa</a>
                                     @endif
                                     @if(Auth::user()->hasPermission('Teacher_delete'))
-                                    <button class="btn btn-danger" type="submit"
+                                    <button class="btn btn-xs btn-danger" type="submit"
                                         onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                                     @endif
                                 </form>
