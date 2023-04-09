@@ -289,7 +289,7 @@ class StudentController extends Controller
                 $query->where('email', 'like', "%" . request('f_email') . "%");
             }
             if (request()->has('f_room_id')) {
-                
+                $query->where('room_id', request('f_room_id') );
             }
         })
         ->toJson();
