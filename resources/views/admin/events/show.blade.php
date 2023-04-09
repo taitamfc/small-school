@@ -4,7 +4,6 @@
     <div class="container"><br>
 <div class="card">
     <div class="card-header">
-        
         <h4><b>Chi tiết sự kiện</b></h4>
     </div>
 
