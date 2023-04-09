@@ -33,9 +33,9 @@ class RoomController extends Controller
                 $query->where('name', 'like', '%' . $search . '%');
             });
         }
-        $rooms = $query->paginate(5);
+        $items = $query->paginate(5);
         $params = [
-            'rooms' => $rooms,
+            'items' => $items,
         ];
         return view('admin.rooms.index', $params);
     }
@@ -43,17 +43,21 @@ class RoomController extends Controller
     public function create()
     {
         $this->authorize('create', Room::class);
-        return view('admin.rooms.create');
+        $item = new Room();
+        $params = [
+            'item' => $item,
+        ];
+        return view('admin.rooms.create',$params);
     }
 
     public function store(StoreRoomRequest $request)
     {
         $this->authorize('create', Room::class);
         try {
-            $room = new Room();
-            $room->name = $request->name;
-            $room->description = $request->description;
-            $room->save();
+            $item = new Room();
+            $item->name = $request->name;
+            $item->description = $request->description;
+            $item->save();
             return redirect()->route('rooms.index')->with('success', 'Thêm tài lớp học thành công.');
         } catch (\Exception $e) {
             if (isset($path)) {
@@ -71,9 +75,9 @@ class RoomController extends Controller
     public function edit($id)
     {
         $this->authorize('update', Room::class);
-        $room = Room::find($id);
+        $item = Room::find($id);
         $params = [
-            'room' => $room,
+            'item' => $item,
         ];
         return view('admin.rooms.edit', $params);
     }
@@ -97,8 +101,8 @@ class RoomController extends Controller
     {
         $this->authorize('delete', Room::class);
         try {
-            $room = Room::find($id);
-            $room->delete();
+            $item = Room::find($id);
+            $item->delete();
             return back()->with('success', 'Xóa lớp học thành công!.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
