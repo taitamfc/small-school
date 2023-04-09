@@ -36,10 +36,9 @@
                                 <form action="{{ route('groups.destroy',$group->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <a class="btn btn-warning" href="{{ route('groups.edit',$group->id) }}">Chỉnh sửa
-                                        quyền</a>
-                                    <button class="btn btn-danger" type="submit"
-                                        onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa chức vụ</button>
+                                    <a class="btn btn-xs btn-warning" href="{{ route('groups.edit',$group->id) }}">Sửa</a>
+                                    <button class="btn btn-xs btn-danger" type="submit"
+                                        onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                                 </form>
                             </td>
                         </tr>
