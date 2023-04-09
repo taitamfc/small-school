@@ -16,4 +16,10 @@
         <div><code>{{ $message }}</code></div>
         @enderror
     </div>
+    <div class="form-group col-lg-12">
+        @include('global_layouts.modal-students')
+    </div>
+    <div class="form-group col-lg-12">
+        @include('global_layouts.modal-teachers')
+    </div>
 </div>

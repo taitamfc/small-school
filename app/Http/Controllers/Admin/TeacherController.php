@@ -15,6 +15,8 @@ use App\Imports\TeacherImport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\UploadFileTrait;
+use Yajra\DataTables\EloquentDataTable;
+use DataTables;
 
 class TeacherController extends Controller
 {
@@ -233,6 +235,26 @@ class TeacherController extends Controller
                     Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
                     return back()->with('error', 'Cập nhật không thành công.');
                 }
+        }
+
+        public function dataTable(Request $request){
+            $model  = Teacher::query(true);
+            return DataTables::eloquent($model)
+            ->filter(function ($query) {
+                if (request()->has('f_name')) {
+                    $query->where('name', 'like', "%" . request('f_name') . "%");
+                }
+                if (request()->has('f_phone')) {
+                    $query->where('phone', 'like', "%" . request('f_phone') . "%");
+                }
+                if (request()->has('f_email')) {
+                    $query->where('email', 'like', "%" . request('f_email') . "%");
+                }
+                if (request()->has('f_room_id')) {
+                    
+                }
+            })
+            ->toJson();
         }
     }
 

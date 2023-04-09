@@ -33,8 +33,9 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
 
     // Manage users
     Route::prefix('users')->group(function(){
-        Route::get('/export', [UserController::class, 'export'])->name('users.export');
+        Route::get('/dataTable',[UserController::class,'dataTable'])->name('users.dataTable');
         Route::post('/import', [UserController::class, 'import'])->name('users.import');
+        Route::get('/export', [UserController::class, 'export'])->name('users.export');
         Route::get('/logout', [AuthController::class, 'logoutUser'])->name('users.logout');
         Route::get('/viewImport', [UserController::class, 'viewImport'])->name('users.viewImport');
     });
@@ -42,8 +43,9 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
 
     // Manage teachers
     Route::prefix('teachers')->group(function(){
-        Route::get('/export', [TeacherController::class, 'export'])->name('teachers.export');
+        Route::get('/dataTable',[TeacherController::class,'dataTable'])->name('teachers.dataTable');
         Route::post('/import', [TeacherController::class, 'import'])->name('teachers.import');
+        Route::get('/export', [TeacherController::class, 'export'])->name('teachers.export');
         Route::get('/viewImport', [TeacherController::class, 'viewImport'])->name('teachers.viewImport');
     });
     Route::resource('teachers', TeacherController::class);

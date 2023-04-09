@@ -196,7 +196,7 @@ class EventController extends Controller
             $query->where('end_time', 'like', '%' . $end_time . '%');
         }
 
-        $items = $query->paginate(10);
+        $items = $query->paginate(30);
         $params = [
             'events'       => $items,
             'teachers'     => $teachers,

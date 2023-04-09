@@ -58,8 +58,8 @@ class Student extends Authenticatable
     // {
     // }
 
-    // public function events()
-    // {
-    //     return $this->hasMany(Event::class);
-    // }
+    public function events()
+    {
+        return $this->belongsToMany(Event::class,'event_students','student_id','event_id');
+    }
 }
