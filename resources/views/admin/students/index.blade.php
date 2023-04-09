@@ -50,9 +50,9 @@
                                 <form action="{{route('students.destroy',$item->id)}}" method="post">
                                     @method('DELETE')
                                     @csrf
-                                    <a class="btn btn-warning"
+                                    <a class="btn btn-xs btn-warning"
                                         href="{{route('students.edit', $item->id)}}">Sửa</a>
-                                    <button class="btn btn-danger" type="submit"
+                                    <button class="btn btn-xs btn-danger" type="submit"
                                         onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                                 </form>
                             </td>

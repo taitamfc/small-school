@@ -30,7 +30,7 @@ class StoreTaskRequest extends FormRequest
             'end_time' => 'required',
             'teacher_id' => 'required',
             'fee' => 'required',
-            'student_ids' => 'required',
+            // 'student_ids' => 'required',
 
            ];
             return $rules;

@@ -39,11 +39,11 @@
                                     @csrf
                                     @method('DELETE')
                                     @if (Auth::user()->hasPermission('Room_update'))
-                                    <a class="btn btn-warning"
+                                    <a class="btn btn-xs btn-warning"
                                         href="{{ route('rooms.edit', $item->id) }}">Sửa</a>
                                     @endif
                                     @if (Auth::user()->hasPermission('Room_delete'))
-                                    <button class="btn btn-danger" type="submit"
+                                    <button class="btn btn-xs btn-danger" type="submit"
                                         onclick="return confirm('Bạn có chắc muốn xóa không?');">Xóa</button>
                                     @endif
                                 </form>
