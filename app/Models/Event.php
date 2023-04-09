@@ -24,6 +24,14 @@ class Event extends Model
     {
         return $this->belongsToMany(Student::class,'event_students','event_id','student_id');
     }
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class,'event_teachers','event_id','teacher_id');
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class,'event_users','event_id','user_id');
+    }
     public function saveQuietly($options = [])
     {
         return static::withoutEvents(function () {

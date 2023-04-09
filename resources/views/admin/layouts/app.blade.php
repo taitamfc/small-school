@@ -33,6 +33,12 @@
     <script src="{{asset('asset/plugins/jquery/jquery.min.js')}}"></script>
     <script src="{{asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <link rel="stylesheet" href="{{asset('asset/plugins/select2/css/select2.min.css')}}">
+
+    
+    <link rel="stylesheet" href="{{asset('asset/plugins/datatables/datatables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset/plugins/datatables/select.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('asset/plugins/datatables/buttons.dataTables.min.css')}}">
+
     @yield('header_scripts')
 </head>
 
@@ -68,6 +74,9 @@
 
 
     <script src="{{asset('asset/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('asset/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="{{asset('asset/plugins/datatables/dataTables.select.min.js')}}"></script>
+    <script src="{{asset('asset/plugins/datatables/dataTables.buttons.min.js')}}"></script>
     <script src="{{asset('asset/plugins/sparklines/sparkline.js')}}"></script>
     <script src="{{asset('asset/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
     <script src="{{asset('asset/plugins/moment/moment.min.js')}}"></script>

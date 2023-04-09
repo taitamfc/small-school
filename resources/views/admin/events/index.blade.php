@@ -28,45 +28,31 @@
             <table class=" table table-bordered table-striped table-hover datatable datatable-Event">
                 <thead>
                     <tr>
-                        <th>
-                            ID
-                        </th>
-                        <th>
-                            Tên sự kiện
-                        </th>
+                        <th>ID</th>
+                        <th>Tên sự kiện</th>
                         <th>Thời gian</th>
-                        <th>
-                            Lặp lại
-                        </th>
-                        <th>
-                            GV
-                        </th>
-                        <th>
-                            Thao tác
-                        </th>
+                        <th>Lặp lại</th>
+                        <th>GV</th>
+                        <th>Khách</th>
+                        <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody id="list-events">
                     @foreach ($events as $key => $event)
                         <tr data-entry-id="{{ $event->id}}">
 
-                            <td>
-                                {{ $event->id  }}
-                            </td>
-                            <td>
-                                {{ $event->name ?? '' }}
-                            </td>
+                            <td>{{ $event->id  }}</td>
+                            <td>{{ $event->name ?? '' }}</td>
                             <td>
                                 {{ date('H:i',strtotime($event->start_time)) }}
                                 đến {{ date('H:i',strtotime($event->end_time)) }}
-                                - {{ date('d/m/Y',strtotime($event->end_time)) }}
+                                <br> {{ date('d/m/Y',strtotime($event->end_time)) }}
                             </td>
-                            <td>
-                                {{ $event->recurrence_days}}
-                            </td>
-                            <td>
-                                {{ $event->teacher->name}}
-                            </td>
+                            <td>{{ str_replace(',',', ',$event->recurrence_days)  }}</td>
+                            <td>{{ $event->teacher->name}}</td>
+                            <td>{{ 
+                                $event->students()->count() + $event->teachers()->count() + $event->users()->count()
+                            }}</td>
                             <td>
                                 {{-- @can('event_show') --}}
                                 <a class="btn btn-xs btn-primary"

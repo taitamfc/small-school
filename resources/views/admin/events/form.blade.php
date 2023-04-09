@@ -59,6 +59,8 @@
     </select>
 </div>
 @include('global_layouts.modal-students')
+<!-- @include('global_layouts.modal-teachers') -->
+<!-- @include('global_layouts.modal-users') -->
 @if( $item->event_id == NULL )
 <div class="form-group">
     <div class="form-check">

@@ -14,6 +14,8 @@ use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Traits\UploadFileTrait;
+use Yajra\DataTables\EloquentDataTable;
+use DataTables;
 
 class UserController extends Controller
 {   
@@ -187,6 +189,26 @@ class UserController extends Controller
     public function viewImport(){
         $this->authorize('import', User::class);
         return view('admin.users.import');
+    }
+
+    public function dataTable(Request $request){
+        $model  = User::query(true);
+        return DataTables::eloquent($model)
+        ->filter(function ($query) {
+            if (request()->has('f_name')) {
+                $query->where('full_name', 'like', "%" . request('f_name') . "%");
+            }
+            if (request()->has('f_phone')) {
+                $query->where('phone', 'like', "%" . request('f_phone') . "%");
+            }
+            if (request()->has('f_email')) {
+                $query->where('email', 'like', "%" . request('f_email') . "%");
+            }
+            if (request()->has('f_room_id')) {
+                
+            }
+        })
+        ->toJson();
     }
 
 }
