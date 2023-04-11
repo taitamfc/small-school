@@ -57,9 +57,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper content-header">
-            <div class="container">
                 @yield('content')
-            </div>
         </div>
         <!-- /.content-wrapper -->
         @include('admin.includes.footer')
