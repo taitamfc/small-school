@@ -83,7 +83,7 @@
                         <td>{{ $key + 1 }}
                         <input type="hidden" name="teacher_ids[]" value="{{ $teacher->id }}">
                         </td>
-                        <td>{{ $teacher->id }}</td>
+                        <td>{{ $teacher->code }}</td>
                         <td>{{ $teacher->name }}</td>
                         <td>{{ $teacher->phone }}</td>
                         <td>{{ $teacher->email }}</td>
@@ -127,7 +127,7 @@
                 style:    'multi',
             },
             columns : [
-                { data: 'id' },
+                { data: 'code' },
                 { data: 'name' },
                 { data: 'phone' },
                 { data: 'email' }
@@ -177,7 +177,7 @@
                         ${ i + 1 } 
                         <input type="hidden" name="teacher_ids[]" value="${ tb_row_data[i].id }">
                     </td>
-                    <td>${ tb_row_data[i].id }</td>
+                    <td>${ tb_row_data[i].code }</td>
                     <td>${ tb_row_data[i].name }</td>
                     <td>${ tb_row_data[i].email }</td>
                     <td>${ tb_row_data[i].phone }</td>
