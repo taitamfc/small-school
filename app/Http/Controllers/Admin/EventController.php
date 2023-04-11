@@ -257,17 +257,17 @@ class EventController extends Controller
     { 
         try {
             $this->authorize('delete', Event::class);
-
-            // Delete child
-            Event::where('event_id', '=',$id)->delete();
+            
+            $item = Event::find($id);
 
             // Delete EventStudent
-            EventStudent::where('event_id', '=',$id)->delete();
+            $item->students()->detach();
 
+            // Delete child
+            $item->events()->delete();
+            
             // Delete main event
-            $item = Event::where('id', '=',$id);
             $item->delete();
-
             
             return redirect()->route('events.index')->with('success', 'Xóa thành công !');
 

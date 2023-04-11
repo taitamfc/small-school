@@ -91,10 +91,10 @@ class TeacherController extends Controller
         }
         try {
             Teacher::create($data);
-            return redirect()->route('teachers.index')->with('success', 'Thêm thành công.');
+            return redirect()->route('teachers.index')->with('success', 'Lưu thành công.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Thêm không thành công!.');
+            return back()->withInput()->with('error', 'Lưu không thành công!.');
         }
     }
 
@@ -144,10 +144,10 @@ class TeacherController extends Controller
         }
         try {
             Teacher::find($id)->update($data);
-            return redirect()->route('teachers.index')->with('success', 'Thêm thành công.');
+            return redirect()->route('teachers.index')->with('success', 'Lưu thành công.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Thêm không thành công!.');
+            return back()->withInput()->with('error', 'Lưu không thành công!.');
         }
     }
 
@@ -241,16 +241,16 @@ class TeacherController extends Controller
             $model  = Teacher::query(true);
             return DataTables::eloquent($model)
             ->filter(function ($query) {
-                if (request()->has('f_name')) {
+                if (request('f_name')) {
                     $query->where('name', 'like', "%" . request('f_name') . "%");
                 }
-                if (request()->has('f_phone')) {
+                if (request('f_phone')) {
                     $query->where('phone', 'like', "%" . request('f_phone') . "%");
                 }
-                if (request()->has('f_email')) {
+                if (request('f_email')) {
                     $query->where('email', 'like', "%" . request('f_email') . "%");
                 }
-                if (request()->has('f_room_id')) {
+                if (request('f_room_id')) {
                     
                 }
             })

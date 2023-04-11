@@ -29,7 +29,7 @@
                 <table class="table" >
                     <thead>
                         <tr>
-                            <th style="width: 10%">STT</th>
+                            <th style="width: 10%">Mã HV</th>
                             <th>Họ và tên</th>
                             <th>Số điện thoại</th>
                             <th>Email</th>
@@ -41,7 +41,7 @@
                         @if( count($items) )
                         @foreach($items as $key => $item)
                         <tr>
-                            <td>{{ $item->id }}</td>
+                            <td>{{ $item->code }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->phone }}</td>
                             <td>{{ $item->email }}</td>

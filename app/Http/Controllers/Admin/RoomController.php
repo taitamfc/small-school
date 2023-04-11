@@ -45,8 +45,10 @@ class RoomController extends Controller
     {
         $this->authorize('create', Room::class);
         $item = new Room();
+        $rooms = Room::all();
         $params = [
             'item' => $item,
+            'rooms' => $rooms,
         ];
         return view('admin.rooms.create',$params);
     }
