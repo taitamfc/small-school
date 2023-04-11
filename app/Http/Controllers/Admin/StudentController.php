@@ -115,10 +115,10 @@ class StudentController extends Controller
         }
         try {
             Student::create($data);
-            return redirect()->route('students.index')->with('success', 'Thêm học sinh thành công.');
+            return redirect()->route('students.index')->with('success', 'Lưu thành công.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Thêm học sinh không thành công!.');
+            return back()->withInput()->with('error', 'Lưu không thành công!.');
         }
     }
 
@@ -165,10 +165,10 @@ class StudentController extends Controller
         }
         try {
             Student::find($id)->update($data);
-            return redirect()->route('students.index')->with('success', 'Thêm học sinh thành công.');
+            return redirect()->route('students.index')->with('success', 'Lưu thành công.');
         } catch (\Exception $e) {
             Log::error('message: ' . $e->getMessage() . ' line: ' . $e->getLine() . ' file: ' . $e->getFile());
-            return back()->withInput()->with('error', 'Thêm học sinh không thành công!.');
+            return back()->withInput()->with('error', 'Lưu không thành công!.');
         }
     }
 
@@ -279,16 +279,17 @@ class StudentController extends Controller
         $model  = Student::query(true);
         return DataTables::eloquent($model)
         ->filter(function ($query) {
-            if (request()->has('f_name')) {
+            $query->where('id', '>', 0);
+            if (request('f_name')) {
                 $query->where('name', 'like', "%" . request('f_name') . "%");
             }
-            if (request()->has('f_phone')) {
+            if (request('f_phone')) {
                 $query->where('phone', 'like', "%" . request('f_phone') . "%");
             }
-            if (request()->has('f_email')) {
+            if (request('f_email')) {
                 $query->where('email', 'like', "%" . request('f_email') . "%");
             }
-            if (request()->has('f_room_id')) {
+            if (request('f_room_id')) {
                 $query->where('room_id', request('f_room_id') );
             }
         })

@@ -29,7 +29,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width: 10%">STT</th>
+                            <th style="width: 10%">Mã GV</th>
                             <th>Họ và tên</th>
                             <th>Email</th>
                             <th>Số điện thoại</th>
@@ -40,7 +40,7 @@
                     <tbody>
                         @foreach($items as $key => $teacher)
                         <tr>
-                            <td>{{ $key +1 }}.</td>
+                            <td>{{ $teacher->code }}</td>
                             <td>{{ $teacher->name }}</td>
                             <td>{{ $teacher->email }}</td>
                             <td>{{ $teacher->phone }}</td>

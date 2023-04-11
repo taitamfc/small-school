@@ -1,5 +1,10 @@
 <div class="row">
     <div class="form-group col-lg-4">
+        <label>Mã học viên</label>
+        <input class="form-control" name="code" value="{{ old('code') ?? $item->code }}">
+        @error('code') @include('global_layouts.error') @enderror
+    </div>
+    <div class="form-group col-lg-4">
         <label>Họ và tên *</label>
         <input class="form-control" name="name" value="{{ old('name') ?? $item->name }}">
         @error('name') @include('global_layouts.error') @enderror

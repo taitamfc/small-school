@@ -23,8 +23,8 @@
                         </div>
                         <div class="col">
                             <select id="dt_f_room_id" class="form-control">
-                            @if( isset($rooms) && count($rooms) )
                                 <option value="">Tất cả</option>
+                            @if( isset($rooms) && count($rooms) )
                                 @foreach( $rooms as $key => $froom )
                                 <option value="{{ $froom->id }}">{{ $froom->name }}</option>
                                 @endforeach

@@ -13,10 +13,10 @@
                 </div>
                 <div class="col-3">
                     <div class="form-group">
-                        <label>Tên đăng nhập</label>
+                        <label>Tên</label>
                         <input type="text" name="name"
                             class="form-control"
-                            placeholder="Tìm theo tên lớp"
+                            placeholder="Tìm theo tên"
                             value="{{ request()->name }}">
                     </div>
                 </div>
@@ -38,11 +38,9 @@
                 <div class="col-2">
                     <div class="form-group">
                         <label>Hành động</label>
-                        <div class="input-group-append" style="justify-content: center">
-                            <button type="submit" class="btn btn-default">
-                                Xác nhận
-                            </button>
-                        </div>
+                        <button type="submit" class="btn btn-default">
+                            Xác nhận
+                        </button>
                     </div>
                 </div>
             </div>

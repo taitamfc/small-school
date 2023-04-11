@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
     <div class="col-sm-12">
-        <h1 class="mb-2 text-uppercase">Thêm chức vụ</h1>
+        <h1 class="mb-2 text-uppercase">Thêm lớp học</h1>
     </div>
     <div class="col-md-12">
         <div class="card card-primary">
