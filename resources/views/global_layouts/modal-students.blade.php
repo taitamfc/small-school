@@ -88,7 +88,7 @@
                         <td>{{ $key + 1 }}
                         <input type="hidden" name="student_ids[]" value="{{ $student->id }}">
                         </td>
-                        <td>{{ $student->id }}</td>
+                        <td>{{ $student->code }}</td>
                         <td>{{ $student->name }}</td>
                         <td>{{ $student->phone }}</td>
                         <td>{{ $student->email }}</td>
@@ -132,7 +132,7 @@
                 style:    'multi',
             },
             columns : [
-                { data: 'id' },
+                { data: 'code' },
                 { data: 'name' },
                 { data: 'phone' },
                 { data: 'email' }
@@ -182,7 +182,7 @@
                         ${ i + 1 } 
                         <input type="hidden" name="student_ids[]" value="${ tb_row_data[i].id }">
                     </td>
-                    <td>${ tb_row_data[i].id }</td>
+                    <td>${ tb_row_data[i].code }</td>
                     <td>${ tb_row_data[i].name }</td>
                     <td>${ tb_row_data[i].phone }</td>
                     <td>${ tb_row_data[i].email }</td>
