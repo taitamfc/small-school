@@ -354,10 +354,12 @@ class EventController extends Controller
     public function changeStatus(Request $request){
         $data = $request->except(['_token','_method']);
         $id = $request->id;
-        $data['status'] = $data['status'] ? 'da_hoan_thanh' : 'chua_hoan_thanh';
+        $data['status'] = $data['status'] ? 'da_hoan_thanh' : 'cho_thuc_hien';
         $item = Event::find($id)->update($data);
         return response()->json([
-            'success' => true
+            'success' => true,
+            'data' => $data,
+            'item' => $item
         ]);
     }
 }
