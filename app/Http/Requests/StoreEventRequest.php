@@ -27,6 +27,7 @@ class StoreEventRequest extends FormRequest
         $date1 = Carbon::parse($start_time);
         $date2 = Carbon::parse($end_time);
         $result = $date2->gt($date1);
+ 
 
         $rules = [
             'name' => 'required',

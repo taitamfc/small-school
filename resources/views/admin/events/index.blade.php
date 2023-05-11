@@ -12,6 +12,9 @@
         <a class="btn btn-warning" href="{{ route('systemCalendar') }}">
             Trang lịch
         </a>
+        <a class="btn btn-info" href="{{ route('events.tableList') }}">
+            Bảng sự kiện
+        </a>
         <button class="btn btn-primary" type="button" data-toggle="collapse" href="#collapseExample">
             Tìm kiếm chi tiết
         </button>

@@ -18,6 +18,9 @@
     @error('end_time')
     <div class="invalid-feedback d-block">{{ $message }}</div>
     @enderror
+    @error('end_time_not_right')
+    <div class="invalid-feedback d-block">{{ $message }}</div>
+    @enderror
 </div>
 <div class="form-group {{ $errors->has('teacher_id') ? 'has-error' : '' }}">
     <label for="teacher_id">Giáo viên*</label>
