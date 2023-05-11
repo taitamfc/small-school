@@ -66,6 +66,8 @@ Route::prefix('admin')->middleware(['auth', 'preventBackHistory'])->group(functi
     Route::prefix('events')->group(function(){
         Route::get('/{?status}',[EventController::class,'index'])->name('events.index');
         Route::get('/salary',[EventController::class,'salary'])->name('events.salary');
+        Route::get('/tableList',[EventController::class,'tableList'])->name('events.tableList');
+        Route::post('/changeStatus',[EventController::class,'changeStatus'])->name('events.changeStatus');
     });
     Route::resource('events', EventController::class);
 

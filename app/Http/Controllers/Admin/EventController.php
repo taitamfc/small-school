@@ -45,7 +45,9 @@ class EventController extends Controller
             $item->fee = $fee;
             $item->recurrence_days = implode(',',$recurrence_days);
             $item->save();
-            $item->students()->attach($request->student_ids);
+            if($request->student_ids){
+                $item->students()->attach($request->student_ids);
+            }
 
             if( $item && $recurrence == 'yes' ){
                 $start_loop = date('Y-m-d', strtotime($start_time) );
@@ -297,11 +299,7 @@ class EventController extends Controller
         $students = Student::all();
         $status = new Event();
         $query = Event::where('status','da_xac_nhan');
-        
-        // if (!empty($room_name)) {
-        //     $query->where('group_id',  $request->room_name);
-        // };
-        
+
         if (!empty($student_id)) {
             $query->leftJoin('event_students', 'events.id', '=', 'event_students.event_id')
             ->where('event_students.student_id', $student_id);
@@ -309,7 +307,7 @@ class EventController extends Controller
         }
         if (!empty($teacher_id)) {
             $query->where('teacher_id',  $request->teacher_id);
-        };
+        }
         if (!empty($orderby)) {
             $query->orderBy('events.id', $orderby);
         }
@@ -331,5 +329,35 @@ class EventController extends Controller
             'status'     => $status,
         ];
         return view('admin.events.salary',$params);
+    }
+
+    public function tableList(Request $request){
+        $teachers = Teacher::all();
+        $students = Student::all();
+        
+        $query = Event::orderBy('id','ASC');
+        if (!empty($request->teacher_id)) {
+            $query->where('teacher_id',  $request->teacher_id);
+        }
+        $items = $query->paginate(31);
+        
+        $status = new Event();
+        $params = [
+            'items'       => $items,
+            'teachers'     => $teachers,
+            'students'     => $students,
+            'status'     => $status,
+        ];
+        return view('admin.events.tableList',$params);
+    }
+
+    public function changeStatus(Request $request){
+        $data = $request->except(['_token','_method']);
+        $id = $request->id;
+        $data['status'] = $data['status'] ? 'da_hoan_thanh' : 'chua_hoan_thanh';
+        $item = Event::find($id)->update($data);
+        return response()->json([
+            'success' => true
+        ]);
     }
 }
